@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>رهف — Links</title>
-  <meta name="description" content="Minimal AR/EN links hub with consent." />
-  <meta property="og:title" content="رهف — Links" />
+  <title>REHAF — Links v1.2</title>
+  <meta name="description" content="Minimal links hub with info." />
+  <meta property="og:title" content="REHAF — Links v1.2" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,7 @@
       --accent: #00453e;
       --ink: #ffffff;
     }
-    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); font-size: 20px; }
+    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); font-size: 19px; }
     .card{ background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
     .btn{ background: rgba(255,255,255,.08); border:1.6px solid var(--accent); }
     .btn:hover{ background: rgba(255,255,255,.15); }
@@ -26,110 +26,70 @@
   </style>
 </head>
 <body class="min-h-screen antialiased">
-  <main class="mx-auto max-w-5xl px-5 py-12 flex flex-col md:flex-row gap-8">
-    <div class="flex-1">
-      <header class="card rounded-3xl p-6 md:p-8">
-        <div class="flex items-center gap-4">
-          <img src="/assets/logo.png" alt="رهف Logo" class="h-12 md:h-14 w-auto" />
-          <div>
-            <h1 id="ownerName" class="text-2xl md:text-3xl font-bold tracking-tight">رهف</h1>
-            <div id="tagline" class="text-sm md:text-base opacity-80 leading-snug">
-              <p>Automation</p>
-              <p>Project Ops</p>
-              <p>Business Consultant</p>
-            </div>
-          </div>
-          <button id="langToggle" class="ml-auto btn rounded-lg px-2 py-1.5 text-xs md:text-sm">AR / EN</button>
-        </div><section class="mt-6">
-      <div class="card rounded-2xl p-4">
-        <p id="featuredText" class="text-lg md:text-xl font-medium"></p>
-      </div>
-    </section>
-
-    <div class="mt-6 text-lg space-y-2">
-      <label class="inline-flex items-start gap-2">
-        <input id="consent" type="checkbox" class="mt-1 h-5 w-5 rounded border-white/50 bg-transparent"/>
-        <span id="consentText"></span>
-      </label>
-    </div>
-
-    <div id="links" class="mt-6 grid gap-3"></div>
-
-    <div class="mt-8 border-t border-white/30 pt-6 text-sm opacity-90 flex flex-wrap items-center justify-between gap-4">
-      <p>© <span id="year"></span> رهف.</p>
-      <a id="email" href="mailto:hello@example.com" class="underline underline-offset-4">hello@example.com</a>
-    </div>
-  </header>
+  <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-8">
+    <!-- Mascot top -->
+    <div class="w-40 md:w-56">
+      <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" />
+    </div><!-- Logo -->
+<div class="w-48 md:w-64">
+  <img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" />
 </div>
 
-<!-- Mascot visible everywhere -->
-<aside class="block w-48 md:w-64 max-w-full mx-auto mt-6 md:mt-0 md:ml-8 flex-shrink-0">
-  <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg" loading="lazy" />
-</aside>
+<!-- Welcome -->
+<section class="card rounded-2xl p-4 text-center w-full">
+  <p class="text-lg md:text-xl font-medium">Welcome to REHAF. Use the buttons below to request services or apply.</p>
+</section>
+
+<!-- Consent sentence -->
+<p class="text-base md:text-lg text-center opacity-90 max-w-xl">
+  By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
+</p>
+
+<!-- Buttons -->
+<div id="links" class="mt-2 grid gap-3 w-full"></div>
+
+<!-- Info box -->
+<section class="card rounded-2xl p-4 w-full">
+  <p class="text-base md:text-lg">Here you can find different service requests and application forms. Choose the one that matches your need.</p>
+</section>
+
+<!-- Footer -->
+<div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
+  <p>© <span id="year"></span> REHAF.</p>
+  <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
+</div>
 
   </main>  <script>
     const CONFIG = {
-      name: "رهف",
-      email: "hello@rehaf.ae",
-      featured: {
-        en: "Welcome to رهف. Use the buttons to request services or apply.",
-        ar: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم."
-      },
       links: [
-        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join رهف.", icon: "📄" },
+        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
         { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
         { key: "consult_req", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
         { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
       i18n: {
         en: {
-          featured: "Welcome to رهف. Use the buttons to request services or apply.",
-          consent: "Please check the box.<br>I accept this term:<br><a href='#'>the terms</a>",
           links: {
             apply_job: { label: "Apply for a Job" },
             hire_req: { label: "Hiring Service Request" },
             consult_req: { label: "Other Service Request (Consultant Service)" },
             auto_soon: { label: "Automation Service (Soon)" }
           }
-        },
-        ar: {
-          featured: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم.",
-          consent: "يرجى تحديد المربع.<br>أوافق على هذا الشرط:<br><a href='#'>الشروط</a>",
-          links: {
-            apply_job: { label: "التقدم لوظيفة" },
-            hire_req: { label: "طلب توظيف" },
-            consult_req: { label: "طلب خدمة أخرى (استشارات)" },
-            auto_soon: { label: "خدمة الأتمتة (قريباً)" }
-          }
         }
       }
     };
 
     const $ = s => document.querySelector(s);
-    const state = { lang: 'en', consent: false };
-
-    function t(path){
-      const parts = path.split('.');
-      let curr = CONFIG.i18n[state.lang];
-      for(const k of parts){ if(!curr) break; curr = curr[k]; }
-      return curr || path;
-    }
 
     function render(){
-      $('#ownerName').textContent = CONFIG.name;
-      $('#email').href = `mailto:${CONFIG.email}`; $('#email').textContent = CONFIG.email;
       $('#year').textContent = new Date().getFullYear();
-
-      $('#featuredText').textContent = state.lang === 'ar' ? CONFIG.featured.ar : CONFIG.featured.en;
-      $('#consentText').innerHTML = t('consent');
-
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
         const a = document.createElement('a');
         a.href = l.url || '#'; a.target = l.url ? '_blank' : '' ; a.rel = l.url ? 'noopener' : '';
         a.className = 'btn rounded-2xl p-4 block transition';
-        const label = t(`links.${l.key}.label`);
-        const soonBadge = l.soon ? `<span class=\"badge ml-2\">${state.lang==='ar'?'قريباً':'Soon'}</span>` : '';
+        const label = CONFIG.i18n.en.links[l.key].label;
+        const soonBadge = l.soon ? `<span class=\"badge ml-2\">Soon</span>` : '';
         a.innerHTML = `<div class=\"flex items-center gap-3\">
           <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>
           <div class=\"flex-1\">
@@ -137,16 +97,11 @@
             <div class=\"text-base opacity-90\">${l.info||''}</div>
           </div>
         </div>`;
-        const enabled = state.consent && !!l.url && !l.soon;
-        if(!enabled){ a.classList.add('disabled'); a.removeAttribute('href'); }
+        if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
       });
-
-      document.documentElement.setAttribute('dir', state.lang==='ar' ? 'rtl' : 'ltr');
     }
 
     render();
-    $('#langToggle').addEventListener('click', ()=>{ state.lang = state.lang==='en' ? 'ar' : 'en'; render(); });
-    $('#consent').addEventListener('change', e=>{ state.consent = !!e.target.checked; render(); });
   </script></body>
 </html>
