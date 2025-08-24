@@ -4,187 +4,193 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links Hub</title>
-  <meta name="description" content="All my important links in one clean page." />
-  <meta property="og:title" content="REHAF — Links Hub" />
-  <meta property="og:description" content="All my important links in one clean page." />
+  <title>REHAF — Links</title>
+  <meta name="description" content="Minimal AR/EN links hub with vacancies and consent." />
+  <meta property="og:title" content="REHAF — Links" />
+  <meta property="og:description" content="Minimal AR/EN links hub with vacancies and consent." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/og-image.png" />
-  <meta name="theme-color" content="#10b981" />
+  <meta name="theme-color" content="#00453e" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root{
-      /* === Palette (easy to change later) === */
-      --bg: #0f172a;            /* page background */
-      --ink: #e2e8f0;          /* main text */
-      --card: #0b1220;         /* card background */
-      --muted: #94a3b8;        /* muted text */
-      --accent: #34d399;       /* primary brand */
-      --accent-ink: #062d23;   /* contrast text on accent */
-      --ring: rgba(52,211,153,.3);
+      --bg1: #00ab9a; /* top */
+      --bg2: #00786c; /* bottom */
+      --accent: #00453e; /* frames/borders/buttons */
+      --ink: #ffffff; /* main text */
+      --muted: #e7f7f5; /* soft */
     }
-    .brand-gradient{ background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%); }
-    .card-shadow{ box-shadow: 0 20px 60px rgba(0,0,0,.35); }
-    .ring-brand{ box-shadow: 0 0 0 6px var(--ring); }
+    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); }
+    .card{ background: rgba(255,255,255,.08); border: 1.2px solid var(--accent); backdrop-filter: blur(10px); }
+    .btn{ background: rgba(255,255,255,.06); border:1.2px solid var(--accent); }
+    .btn:hover{ background: rgba(255,255,255,.10); }
+    .disabled{ opacity:.55; pointer-events:none; }
+    [dir="rtl"] .rtl\:text-right{ text-align:right; }
   </style>
 </head>
-<body class="min-h-screen antialiased" style="background:var(--bg); color:var(--ink);">
-  <main class="mx-auto max-w-xl px-5 py-10">
-    <!-- Header -->
-    <section class="rounded-3xl card-shadow" style="background:var(--card)">
-      <div class="p-6 md:p-8">
+<body class="min-h-screen antialiased">
+  <main class="mx-auto max-w-5xl px-5 py-12 flex gap-8">
+    <div class="flex-1">
+      <header class="card rounded-3xl p-6 md:p-8">
+        <!-- Top: Logo only -->
         <div class="flex items-center gap-4">
-          <img id="avatar" alt="Avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=256&auto=format&fit=crop" class="h-16 w-16 rounded-2xl ring-brand object-cover"/>
+          <img id="logo" src="/logo.png" alt="REHAF" class="h-12 md:h-14 w-auto" />
           <div>
-            <h1 id="ownerName" class="text-2xl font-bold tracking-tight">REHAF Project Management</h1>
-            <p id="tagline" class="text-sm text-slate-400">Automation • Make.com • Project Ops</p>
+            <h1 id="ownerName" class="text-xl md:text-2xl font-semibold tracking-tight">REHAF</h1>
+            <p id="tagline" class="text-sm opacity-90">Automation • Make.com • Project Ops</p>
           </div>
-          <button id="themeToggle" aria-label="Toggle theme" class="ml-auto inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-medium border border-slate-700 hover:border-slate-500 transition">
-            🌓 <span class="ml-2 hidden md:inline">Theme</span>
-          </button>
-        </div><!-- Featured badge -->
-    <div id="featuredWrap" class="mt-6 hidden">
-      <a id="featuredLink" href="#" target="_blank" rel="noopener" class="block rounded-2xl brand-gradient p-[2px]">
-        <div class="rounded-2xl bg-slate-900/50 p-4">
-          <p class="text-xs uppercase tracking-wide text-slate-300">Featured</p>
-          <div class="mt-1 text-lg font-semibold" id="featuredTitle">—</div>
-          <p class="text-sm/5 text-slate-300 mt-1" id="featuredDesc">—</p>
-        </div>
-      </a>
+          <button id="langToggle" class="ml-auto btn rounded-xl px-3 py-2 text-sm">AR / EN</button>
+        </div><!-- Featured TEXT only -->
+    <section class="mt-6">
+      <div class="card rounded-2xl p-4">
+        <p id="featuredText" class="text-sm md:text-base"></p>
+      </div>
+    </section>
+
+    <!-- Consent -->
+    <div class="mt-6 text-sm space-y-2">
+      <label class="inline-flex items-start gap-2">
+        <input id="consent" type="checkbox" class="mt-1 h-4 w-4 rounded border-white/50 bg-transparent"/>
+        <span id="consentText"></span>
+      </label>
+      <p id="consentHint" class="text-xs opacity-90"></p>
     </div>
 
-    <!-- Links -->
+    <!-- Buttons -->
     <div id="links" class="mt-6 grid gap-3"></div>
 
-    <!-- Socials -->
-    <div id="socials" class="mt-6 flex flex-wrap items-center gap-3"></div>
+    <!-- Vacancy box -->
+    <section class="mt-8">
+      <h2 id="vacTitle" class="text-sm uppercase tracking-wider opacity-90"></h2>
+      <div class="card rounded-2xl p-4 mt-3">
+        <p id="vacIntro" class="text-sm"></p>
+        <ul id="vacList" class="mt-3 space-y-3"></ul>
+      </div>
+    </section>
 
     <!-- Footer -->
-    <div class="mt-8 border-t border-slate-800/70 pt-6 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-4">
-      <p>© <span id="year"></span> REHAF. All rights reserved.</p>
-      <a id="email" href="mailto:hello@example.com" class="hover:text-slate-200 underline underline-offset-4">hello@example.com</a>
+    <div class="mt-8 border-t border-white/30 pt-6 text-xs opacity-90 flex flex-wrap items-center justify-between gap-4">
+      <p>© <span id="year"></span> REHAF.</p>
+      <a id="email" href="mailto:hello@example.com" class="underline underline-offset-4">hello@example.com</a>
     </div>
-  </div>
-</section>
+  </header>
+</div>
+<!-- Right side image link -->
+<aside class="hidden md:block w-72 flex-shrink-0">
+  <a href="https://drive.google.com/uc?export=download&id=1cuIXqLwzpco4Pcy7gZuYm-sd8dTPyjV6" target="_blank" rel="noopener">
+    <img src="https://drive.google.com/uc?export=download&id=1cuIXqLwzpco4Pcy7gZuYm-sd8dTPyjV6" alt="Mascot" class="rounded-2xl shadow-lg" />
+  </a>
+</aside>
 
   </main>  <script>
-    // === Edit this object only ===
     const CONFIG = {
-      name: "REHAF Project Management",
+      name: "REHAF",
       tagline: "Automation • Make.com • Project Ops",
-      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=256&auto=format&fit=crop",
       email: "hello@rehaf.ae",
       featured: {
-        title: "Book a Discovery Call",
-        desc: "15-minute chat to map your automation needs.",
-        url: "https://cal.com/rehaf/15min"
+        en: "Welcome to REHAF. Use the buttons to request services or apply.",
+        ar: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم."
       },
       links: [
-        { label: "Portfolio / Case Studies", url: "https://rehaf.ae/cases", emoji: "🗂️" },
-        { label: "WhatsApp (DM)", url: "https://wa.me/971500000000", emoji: "💬" },
-        { label: "Instagram", url: "https://instagram.com/rehaf_pm", emoji: "📸" },
-        { label: "Telegram Bot", url: "https://t.me/rehaf_bot", emoji: "🤖" },
-        { label: "GitHub", url: "https://github.com/yourname", emoji: "📦" },
-        { label: "IntrovertBoost", url: "https://introvertboost.netlify.app", emoji: "🌿" }
+        { key: "hire_req", url: "", info: "Request hiring for your business.", icon: "🧑‍💼" },
+        { key: "svc_req_1", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Different Service Request (Form A).", icon: "📝" },
+        { key: "svc_req_2", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Different Service Request (Form B).", icon: "📝" },
+        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
       ],
-      socials: [
-        { label: "LinkedIn", url: "https://linkedin.com/in/yourname", emoji: "in" },
-        { label: "X", url: "https://x.com/yourname", emoji: "x" },
-        { label: "YouTube", url: "https://youtube.com/@yourname", emoji: "▶" },
-      ],
-      palette: {
-        bg: "#0f172a",
-        ink: "#e2e8f0",
-        card: "#0b1220",
-        muted: "#94a3b8",
-        accent: "#34d399",
-        accentInk: "#062d23",
-        ring: "rgba(52,211,153,.3)"
+      vacancies: {
+        intro_en: "We update roles here. If you don't see a match, apply anyway—talent stands out.",
+        intro_ar: "نحدّث الوظائف هنا. إن لم تجد وظيفة مناسبة، قدّم طلبك — الموهبة تفرض نفسها.",
+        items: [
+          { title_en: "Automation Specialist (Make.com)", title_ar: "أخصائي أتمتة (Make.com)", type_en: "Contract", type_ar: "عقد", location_en: "Dubai / Hybrid", location_ar: "دبي / هجين" },
+        ]
+      },
+      i18n: {
+        en: {
+          featured: "Welcome to REHAF. Use the buttons to request services or apply.",
+          consent: "I agree to the terms: messages may be handled via automations and stored for service quality.",
+          consentHint: "Enable to use the buttons below.",
+          openVacancies: "Open Vacancies",
+          links: {
+            hire_req: { label: "Hiring Service Request" },
+            svc_req_1: { label: "Different Service Request (A)" },
+            svc_req_2: { label: "Different Service Request (B)" },
+            apply_job: { label: "Apply for a Job" }
+          }
+        },
+        ar: {
+          featured: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم.",
+          consent: "أوافق على الشروط: قد تتم معالجة الرسائل عبر الأتمتة وتخزينها لتحسين الجودة.",
+          consentHint: "فعّل للمتابعة واستخدام الأزرار أدناه.",
+          openVacancies: "الوظائف المتاحة",
+          links: {
+            hire_req: { label: "طلب توظيف" },
+            svc_req_1: { label: "طلب خدمة (أ)" },
+            svc_req_2: { label: "طلب خدمة (ب)" },
+            apply_job: { label: "التقدم لوظيفة" }
+          }
+        }
       }
-    }
+    };
 
-    // === Runtime: build page from CONFIG ===
     const $ = s => document.querySelector(s);
-    const setVar = (k,v) => document.documentElement.style.setProperty(k, v);
+    const state = { lang: 'en', consent: false };
 
-    function applyPalette(p){
-      setVar('--bg', p.bg);
-      setVar('--ink', p.ink);
-      setVar('--card', p.card);
-      setVar('--muted', p.muted);
-      setVar('--accent', p.accent);
-      setVar('--accent-ink', p.accentInk);
-      setVar('--ring', p.ring);
-      const metaTheme = document.querySelector('meta[name="theme-color"]');
-      if(metaTheme) metaTheme.setAttribute('content', p.accent);
+    function t(path){
+      const parts = path.split('.');
+      let curr = CONFIG.i18n[state.lang];
+      for(const k of parts){ if(!curr) break; curr = curr[k]; }
+      return curr || path;
     }
 
-    function buildLinks(){
-      const wrap = $('#links');
-      wrap.innerHTML = '';
-      CONFIG.links.forEach(item => {
+    function render(){
+      $('#ownerName').textContent = CONFIG.name;
+      $('#tagline').textContent = CONFIG.tagline;
+      $('#email').href = `mailto:${CONFIG.email}`; $('#email').textContent = CONFIG.email;
+      $('#year').textContent = new Date().getFullYear();
+
+      $('#featuredText').textContent = state.lang === 'ar' ? CONFIG.featured.ar : CONFIG.featured.en;
+
+      $('#consentText').textContent = t('consent');
+      $('#consentHint').textContent = t('consentHint');
+
+      $('#vacTitle').textContent = t('openVacancies');
+      $('#vacIntro').textContent = state.lang==='ar' ? CONFIG.vacancies.intro_ar : CONFIG.vacancies.intro_en;
+      const ul = $('#vacList'); ul.innerHTML = '';
+      CONFIG.vacancies.items.forEach(v=>{
+        const li = document.createElement('li');
+        const title = state.lang==='ar'?v.title_ar:v.title_en;
+        const type  = state.lang==='ar'?v.type_ar:v.type_en;
+        const loc   = state.lang==='ar'?v.location_ar:v.location_en;
+        li.className = 'flex items-start justify-between gap-3';
+        li.innerHTML = `<div><div class=\"font-medium\">${title}</div><div class=\"text-xs opacity-90\">${type} • ${loc}</div></div>
+                        <a href=\"${CONFIG.links.find(l=>l.key==='apply_job').url}\" target=\"_blank\" class=\"text-sm underline underline-offset-4\">${state.lang==='ar'?'قدّم الآن':'Apply'}</a>`;
+        ul.appendChild(li);
+      });
+
+      const wrap = $('#links'); wrap.innerHTML = '';
+      CONFIG.links.forEach(l=>{
         const a = document.createElement('a');
-        a.href = item.url;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.className = 'group block rounded-2xl border border-slate-800/80 hover:border-slate-700 transition p-4 bg-slate-900/30 backdrop-blur-md';
-        a.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl brand-gradient text-black/90">${item.emoji ?? '🔗'}</div>
-            <div class="flex-1">
-              <div class="font-semibold">${item.label}</div>
-              <div class="text-xs text-slate-400">${new URL(item.url).hostname}</div>
-            </div>
-            <div class="opacity-60 group-hover:opacity-100">↗</div>
-          </div>`;
+        a.href = l.url || '#'; a.target = '_blank'; a.rel = 'noopener';
+        a.className = 'btn rounded-2xl p-4 block transition';
+        if(!state.consent || !l.url) a.classList.add('disabled');
+        const label = t(`links.${l.key}.label`);
+        a.innerHTML = `<div class=\"flex items-center gap-3\">
+          <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>
+          <div class=\"flex-1\">
+            <div class=\"font-semibold\">${label}</div>
+            <div class=\"text-xs opacity-90\">${l.info||''}</div>
+          </div>
+          <div class=\"opacity-80\">↗</div>
+        </div>`;
         wrap.appendChild(a);
       });
+
+      document.documentElement.setAttribute('dir', state.lang==='ar' ? 'rtl' : 'ltr');
     }
 
-    function buildSocials(){
-      const wrap = $('#socials');
-      wrap.innerHTML = '';
-      CONFIG.socials.forEach(s => {
-        const a = document.createElement('a');
-        a.href = s.url; a.target = '_blank'; a.rel = 'noopener';
-        a.className = 'inline-flex items-center gap-2 rounded-xl border border-slate-800/80 hover:border-slate-700 transition px-3 py-2 text-sm';
-        a.innerHTML = `<span class="text-base">${s.emoji}</span><span>${s.label}</span>`;
-        wrap.appendChild(a);
-      });
-    }
+    render();
 
-    function buildFeatured(){
-      if(CONFIG.featured && CONFIG.featured.url){
-        $('#featuredWrap').classList.remove('hidden');
-        $('#featuredLink').href = CONFIG.featured.url;
-        $('#featuredTitle').textContent = CONFIG.featured.title || 'Featured';
-        $('#featuredDesc').textContent = CONFIG.featured.desc || '';
-      }
-    }
-
-    // Bind basics
-    $('#ownerName').textContent = CONFIG.name;
-    $('#tagline').textContent = CONFIG.tagline;
-    $('#avatar').src = CONFIG.avatar;
-    $('#email').href = `mailto:${CONFIG.email}`;
-    $('#email').textContent = CONFIG.email;
-    $('#year').textContent = new Date().getFullYear();
-
-    buildFeatured();
-    buildLinks();
-    buildSocials();
-    applyPalette(CONFIG.palette);
-
-    // Theme toggle (simple dark <-> light using body invert)
-    const toggle = document.getElementById('themeToggle');
-    function setTheme(mode){
-      document.body.style.filter = mode === 'light' ? 'invert(1) hue-rotate(180deg)' : 'none';
-      localStorage.setItem('theme', mode);
-    }
-    toggle.addEventListener('click', () => {
-      const mode = localStorage.getItem('theme') === 'light' ? 'dark' : 'light';
-      setTheme(mode);
-    });
-    setTheme(localStorage.getItem('theme') || 'dark');
+    $('#langToggle').addEventListener('click', ()=>{ state.lang = state.lang==='en' ? 'ar' : 'en'; render(); });
+    $('#consent').addEventListener('change', e=>{ state.consent = !!e.target.checked; render(); });
   </script></body>
 </html>
