@@ -1,0 +1,190 @@
+<!doctype html>
+
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REHAF — Links Hub</title>
+  <meta name="description" content="All my important links in one clean page." />
+  <meta property="og:title" content="REHAF — Links Hub" />
+  <meta property="og:description" content="All my important links in one clean page." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/og-image.png" />
+  <meta name="theme-color" content="#10b981" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      /* === Palette (easy to change later) === */
+      --bg: #0f172a;            /* page background */
+      --ink: #e2e8f0;          /* main text */
+      --card: #0b1220;         /* card background */
+      --muted: #94a3b8;        /* muted text */
+      --accent: #34d399;       /* primary brand */
+      --accent-ink: #062d23;   /* contrast text on accent */
+      --ring: rgba(52,211,153,.3);
+    }
+    .brand-gradient{ background: linear-gradient(135deg, var(--accent) 0%, #60a5fa 100%); }
+    .card-shadow{ box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+    .ring-brand{ box-shadow: 0 0 0 6px var(--ring); }
+  </style>
+</head>
+<body class="min-h-screen antialiased" style="background:var(--bg); color:var(--ink);">
+  <main class="mx-auto max-w-xl px-5 py-10">
+    <!-- Header -->
+    <section class="rounded-3xl card-shadow" style="background:var(--card)">
+      <div class="p-6 md:p-8">
+        <div class="flex items-center gap-4">
+          <img id="avatar" alt="Avatar" src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=256&auto=format&fit=crop" class="h-16 w-16 rounded-2xl ring-brand object-cover"/>
+          <div>
+            <h1 id="ownerName" class="text-2xl font-bold tracking-tight">REHAF Project Management</h1>
+            <p id="tagline" class="text-sm text-slate-400">Automation • Make.com • Project Ops</p>
+          </div>
+          <button id="themeToggle" aria-label="Toggle theme" class="ml-auto inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-medium border border-slate-700 hover:border-slate-500 transition">
+            🌓 <span class="ml-2 hidden md:inline">Theme</span>
+          </button>
+        </div><!-- Featured badge -->
+    <div id="featuredWrap" class="mt-6 hidden">
+      <a id="featuredLink" href="#" target="_blank" rel="noopener" class="block rounded-2xl brand-gradient p-[2px]">
+        <div class="rounded-2xl bg-slate-900/50 p-4">
+          <p class="text-xs uppercase tracking-wide text-slate-300">Featured</p>
+          <div class="mt-1 text-lg font-semibold" id="featuredTitle">—</div>
+          <p class="text-sm/5 text-slate-300 mt-1" id="featuredDesc">—</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Links -->
+    <div id="links" class="mt-6 grid gap-3"></div>
+
+    <!-- Socials -->
+    <div id="socials" class="mt-6 flex flex-wrap items-center gap-3"></div>
+
+    <!-- Footer -->
+    <div class="mt-8 border-t border-slate-800/70 pt-6 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-4">
+      <p>© <span id="year"></span> REHAF. All rights reserved.</p>
+      <a id="email" href="mailto:hello@example.com" class="hover:text-slate-200 underline underline-offset-4">hello@example.com</a>
+    </div>
+  </div>
+</section>
+
+  </main>  <script>
+    // === Edit this object only ===
+    const CONFIG = {
+      name: "REHAF Project Management",
+      tagline: "Automation • Make.com • Project Ops",
+      avatar: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=256&auto=format&fit=crop",
+      email: "hello@rehaf.ae",
+      featured: {
+        title: "Book a Discovery Call",
+        desc: "15-minute chat to map your automation needs.",
+        url: "https://cal.com/rehaf/15min"
+      },
+      links: [
+        { label: "Portfolio / Case Studies", url: "https://rehaf.ae/cases", emoji: "🗂️" },
+        { label: "WhatsApp (DM)", url: "https://wa.me/971500000000", emoji: "💬" },
+        { label: "Instagram", url: "https://instagram.com/rehaf_pm", emoji: "📸" },
+        { label: "Telegram Bot", url: "https://t.me/rehaf_bot", emoji: "🤖" },
+        { label: "GitHub", url: "https://github.com/yourname", emoji: "📦" },
+        { label: "IntrovertBoost", url: "https://introvertboost.netlify.app", emoji: "🌿" }
+      ],
+      socials: [
+        { label: "LinkedIn", url: "https://linkedin.com/in/yourname", emoji: "in" },
+        { label: "X", url: "https://x.com/yourname", emoji: "x" },
+        { label: "YouTube", url: "https://youtube.com/@yourname", emoji: "▶" },
+      ],
+      palette: {
+        bg: "#0f172a",
+        ink: "#e2e8f0",
+        card: "#0b1220",
+        muted: "#94a3b8",
+        accent: "#34d399",
+        accentInk: "#062d23",
+        ring: "rgba(52,211,153,.3)"
+      }
+    }
+
+    // === Runtime: build page from CONFIG ===
+    const $ = s => document.querySelector(s);
+    const setVar = (k,v) => document.documentElement.style.setProperty(k, v);
+
+    function applyPalette(p){
+      setVar('--bg', p.bg);
+      setVar('--ink', p.ink);
+      setVar('--card', p.card);
+      setVar('--muted', p.muted);
+      setVar('--accent', p.accent);
+      setVar('--accent-ink', p.accentInk);
+      setVar('--ring', p.ring);
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if(metaTheme) metaTheme.setAttribute('content', p.accent);
+    }
+
+    function buildLinks(){
+      const wrap = $('#links');
+      wrap.innerHTML = '';
+      CONFIG.links.forEach(item => {
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.className = 'group block rounded-2xl border border-slate-800/80 hover:border-slate-700 transition p-4 bg-slate-900/30 backdrop-blur-md';
+        a.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl brand-gradient text-black/90">${item.emoji ?? '🔗'}</div>
+            <div class="flex-1">
+              <div class="font-semibold">${item.label}</div>
+              <div class="text-xs text-slate-400">${new URL(item.url).hostname}</div>
+            </div>
+            <div class="opacity-60 group-hover:opacity-100">↗</div>
+          </div>`;
+        wrap.appendChild(a);
+      });
+    }
+
+    function buildSocials(){
+      const wrap = $('#socials');
+      wrap.innerHTML = '';
+      CONFIG.socials.forEach(s => {
+        const a = document.createElement('a');
+        a.href = s.url; a.target = '_blank'; a.rel = 'noopener';
+        a.className = 'inline-flex items-center gap-2 rounded-xl border border-slate-800/80 hover:border-slate-700 transition px-3 py-2 text-sm';
+        a.innerHTML = `<span class="text-base">${s.emoji}</span><span>${s.label}</span>`;
+        wrap.appendChild(a);
+      });
+    }
+
+    function buildFeatured(){
+      if(CONFIG.featured && CONFIG.featured.url){
+        $('#featuredWrap').classList.remove('hidden');
+        $('#featuredLink').href = CONFIG.featured.url;
+        $('#featuredTitle').textContent = CONFIG.featured.title || 'Featured';
+        $('#featuredDesc').textContent = CONFIG.featured.desc || '';
+      }
+    }
+
+    // Bind basics
+    $('#ownerName').textContent = CONFIG.name;
+    $('#tagline').textContent = CONFIG.tagline;
+    $('#avatar').src = CONFIG.avatar;
+    $('#email').href = `mailto:${CONFIG.email}`;
+    $('#email').textContent = CONFIG.email;
+    $('#year').textContent = new Date().getFullYear();
+
+    buildFeatured();
+    buildLinks();
+    buildSocials();
+    applyPalette(CONFIG.palette);
+
+    // Theme toggle (simple dark <-> light using body invert)
+    const toggle = document.getElementById('themeToggle');
+    function setTheme(mode){
+      document.body.style.filter = mode === 'light' ? 'invert(1) hue-rotate(180deg)' : 'none';
+      localStorage.setItem('theme', mode);
+    }
+    toggle.addEventListener('click', () => {
+      const mode = localStorage.getItem('theme') === 'light' ? 'dark' : 'light';
+      setTheme(mode);
+    });
+    setTheme(localStorage.getItem('theme') || 'dark');
+  </script></body>
+</html>
