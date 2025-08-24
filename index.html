@@ -1,11 +1,12 @@
 <!doctype html>
+
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links v1.3</title>
+  <title>REHAF — Links v1.4</title>
   <meta name="description" content="Minimal links hub with info." />
-  <meta property="og:title" content="REHAF — Links v1.3" />
+  <meta property="og:title" content="REHAF — Links v1.4" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,44 +27,41 @@
 </head>
 <body class="min-h-screen antialiased">
   <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-8">
-    <!-- Mascot top -->
-    <div class="w-40 md:w-56">
+    <!-- Mascot top (bigger) -->
+    <div class="w-56 md:w-72">
       <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" />
-    </div>
+    </div><!-- Logo (bigger) -->
+<div class="w-64 md:w-80">
+  <img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" />
+</div>
 
-    <!-- Logo -->
-    <div class="w-48 md:w-64">
-      <img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" />
-    </div>
+<!-- Welcome (reduced font) -->
+<section class="card rounded-2xl p-4 text-center w-full">
+  <p class="text-base md:text-lg">Welcome to REHAF. Use the buttons below to request services or apply.</p>
+</section>
 
-    <!-- Welcome -->
-    <section class="card rounded-2xl p-4 text-center w-full">
-      <p class="text-lg md:text-xl font-medium">Welcome to REHAF. Use the buttons below to request services or apply.</p>
-    </section>
+<!-- Consent sentence (reduced font) -->
+<p class="text-sm md:text-base text-center opacity-90 max-w-xl">
+  By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
+</p>
 
-    <!-- Consent sentence -->
-    <p class="text-base md:text-lg text-center opacity-90 max-w-xl">
-      By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
-    </p>
+<!-- Buttons (keep large) -->
+<div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-    <!-- Buttons -->
-    <div id="links" class="mt-2 grid gap-3 w-full"></div>
+<!-- Info box (reduced font) -->
+<section class="card rounded-2xl p-4 w-full">
+  <p class="text-sm md:text-base">Here you can find different service requests and application forms. Choose the one that matches your need.</p>
+</section>
 
-    <!-- Info box -->
-    <section class="card rounded-2xl p-4 w-full">
-      <p class="text-base md:text-lg">Here you can find different service requests and application forms. Choose the one that matches your need.</p>
-    </section>
+<!-- Footer -->
+<div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
+  <p>© <span id="year"></span> REHAF.</p>
+  <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
+</div>
 
-    <!-- Footer -->
-    <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
-      <p>© <span id="year"></span> REHAF.</p>
-      <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
-    </div>
-  </main>
-
-  <script>
+  </main>  <script>
     const CONFIG = {
-      version: "v1.3",
+      version: "v1.4",
       links: [
         { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
         { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
@@ -106,6 +104,5 @@
     }
 
     render();
-  </script>
-</body>
+  </script></body>
 </html>
