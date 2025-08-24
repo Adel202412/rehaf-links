@@ -4,21 +4,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links</title>
-  <meta name="description" content="Minimal AR/EN links hub with vacancies and consent." />
-  <meta property="og:title" content="REHAF — Links" />
-  <meta property="og:description" content="Minimal AR/EN links hub with vacancies and consent." />
+  <title>رهف — Links</title>
+  <meta name="description" content="Minimal AR/EN links hub with consent." />
+  <meta property="og:title" content="رهف — Links" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="/og-image.png" />
   <meta name="theme-color" content="#00453e" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root{
-      --bg1: #00ab9a; /* top */
-      --bg2: #00786c; /* bottom */
-      --accent: #00453e; /* frames/borders/buttons */
-      --ink: #ffffff; /* main text */
-      --muted: #e7f7f5; /* soft */
+      --bg1: #00ab9a;
+      --bg2: #00786c;
+      --accent: #00453e;
+      --ink: #ffffff;
     }
     body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); font-size: 20px; }
     .card{ background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
@@ -26,89 +23,68 @@
     .btn:hover{ background: rgba(255,255,255,.15); }
     .disabled{ opacity:.55; pointer-events:none; filter: grayscale(0.3); }
     .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
-    [dir="rtl"] .rtl\:text-right{ text-align:right; }
   </style>
 </head>
 <body class="min-h-screen antialiased">
-  <main class="mx-auto max-w-5xl px-5 py-12 flex gap-8">
+  <main class="mx-auto max-w-5xl px-5 py-12 flex flex-col md:flex-row gap-8">
     <div class="flex-1">
       <header class="card rounded-3xl p-6 md:p-8">
-        <!-- Top: Logo only -->
         <div class="flex items-center gap-4">
-          <img id="logo" src="/assets/logo.png" alt="REHAF" class="h-16 md:h-20 w-auto" />
+          <img src="/assets/logo.png" alt="رهف Logo" class="h-12 md:h-14 w-auto" />
           <div>
-            <h1 id="ownerName" class="text-2xl md:text-3xl font-bold tracking-tight">REHAF</h1>
-            <p id="tagline" class="text-lg md:text-xl opacity-90">Automation - Project Ops - Business Consultant</p>
+            <h1 id="ownerName" class="text-2xl md:text-3xl font-bold tracking-tight">رهف</h1>
+            <div id="tagline" class="text-sm md:text-base opacity-80 leading-snug">
+              <p>Automation</p>
+              <p>Project Ops</p>
+              <p>Business Consultant</p>
+            </div>
           </div>
-          <button id="langToggle" class="ml-auto btn rounded-xl px-3 py-2 text-base">AR / EN</button>
-        </div><!-- Featured TEXT only -->
-    <section class="mt-6">
+          <button id="langToggle" class="ml-auto btn rounded-lg px-2 py-1.5 text-xs md:text-sm">AR / EN</button>
+        </div><section class="mt-6">
       <div class="card rounded-2xl p-4">
         <p id="featuredText" class="text-lg md:text-xl font-medium"></p>
       </div>
     </section>
 
-    <!-- Consent -->
     <div class="mt-6 text-lg space-y-2">
       <label class="inline-flex items-start gap-2">
         <input id="consent" type="checkbox" class="mt-1 h-5 w-5 rounded border-white/50 bg-transparent"/>
         <span id="consentText"></span>
       </label>
-      <p id="consentHint" class="text-sm opacity-90"></p>
     </div>
 
-    <!-- Buttons -->
     <div id="links" class="mt-6 grid gap-3"></div>
 
-    <!-- Vacancy box -->
-    <section class="mt-8">
-      <h2 id="vacTitle" class="text-lg uppercase tracking-wider opacity-90"></h2>
-      <div class="card rounded-2xl p-4 mt-3">
-        <p id="vacIntro" class="text-base"></p>
-        <ul id="vacList" class="mt-3 space-y-3"></ul>
-      </div>
-    </section>
-
-    <!-- Footer -->
     <div class="mt-8 border-t border-white/30 pt-6 text-sm opacity-90 flex flex-wrap items-center justify-between gap-4">
-      <p>© <span id="year"></span> REHAF.</p>
-      <a id="email" href="mailto:adel.alsoufi.90@.com" class="underline underline-offset-4">adel.alsoufi.90@gmail.com</a>
+      <p>© <span id="year"></span> رهف.</p>
+      <a id="email" href="mailto:hello@example.com" class="underline underline-offset-4">hello@example.com</a>
     </div>
   </header>
 </div>
-<!-- Right side image (no link) -->
-<aside class="hidden md:block w-80 flex-shrink-0">
+
+<!-- Mascot visible everywhere -->
+<aside class="block w-48 md:w-64 max-w-full mx-auto mt-6 md:mt-0 md:ml-8 flex-shrink-0">
   <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg" loading="lazy" />
 </aside>
 
   </main>  <script>
     const CONFIG = {
-      name: "REHAF",
-      tagline: "Automation - Project Ops  - Business Consultant ",
-      email: "adel.alsoufi.90@gmail.com",
+      name: "رهف",
+      email: "hello@rehaf.ae",
       featured: {
-        en: "Welcome to REHAF. Use the buttons to request services or apply.",
+        en: "Welcome to رهف. Use the buttons to request services or apply.",
         ar: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم."
       },
       links: [
-        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
+        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join رهف.", icon: "📄" },
         { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
         { key: "consult_req", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
         { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
-      vacancies: {
-        intro_en: "We update roles here. If you don't see a match, apply anyway—talent stands out.",
-        intro_ar: "نحدّث الوظائف هنا. إن لم تجد وظيفة مناسبة، قدّم طلبك — الموهبة تفرض نفسها.",
-        items: [
-          { title_en: "Automation Specialist ", title_ar: "أخصائي أتمتة ", type_en: "Contract", type_ar: "عقد", location_en: "UAE / Hybrid", location_ar: "ألإمارات العربية المتحدة / هجين" },
-        ]
-      },
       i18n: {
         en: {
-          featured: "Welcome to REHAF. Use the buttons to request services or apply.",
-          consent: "I agree to the terms: messages may be handled via automations and stored for service quality.",
-          consentHint: "Enable to use the buttons below.",
-          openVacancies: "Open Vacancies",
+          featured: "Welcome to رهف. Use the buttons to request services or apply.",
+          consent: "Please check the box.<br>I accept this term:<br><a href='#'>the terms</a>",
           links: {
             apply_job: { label: "Apply for a Job" },
             hire_req: { label: "Hiring Service Request" },
@@ -118,9 +94,7 @@
         },
         ar: {
           featured: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم.",
-          consent: "أوافق على الشروط: قد تتم معالجة الرسائل عبر الأتمتة وتخزينها لتحسين الجودة.",
-          consentHint: "فعّل للمتابعة واستخدام الأزرار أدناه.",
-          openVacancies: "الوظائف المتاحة",
+          consent: "يرجى تحديد المربع.<br>أوافق على هذا الشرط:<br><a href='#'>الشروط</a>",
           links: {
             apply_job: { label: "التقدم لوظيفة" },
             hire_req: { label: "طلب توظيف" },
@@ -143,28 +117,11 @@
 
     function render(){
       $('#ownerName').textContent = CONFIG.name;
-      $('#tagline').textContent = CONFIG.tagline;
       $('#email').href = `mailto:${CONFIG.email}`; $('#email').textContent = CONFIG.email;
       $('#year').textContent = new Date().getFullYear();
 
       $('#featuredText').textContent = state.lang === 'ar' ? CONFIG.featured.ar : CONFIG.featured.en;
-
-      $('#consentText').textContent = t('consent');
-      $('#consentHint').textContent = t('consentHint');
-
-      $('#vacTitle').textContent = t('openVacancies');
-      $('#vacIntro').textContent = state.lang==='ar' ? CONFIG.vacancies.intro_ar : CONFIG.vacancies.intro_en;
-      const ul = $('#vacList'); ul.innerHTML = '';
-      CONFIG.vacancies.items.forEach(v=>{
-        const li = document.createElement('li');
-        const title = state.lang==='ar'?v.title_ar:v.title_en;
-        const type  = state.lang==='ar'?v.type_ar:v.type_en;
-        const loc   = state.lang==='ar'?v.location_ar:v.location_en;
-        li.className = 'flex items-start justify-between gap-3';
-        li.innerHTML = `<div><div class=\"font-medium text-lg\">${title}</div><div class=\"text-sm opacity-90\">${type} • ${loc}</div></div>
-                        <a href=\"${CONFIG.links.find(l=>l.key==='apply_job').url}\" target=\"_blank\" class=\"text-base underline underline-offset-4\">${state.lang==='ar'?'قدّم الآن':'Apply'}</a>`;
-        ul.appendChild(li);
-      });
+      $('#consentText').innerHTML = t('consent');
 
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
@@ -179,9 +136,7 @@
             <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>
             <div class=\"text-base opacity-90\">${l.info||''}</div>
           </div>
-          <div class=\"opacity-80\">↗</div>
         </div>`;
-        // Disable rules: need consent AND url present AND not soon
         const enabled = state.consent && !!l.url && !l.soon;
         if(!enabled){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
@@ -191,7 +146,6 @@
     }
 
     render();
-
     $('#langToggle').addEventListener('click', ()=>{ state.lang = state.lang==='en' ? 'ar' : 'en'; render(); });
     $('#consent').addEventListener('change', e=>{ state.consent = !!e.target.checked; render(); });
   </script></body>
