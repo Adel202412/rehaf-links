@@ -20,11 +20,12 @@
       --ink: #ffffff; /* main text */
       --muted: #e7f7f5; /* soft */
     }
-    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); }
-    .card{ background: rgba(255,255,255,.08); border: 1.2px solid var(--accent); backdrop-filter: blur(10px); }
-    .btn{ background: rgba(255,255,255,.06); border:1.2px solid var(--accent); }
-    .btn:hover{ background: rgba(255,255,255,.10); }
-    .disabled{ opacity:.55; pointer-events:none; }
+    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); font-size: 20px; }
+    .card{ background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
+    .btn{ background: rgba(255,255,255,.08); border:1.6px solid var(--accent); }
+    .btn:hover{ background: rgba(255,255,255,.15); }
+    .disabled{ opacity:.55; pointer-events:none; filter: grayscale(0.3); }
+    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
     [dir="rtl"] .rtl\:text-right{ text-align:right; }
   </style>
 </head>
@@ -34,26 +35,26 @@
       <header class="card rounded-3xl p-6 md:p-8">
         <!-- Top: Logo only -->
         <div class="flex items-center gap-4">
-          <img id="logo" src="/logo.png" alt="REHAF" class="h-12 md:h-14 w-auto" />
+          <img id="logo" src="/assets/logo.png" alt="REHAF" class="h-16 md:h-20 w-auto" />
           <div>
-            <h1 id="ownerName" class="text-xl md:text-2xl font-semibold tracking-tight">REHAF</h1>
-            <p id="tagline" class="text-sm opacity-90">Automation • Make.com • Project Ops</p>
+            <h1 id="ownerName" class="text-2xl md:text-3xl font-bold tracking-tight">REHAF</h1>
+            <p id="tagline" class="text-lg md:text-xl opacity-90">Automation - Project Ops - Business Consultant</p>
           </div>
-          <button id="langToggle" class="ml-auto btn rounded-xl px-3 py-2 text-sm">AR / EN</button>
+          <button id="langToggle" class="ml-auto btn rounded-xl px-3 py-2 text-base">AR / EN</button>
         </div><!-- Featured TEXT only -->
     <section class="mt-6">
       <div class="card rounded-2xl p-4">
-        <p id="featuredText" class="text-sm md:text-base"></p>
+        <p id="featuredText" class="text-lg md:text-xl font-medium"></p>
       </div>
     </section>
 
     <!-- Consent -->
-    <div class="mt-6 text-sm space-y-2">
+    <div class="mt-6 text-lg space-y-2">
       <label class="inline-flex items-start gap-2">
-        <input id="consent" type="checkbox" class="mt-1 h-4 w-4 rounded border-white/50 bg-transparent"/>
+        <input id="consent" type="checkbox" class="mt-1 h-5 w-5 rounded border-white/50 bg-transparent"/>
         <span id="consentText"></span>
       </label>
-      <p id="consentHint" class="text-xs opacity-90"></p>
+      <p id="consentHint" class="text-sm opacity-90"></p>
     </div>
 
     <!-- Buttons -->
@@ -61,47 +62,45 @@
 
     <!-- Vacancy box -->
     <section class="mt-8">
-      <h2 id="vacTitle" class="text-sm uppercase tracking-wider opacity-90"></h2>
+      <h2 id="vacTitle" class="text-lg uppercase tracking-wider opacity-90"></h2>
       <div class="card rounded-2xl p-4 mt-3">
-        <p id="vacIntro" class="text-sm"></p>
+        <p id="vacIntro" class="text-base"></p>
         <ul id="vacList" class="mt-3 space-y-3"></ul>
       </div>
     </section>
 
     <!-- Footer -->
-    <div class="mt-8 border-t border-white/30 pt-6 text-xs opacity-90 flex flex-wrap items-center justify-between gap-4">
+    <div class="mt-8 border-t border-white/30 pt-6 text-sm opacity-90 flex flex-wrap items-center justify-between gap-4">
       <p>© <span id="year"></span> REHAF.</p>
-      <a id="email" href="mailto:hello@example.com" class="underline underline-offset-4">hello@example.com</a>
+      <a id="email" href="mailto:adel.alsoufi.90@.com" class="underline underline-offset-4">adel.alsoufi.90@gmail.com</a>
     </div>
   </header>
 </div>
-<!-- Right side image link -->
-<aside class="hidden md:block w-72 flex-shrink-0">
-  <a href="https://drive.google.com/uc?export=download&id=1cuIXqLwzpco4Pcy7gZuYm-sd8dTPyjV6" target="_blank" rel="noopener">
-    <img src="https://drive.google.com/uc?export=download&id=1cuIXqLwzpco4Pcy7gZuYm-sd8dTPyjV6" alt="Mascot" class="rounded-2xl shadow-lg" />
-  </a>
+<!-- Right side image (no link) -->
+<aside class="hidden md:block w-80 flex-shrink-0">
+  <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg" loading="lazy" />
 </aside>
 
   </main>  <script>
     const CONFIG = {
       name: "REHAF",
-      tagline: "Automation • Make.com • Project Ops",
-      email: "hello@rehaf.ae",
+      tagline: "Automation - Project Ops  - Business Consultant ",
+      email: "adel.alsoufi.90@gmail.com",
       featured: {
         en: "Welcome to REHAF. Use the buttons to request services or apply.",
         ar: "مرحباً بكم في رهف. استخدم الأزرار لطلب الخدمات أو التقديم."
       },
       links: [
-        { key: "hire_req", url: "", info: "Request hiring for your business.", icon: "🧑‍💼" },
-        { key: "svc_req_1", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Different Service Request (Form A).", icon: "📝" },
-        { key: "svc_req_2", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Different Service Request (Form B).", icon: "📝" },
         { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
+        { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
+        { key: "consult_req", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
+        { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
       vacancies: {
         intro_en: "We update roles here. If you don't see a match, apply anyway—talent stands out.",
         intro_ar: "نحدّث الوظائف هنا. إن لم تجد وظيفة مناسبة، قدّم طلبك — الموهبة تفرض نفسها.",
         items: [
-          { title_en: "Automation Specialist (Make.com)", title_ar: "أخصائي أتمتة (Make.com)", type_en: "Contract", type_ar: "عقد", location_en: "Dubai / Hybrid", location_ar: "دبي / هجين" },
+          { title_en: "Automation Specialist ", title_ar: "أخصائي أتمتة ", type_en: "Contract", type_ar: "عقد", location_en: "UAE / Hybrid", location_ar: "ألإمارات العربية المتحدة / هجين" },
         ]
       },
       i18n: {
@@ -111,10 +110,10 @@
           consentHint: "Enable to use the buttons below.",
           openVacancies: "Open Vacancies",
           links: {
+            apply_job: { label: "Apply for a Job" },
             hire_req: { label: "Hiring Service Request" },
-            svc_req_1: { label: "Different Service Request (A)" },
-            svc_req_2: { label: "Different Service Request (B)" },
-            apply_job: { label: "Apply for a Job" }
+            consult_req: { label: "Other Service Request (Consultant Service)" },
+            auto_soon: { label: "Automation Service (Soon)" }
           }
         },
         ar: {
@@ -123,10 +122,10 @@
           consentHint: "فعّل للمتابعة واستخدام الأزرار أدناه.",
           openVacancies: "الوظائف المتاحة",
           links: {
+            apply_job: { label: "التقدم لوظيفة" },
             hire_req: { label: "طلب توظيف" },
-            svc_req_1: { label: "طلب خدمة (أ)" },
-            svc_req_2: { label: "طلب خدمة (ب)" },
-            apply_job: { label: "التقدم لوظيفة" }
+            consult_req: { label: "طلب خدمة أخرى (استشارات)" },
+            auto_soon: { label: "خدمة الأتمتة (قريباً)" }
           }
         }
       }
@@ -162,26 +161,29 @@
         const type  = state.lang==='ar'?v.type_ar:v.type_en;
         const loc   = state.lang==='ar'?v.location_ar:v.location_en;
         li.className = 'flex items-start justify-between gap-3';
-        li.innerHTML = `<div><div class=\"font-medium\">${title}</div><div class=\"text-xs opacity-90\">${type} • ${loc}</div></div>
-                        <a href=\"${CONFIG.links.find(l=>l.key==='apply_job').url}\" target=\"_blank\" class=\"text-sm underline underline-offset-4\">${state.lang==='ar'?'قدّم الآن':'Apply'}</a>`;
+        li.innerHTML = `<div><div class=\"font-medium text-lg\">${title}</div><div class=\"text-sm opacity-90\">${type} • ${loc}</div></div>
+                        <a href=\"${CONFIG.links.find(l=>l.key==='apply_job').url}\" target=\"_blank\" class=\"text-base underline underline-offset-4\">${state.lang==='ar'?'قدّم الآن':'Apply'}</a>`;
         ul.appendChild(li);
       });
 
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
         const a = document.createElement('a');
-        a.href = l.url || '#'; a.target = '_blank'; a.rel = 'noopener';
+        a.href = l.url || '#'; a.target = l.url ? '_blank' : '' ; a.rel = l.url ? 'noopener' : '';
         a.className = 'btn rounded-2xl p-4 block transition';
-        if(!state.consent || !l.url) a.classList.add('disabled');
         const label = t(`links.${l.key}.label`);
+        const soonBadge = l.soon ? `<span class=\"badge ml-2\">${state.lang==='ar'?'قريباً':'Soon'}</span>` : '';
         a.innerHTML = `<div class=\"flex items-center gap-3\">
           <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>
           <div class=\"flex-1\">
-            <div class=\"font-semibold\">${label}</div>
-            <div class=\"text-xs opacity-90\">${l.info||''}</div>
+            <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>
+            <div class=\"text-base opacity-90\">${l.info||''}</div>
           </div>
           <div class=\"opacity-80\">↗</div>
         </div>`;
+        // Disable rules: need consent AND url present AND not soon
+        const enabled = state.consent && !!l.url && !l.soon;
+        if(!enabled){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
       });
 
