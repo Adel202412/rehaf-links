@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links v1.6</title>
+  <title>REHAF — Links v1.7</title>
   <meta name="description" content="Minimal links hub with info." />
-  <meta property="og:title" content=\"REHAF — Links v1.6\" />
+  <meta property="og:title" content="REHAF — Links v1.7" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
   <!-- Favicon / tab icon -->
@@ -38,12 +38,12 @@
   <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
 </div>
 
-<!-- Welcome (keep reduced font from v1.4) -->
+<!-- Welcome -->
 <section class="card rounded-2xl p-4 text-center w-full">
   <p id="welcomeText" class="text-base md:text-lg"></p>
 </section>
 
-<!-- Consent sentence (unchanged by request) -->
+<!-- Consent sentence -->
 <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
   By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
 </p>
@@ -51,9 +51,12 @@
 <!-- Buttons -->
 <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-<!-- Vacancies section (after welcome) -->
+<!-- Vacancies section -->
 <section class="card rounded-2xl p-4 w-full">
-  <h2 class="text-lg font-semibold mb-2"><span id="vacTitle"></span> <span id="todayDate" class="ml-1 text-base opacity-90"></span></h2>
+  <h2 class="text-lg font-bold mb-2">
+    <span id="vacTitle"></span>: 
+    <span id="todayDate" class="ml-1 text-base opacity-90"></span>
+  </h2>
   <ul id="vacList" class="space-y-2"></ul>
   <p id="vacEmpty" class="text-sm opacity-90"></p>
 </section>
@@ -66,7 +69,7 @@
 
   </main>  <script>
     const CONFIG = {
-      version: "v1.6",
+      version: "v1.7",
       links: [
         { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
         { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
@@ -74,8 +77,7 @@
         { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
       vacancies: {
-        // items now loaded from /vacancies.json
-        items: []
+        items: [] // loaded from vacancies.json
       },
       i18n: {
         en: {
@@ -149,13 +151,7 @@
         a.className = 'btn rounded-2xl p-4 block transition';
         const label = t(`links.${l.key}.label`);
         const soonBadge = l.soon ? `<span class=\"badge ml-2\">${state.lang==='ar'?'قريبًا':'Soon'}</span>` : '';
-        a.innerHTML = `<div class=\"flex items-center gap-3\">
-          <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>
-          <div class=\"flex-1\">
-            <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>
-            <div class=\"text-base opacity-90\">${l.info||''}</div>
-          </div>
-        </div>`;
+        a.innerHTML = `<div class=\"flex items-center gap-3\">\n          <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>\n          <div class=\"flex-1\">\n            <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>\n            <div class=\"text-base opacity-90\">${l.info||''}</div>\n          </div>\n        </div>`;
         if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
       });
@@ -172,11 +168,7 @@
           const title = state.lang==='ar' ? (v.title_ar || v.title_en) : (v.title_en || v.title_ar);
           const meta  = state.lang==='ar' ? (v.meta_ar || '') : (v.meta_en || '');
           const li = document.createElement('li');
-li.innerHTML = '<div class="flex items-center gap-2">
-<span class="opacity-80">-</span>
-<span class="text-base">${title}</span>
-<span class="text-sm opacity-70 ml-auto">${meta}</span>
-</div>';
+          li.innerHTML = `<div class=\"flex items-center gap-2\">\n            <span class=\"opacity-80\">-</span>\n            <span class=\"text-base\">${title}</span>\n            <span class=\"text-sm opacity-70 ml-auto\">${meta}</span>\n          </div>`;
           list.appendChild(li);
         });
       } else {
