@@ -1,0 +1,11 @@
+{
+  "items": [
+    { "title_en": "Mexican Chef",      "title_ar": "شيف مكسيكي",       "meta_en": "", "meta_ar": "" },
+    { "title_en": "Helper",            "title_ar": "مساعد",             "meta_en": "", "meta_ar": "" },
+    { "title_en": "Carpenter",         "title_ar": "نجار",              "meta_en": "", "meta_ar": "" },
+    { "title_en": "Draft Man",         "title_ar": "رسام",              "meta_en": "", "meta_ar": "" },
+    { "title_en": "Carpentry Helper",  "title_ar": "مساعد نجار",        "meta_en": "", "meta_ar": "" },
+    { "title_en": "Data Entry",        "title_ar": "مدخل بيانات",       "meta_en": "", "meta_ar": "" },
+    { "title_en": "Software Engineer", "title_ar": "مهندس برمجيات",     "meta_en": "", "meta_ar": "" }
+  ]
+}
