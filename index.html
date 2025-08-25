@@ -53,7 +53,7 @@
 
 <!-- Vacancies section (after welcome) -->
 <section class="card rounded-2xl p-4 w-full">
-  <h2 class="text-lg font-semibold mb-2"><span id="vacTitle"></span> <span id="todayDate" class="ml-2 text-xs opacity-90"></span></h2>
+  <h2 class="text-lg font-semibold mb-2"><span id="vacTitle"></span> <span id="todayDate" class="ml-1 text-base opacity-90"></span></h2>
   <ul id="vacList" class="space-y-2"></ul>
   <p id="vacEmpty" class="text-sm opacity-90"></p>
 </section>
@@ -172,10 +172,11 @@
           const title = state.lang==='ar' ? (v.title_ar || v.title_en) : (v.title_en || v.title_ar);
           const meta  = state.lang==='ar' ? (v.meta_ar || '') : (v.meta_en || '');
           const li = document.createElement('li');
-          li.innerHTML = `<div class=\"flex items-center justify-between\">
-            <div class=\"font-medium\">${title}</div>
-            <div class=\"text-sm opacity-90\">${meta}</div>
-          </div>`;
+li.innerHTML = '<div class="flex items-center gap-2">
+<span class="opacity-80">-</span>
+<span class="text-base">${title}</span>
+<span class="text-sm opacity-70 ml-auto">${meta}</span>
+</div>';
           list.appendChild(li);
         });
       } else {
@@ -192,72 +193,4 @@
       render();
     });
   </script></body>
-</html>const $ = s => document.querySelector(s);
-const state = { lang: 'en' };
-
-function t(path){
-  const parts = path.split('.');
-  let curr = CONFIG.i18n[state.lang];
-  for(const k of parts){ if(!curr) break; curr = curr[k]; }
-  return curr || path;
-}
-
-function render(){
-  // dir
-  document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
-
-  // year
-  $('#year').textContent = new Date().getFullYear();
-
-  // welcome text
-  $('#welcomeText').textContent = t('welcome');
-
-  // buttons
-  const wrap = $('#links'); wrap.innerHTML = '';
-  CONFIG.links.forEach(l=>{
-    const a = document.createElement('a');
-    a.href = l.url || '#'; a.target = l.url ? '_blank' : '' ; a.rel = l.url ? 'noopener' : '';
-    a.className = 'btn rounded-2xl p-4 block transition';
-    const label = t(`links.${l.key}.label`);
-    const soonBadge = l.soon ? `<span class=\"badge ml-2\">${state.lang==='ar'?'قريبًا':'Soon'}</span>` : '';
-    a.innerHTML = `<div class=\"flex items-center gap-3\">
-      <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>
-      <div class=\"flex-1\">
-        <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>
-        <div class=\"text-base opacity-90\">${l.info||''}</div>
-      </div>
-    </div>`;
-    if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
-    wrap.appendChild(a);
-  });
-
-  // vacancies
-  $('#vacTitle').textContent = t('vacTitle');
-  const list = $('#vacList'); list.innerHTML = '';
-  if(CONFIG.vacancies.items && CONFIG.vacancies.items.length){
-    $('#vacEmpty').textContent = '';
-    CONFIG.vacancies.items.forEach(v=>{
-      const li = document.createElement('li');
-      li.innerHTML = `<div class=\"flex items-center justify-between\">
-        <div class=\"font-medium\">${state.lang==='ar'?(v.title_ar||v.title_en):(v.title_en||v.title_ar)}</div>
-        <div class=\"text-sm opacity-90\">${state.lang==='ar'?(v.meta_ar||v.meta_en):(v.meta_en||v.meta_ar) || ''}</div>
-      </div>`;
-      list.appendChild(li);
-    });
-  } else {
-    $('#vacEmpty').textContent = t('vacEmpty');
-  }
-}
-
-// initial render
-render();
-
-// toggle language
-$('#langToggle').addEventListener('click', ()=>{
-  state.lang = state.lang === 'en' ? 'ar' : 'en';
-  render();
-});
-
-  </script>
-</body>
 </html>
