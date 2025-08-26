@@ -186,24 +186,44 @@
     });
   </script>
 
-<script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
+<!-- Rasa Webchat (debug) -->
 <script>
-  WebChat.default.init({
-    initPayload: "/greet",
-    customData: { language: "en" },
-    socketUrl: "http://75.119.129.70:5005",
-    title: "REHAF Assistant",
-    subtitle: "Business Solution Provider",
-    profileAvatar: "/assets/mascot.png",   // make sure this file exists
-    showCloseButton: true,
-    showFullScreenButton: true,
-    showMessageDate: true,
-    inputTextFieldHint: "Type your message..."
-  });
+  window.initRehafChat = function () {
+    try {
+      if (!window.WebChat || !WebChat.default) {
+        alert("WebChat not loaded"); // TEMP: helps us see if CDN failed
+        return;
+      }
+      console.log("WebChat loaded, initializing…");
+      WebChat.default.init({
+        initPayload: "/greet",
+        customData: { language: "en" },
+        socketUrl: "http://75.119.129.70:5005",   // backend ok
+        title: "REHAF Assistant",
+        subtitle: "Business Solution Provider",
+        profileAvatar: "/assets/mascot.png",
+        showCloseButton: true,
+        showFullScreenButton: true,
+        showMessageDate: true,
+        inputTextFieldHint: "Type your message..."
+      });
+      console.log("WebChat initialized");
+    } catch (e) {
+      console.error("WebChat init error:", e);
+      alert("WebChat init error: " + e.message);  // TEMP
+    }
+  };
 </script>
+<script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"
+        onload="window.initRehafChat()"></script>
 
 <style>
-  /* bilingual label under the bubble */
+  /* Force the launcher ABOVE everything */
+  .rw-launcher,
+  .rw-conversation-container {
+    z-index: 2147483000 !important;
+  }
+  /* Bilingual label under the bubble */
   .rw-launcher:after {
     content: "Chat with me | تحدث معي";
     position: absolute;
@@ -215,6 +235,5 @@
     font-family: sans-serif;
   }
 </style>
-
 </body>
 </html>
