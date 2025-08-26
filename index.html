@@ -184,5 +184,23 @@
       state.lang = state.lang === 'en' ? 'ar' : 'en';
       render();
     });
-  </script></body>
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.min.js"></script>
+<script>
+  WebChat.default.init({
+    selector: "#webchat",
+    initPayload: "/greet",
+    customData: { language: "en" }, // we will also add "ar" later
+    socketUrl: "http://localhost:5005", // temporary, we will fix later
+    title: "REHAF Assistant",
+    subtitle: "Business Solution Provider",
+    profileAvatar: "/assets/logo.png",
+    showCloseButton: true,
+    showFullScreenButton: true,
+    showMessageDate: true,
+    inputTextFieldHint: "Type your question..."
+  });
+</script>
+
+</body>
 </html>
