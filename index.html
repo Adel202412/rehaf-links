@@ -190,17 +190,15 @@
   WebChat.default.init({
     selector: "#webchat",
     initPayload: "/greet",
-    customData: { language: "en" }, // we will also add "ar" later
-    socketUrl: "http://localhost:5005", // temporary, we will fix later
+    customData: { language: "en" }, // later can auto-detect AR
+    socketUrl: "http://75.119.129.70:5005",
     title: "REHAF Assistant",
     subtitle: "Business Solution Provider",
     profileAvatar: "/assets/logo.png",
     showCloseButton: true,
     showFullScreenButton: true,
     showMessageDate: true,
-    inputTextFieldHint: "Type your question..."
+    inputTextFieldHint: "Type your message..."
   });
-</script>
-
-</body>
+</script></body>
 </html>
