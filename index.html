@@ -185,6 +185,7 @@
       render();
     });
   </script>
+
 <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
 <script>
   WebChat.default.init({
@@ -193,15 +194,16 @@
     socketUrl: "http://75.119.129.70:5005",
     title: "REHAF Assistant",
     subtitle: "Business Solution Provider",
-    profileAvatar: "/assets/mascot.png",   // make sure this image exists
+    profileAvatar: "/assets/mascot.png",   // make sure this file exists
     showCloseButton: true,
     showFullScreenButton: true,
     showMessageDate: true,
     inputTextFieldHint: "Type your message..."
   });
 </script>
+
 <style>
-  /* Add label under the floating bubble */
+  /* bilingual label under the bubble */
   .rw-launcher:after {
     content: "Chat with me | تحدث معي";
     position: absolute;
@@ -213,5 +215,6 @@
     font-family: sans-serif;
   }
 </style>
+
 </body>
 </html>
