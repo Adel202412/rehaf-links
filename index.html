@@ -188,9 +188,8 @@
 <script src="https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.min.js"></script>
 <script>
   WebChat.default.init({
-    selector: "#webchat",
     initPayload: "/greet",
-    customData: { language: "en" }, // later can auto-detect AR
+    customData: { language: "en" },
     socketUrl: "http://75.119.129.70:5005",
     title: "REHAF Assistant",
     subtitle: "Business Solution Provider",
@@ -200,5 +199,6 @@
     showMessageDate: true,
     inputTextFieldHint: "Type your message..."
   });
-</script></body>
+</script>
+</body>
 </html>
