@@ -1,84 +1,89 @@
 <!doctype html>
-
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links v1.7</title>
+  <title>REHAF — Links v1.8</title>
   <meta name="description" content="Minimal links hub with info." />
-  <meta property="og:title" content="REHAF — Links v1.7" />
+  <meta property="og:title" content="REHAF — Links v1.8" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
-  <!-- Favicon / tab icon -->
+  <!-- Favicon -->
   <link rel="icon" href="/assets/mascot.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/mascot.png" />  <script src="https://cdn.tailwindcss.com"></script>  <style>
-    :root{
+  <link rel="apple-touch-icon" href="/assets/mascot.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
       --bg1: #00ab9a;
       --bg2: #00786c;
       --accent: #00453e;
       --ink: #ffffff;
     }
-    body{ background: linear-gradient(160deg, var(--bg1), var(--bg2)); color:var(--ink); font-size: 19px; }
-    .card{ background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
-    .btn{ background: rgba(255,255,255,.08); border:1.6px solid var(--accent); }
-    .btn:hover{ background: rgba(255,255,255,.15); }
-    .disabled{ opacity:.55; pointer-events:none; filter: grayscale(0.3); }
-    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
-  </style></head>
+    body { background: linear-gradient(160deg, var(--bg1), var(--bg2)); color: var(--ink); font-size: 19px; }
+    .card { background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
+    .btn { background: rgba(255,255,255,.08); border:1.6px solid var(--accent); }
+    .btn:hover { background: rgba(255,255,255,.15); }
+    .disabled { opacity:.55; pointer-events:none; filter: grayscale(0.3); }
+    .badge { font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
+  </style>
+</head>
 <body class="min-h-screen antialiased">
   <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-6">
+
     <!-- Top: Mascot and Logo -->
     <div class="w-56 md:w-72">
       <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" />
     </div>
     <div class="w-64 md:w-80">
       <img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" />
-    </div><!-- Language toggle -->
-<div class="w-full flex justify-end">
-  <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
-</div>
+    </div>
 
-<!-- Welcome -->
-<section class="card rounded-2xl p-4 text-center w-full">
-  <p id="welcomeText" class="text-base md:text-lg"></p>
-</section>
+    <!-- Language toggle -->
+    <div class="w-full flex justify-end">
+      <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
+    </div>
 
-<!-- Consent sentence -->
-<p class="text-sm md:text-base text-center opacity-90 max-w-xl">
-  By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
-</p>
+    <!-- Welcome -->
+    <section class="card rounded-2xl p-4 text-center w-full">
+      <p id="welcomeText" class="text-base md:text-lg"></p>
+    </section>
 
-<!-- Buttons -->
-<div id="links" class="mt-2 grid gap-3 w-full"></div>
+    <!-- Consent sentence -->
+    <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
+      By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
+    </p>
 
-<!-- Vacancies section -->
-<section class="card rounded-2xl p-4 w-full">
-  <h2 class="text-lg font-bold mb-2">
-    <span id="vacTitle"></span>: 
-    <span id="todayDate" class="ml-1 text-base opacity-90"></span>
-  </h2>
-  <ul id="vacList" class="space-y-2"></ul>
-  <p id="vacEmpty" class="text-sm opacity-90"></p>
-</section>
+    <!-- Buttons -->
+    <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-<!-- Footer -->
-<div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
-  <p>© <span id="year"></span> REHAF.</p>
-  <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
-</div>
+    <!-- Vacancies section -->
+    <section class="card rounded-2xl p-4 w-full">
+      <h2 class="text-lg font-bold mb-2">
+        <span id="vacTitle"></span>:
+        <span id="todayDate" class="ml-1 text-base opacity-90"></span>
+      </h2>
+      <ul id="vacList" class="space-y-2"></ul>
+      <p id="vacEmpty" class="text-sm opacity-90"></p>
+    </section>
 
-  </main>  <script>
+    <!-- Footer -->
+    <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
+      <p>© <span id="year"></span> REHAF.</p>
+      <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
+    </div>
+  </main>
+
+  <!-- Core JS -->
+  <script>
     const CONFIG = {
-      version: "v1.7",
+      version: "v1.8",
       links: [
         { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
         { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
         { key: "consult_req", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
         { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
-      vacancies: {
-        items: [] // loaded from vacancies.json
-      },
+      vacancies: { items: [] },
       i18n: {
         en: {
           welcome: "Welcome to REHAF. Use the buttons below to request services or apply.",
@@ -107,8 +112,8 @@
 
     const $ = s => document.querySelector(s);
     const state = { lang: 'en' };
-
     const DUBAI_TZ = 'Asia/Dubai';
+
     function todayFormatted(lang){
       const now = new Date();
       const opts = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: DUBAI_TZ };
@@ -134,33 +139,31 @@
     }
 
     function render(){
-      // dir
       document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
-
-      // year
       $('#year').textContent = new Date().getFullYear();
-
-      // welcome text
       $('#welcomeText').textContent = t('welcome');
 
-      // buttons
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
         const a = document.createElement('a');
         a.href = l.url || '#'; a.target = l.url ? '_blank' : '' ; a.rel = l.url ? 'noopener' : '';
         a.className = 'btn rounded-2xl p-4 block transition';
         const label = t(`links.${l.key}.label`);
-        const soonBadge = l.soon ? `<span class=\"badge ml-2\">${state.lang==='ar'?'قريبًا':'Soon'}</span>` : '';
-        a.innerHTML = `<div class=\"flex items-center gap-3\">\n          <div class=\"h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10\">${l.icon||'🔗'}</div>\n          <div class=\"flex-1\">\n            <div class=\"font-semibold text-xl\">${label} ${soonBadge}</div>\n            <div class=\"text-base opacity-90\">${l.info||''}</div>\n          </div>\n        </div>`;
+        const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>` : '';
+        a.innerHTML = `<div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon||'🔗'}</div>
+            <div class="flex-1">
+              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
+              <div class="text-base opacity-90">${l.info||''}</div>
+            </div>
+          </div>`;
         if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
       });
 
-      // vacancies title + date
       $('#vacTitle').textContent = t('vacTitle');
       $('#todayDate').textContent = todayFormatted(state.lang);
 
-      // vacancies list
       const list = $('#vacList'); list.innerHTML = '';
       if(CONFIG.vacancies.items && CONFIG.vacancies.items.length){
         $('#vacEmpty').textContent = '';
@@ -168,7 +171,11 @@
           const title = state.lang==='ar' ? (v.title_ar || v.title_en) : (v.title_en || v.title_ar);
           const meta  = state.lang==='ar' ? (v.meta_ar || '') : (v.meta_en || '');
           const li = document.createElement('li');
-          li.innerHTML = `<div class=\"flex items-center gap-2\">\n            <span class=\"opacity-80\">-</span>\n            <span class=\"text-base\">${title}</span>\n            <span class=\"text-sm opacity-70 ml-auto\">${meta}</span>\n          </div>`;
+          li.innerHTML = `<div class="flex items-center gap-2">
+              <span class="opacity-80">-</span>
+              <span class="text-base">${title}</span>
+              <span class="text-sm opacity-70 ml-auto">${meta}</span>
+            </div>`;
           list.appendChild(li);
         });
       } else {
@@ -176,112 +183,88 @@
       }
     }
 
-    // initial render AFTER loading vacancies
     loadVacancies().then(render);
-
-    // toggle language
     $('#langToggle').addEventListener('click', ()=>{
       state.lang = state.lang === 'en' ? 'ar' : 'en';
       render();
     });
   </script>
-<!-- Rasa Webchat -->
-<script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
-<script>
-  !(function () {
-    window.WebChat.default.init({
-      selector: "#webchat",
-      initPayload: "/greet",
-      customData: { language: "en" },
-      socketUrl: "http://75.119.129.70:5005",
-      title: "REHAF Assistant",
-      subtitle: "Business Solution Provider",
-      profileAvatar: "/assets/mascot.png",
-      showCloseButton: true,
-      showFullScreenButton: true,
-      showMessageDate: true,
-      inputTextFieldHint: "Type your message..."
-    });
-  })();
-</script>
 
-<div id="webchat"></div>
+  <!-- Chat Bubble v1.8 (UI only) -->
+  <style>
+    .rehaf-chat-launcher, .rehaf-chat-panel {
+      position: fixed; right: 20px; z-index: 2147483647;
+    }
+    .rehaf-chat-launcher {
+      bottom: 20px; display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .rehaf-chat-avatar {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #00453e; display: grid; place-items: center; overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+    }
+    .rehaf-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .rehaf-chat-label {
+      background: #ffffff; color:#00453e; font-weight:700; font-size:12px;
+      border-radius: 999px; padding: 6px 10px; box-shadow: 0 6px 18px rgba(0,0,0,.12);
+    }
+    .rehaf-chat-panel {
+      bottom: 92px; width: 340px; max-height: 70vh; display: none; flex-direction: column;
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 18px 44px rgba(0,0,0,.28); border:1px solid #e9ecef;
+    }
+    .rehaf-chat-header {
+      background:#00453e; color:#fff; padding: 12px 14px; font-weight: 700;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .rehaf-chat-body { padding: 12px; font-size: 14px; color:#0f2d29; }
+    .rehaf-close { background:transparent; border:0; color:#fff; font-size:16px; cursor:pointer; }
+  </style>
 
-<style>
-  .rw-launcher,
-  .rw-conversation-container {
-    z-index: 2147483647 !important;
-  }
-  .rw-launcher:after {
-    content: "Chat with me | تحدث معي";
-    position: absolute;
-    bottom: -20px;
-    right: 0;
-    font-size: 12px;
-    color: #00453e;
-    font-weight: 600;
-    font-family: sans-serif;
-  }
-</style>
-<!-- REHAF floating chat bubble (UI only, no backend) -->
-<style>
-  .rehaf-chat-launcher, .rehaf-chat-panel {
-    position: fixed; right: 20px; z-index: 2147483647;
-  }
-  .rehaf-chat-launcher {
-    bottom: 20px; display: flex; align-items: center; gap: 10px;
-    text-decoration: none;
-  }
-  .rehaf-chat-avatar {
-    width: 56px; height: 56px; border-radius: 50%;
-    background: #00453e; display: grid; place-items: center; overflow: hidden;
-    box-shadow: 0 10px 28px rgba(0,0,0,.28);
-  }
-  .rehaf-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .rehaf-chat-label {
-    background: #ffffff; color:#00453e; font-weight:700; font-size:12px;
-    border-radius: 999px; padding: 6px 10px; box-shadow: 0 6px 18px rgba(0,0,0,.12);
-  }
+  <a class="rehaf-chat-launcher" id="rehafChatBtn" aria-label="Open chat">
+    <span class="rehaf-chat-avatar">
+      <img src="/assets/mascot.png" alt="Chat mascot">
+    </span>
+    <span class="rehaf-chat-label">Chat with me | تحدث معي</span>
+  </a>
 
-  .rehaf-chat-panel {
-    bottom: 92px; width: 340px; max-height: 70vh; display: none; flex-direction: column;
-    background: #fff; border-radius: 16px; overflow: hidden;
-    box-shadow: 0 18px 44px rgba(0,0,0,.28); border:1px solid #e9ecef;
-  }
-  .rehaf-chat-header {
-    background:#00453e; color:#fff; padding: 12px 14px; font-weight: 700;
-    display:flex; align-items:center; justify-content:space-between;
-  }
-  .rehaf-chat-body { padding: 12px; font-size: 14px; color:#0f2d29; }
-  .rehaf-close { background:transparent; border:0; color:#fff; font-size:16px; cursor:pointer; }
-</style>
-
-<a class="rehaf-chat-launcher" id="rehafChatBtn" aria-label="Open chat">
-  <span class="rehaf-chat-avatar">
-    <img src="/assets/mascot.png" alt="Chat mascot">
-  </span>
-  <span class="rehaf-chat-label">Chat with me | تحدث معي</span>
-</a>
-
-<div class="rehaf-chat-panel" id="rehafChatPanel" role="dialog" aria-modal="true" aria-label="REHAF Assistant">
-  <div class="rehaf-chat-header">
-    <span>REHAF Assistant</span>
-    <button class="rehaf-close" id="rehafClose">✕</button>
+  <div class="rehaf-chat-panel" id="rehafChatPanel" role="dialog" aria-modal="true" aria-label="REHAF Assistant">
+    <div class="rehaf-chat-header">
+      <span>REHAF Assistant</span>
+      <button class="rehaf-close" id="rehafClose">✕</button>
+    </div>
+    <div class="rehaf-chat-body">
+      <p>UI test only ✅ Connected to Rasa test in console.</p>
+    </div>
   </div>
-  <div class="rehaf-chat-body">
-    <p>UI test only ✅ If you can see this panel, styling/z-index are OK.</p>
-    <p>Next we’ll hook it to the Rasa backend.</p>
-  </div>
-</div>
 
-<script>
-  (function(){
-    const btn = document.getElementById('rehafChatBtn');
-    const panel = document.getElementById('rehafChatPanel');
-    const close = document.getElementById('rehafClose');
-    btn.addEventListener('click', (e)=>{ e.preventDefault(); panel.style.display = 'flex'; });
-    close.addEventListener('click', ()=> panel.style.display = 'none');
-  })();
-</script>
+  <script>
+    (function(){
+      const btn = document.getElementById('rehafChatBtn');
+      const panel = document.getElementById('rehafChatPanel');
+      const close = document.getElementById('rehafClose');
+
+      btn.addEventListener('click', (e)=>{ e.preventDefault(); panel.style.display = 'flex'; });
+      close.addEventListener('click', ()=> panel.style.display = 'none');
+
+      // RASA TEST CONNECTION (logs only)
+      async function sendMessageToRasa(msg) {
+        try {
+          const res = await fetch("http://75.119.129.70:5005/webhooks/rest/webhook", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sender: "test-user", message: msg })
+          });
+          const data = await res.json();
+          console.log("Rasa reply:", data);
+        } catch(err) {
+          console.error("Error talking to Rasa:", err);
+        }
+      }
+
+      // Auto-test: say hi on load
+      sendMessageToRasa("hi");
+    })();
+  </script>
 </body>
 </html>
