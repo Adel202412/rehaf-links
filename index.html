@@ -187,16 +187,26 @@
   </script>
 
 <!-- Rasa Webchat (debug) -->
+<div id="webchat"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
 <script>
   window.onload = () => {
     if (!window.WebChat) {
-      alert("WebChat failed to load");
+      console.error("WebChat failed to load");
       return;
     }
+    
+    // Check if container exists
+    if (!document.getElementById('webchat')) {
+      console.error("Webchat container not found");
+      return;
+    }
+
     console.log("WebChat loaded:", WebChat);
 
     WebChat.init({
+      selector: "#webchat", // IMPORTANT: Add this
       initPayload: "/greet",
       customData: { language: "en" },
       socketUrl: "http://75.119.129.70:5005",
@@ -210,24 +220,5 @@
     });
   };
 </script>
-
-<style>
-  /* Force on top */
-  .rw-launcher,
-  .rw-conversation-container {
-    z-index: 2147483000 !important;
-  }
-  /* Label under bubble */
-  .rw-launcher:after {
-    content: "Chat with me | تحدث معي";
-    position: absolute;
-    bottom: -20px;
-    right: 0;
-    font-size: 12px;
-    color: #00453e;
-    font-weight: 600;
-    font-family: sans-serif;
-  }
-</style>
 </body>
 </html>
