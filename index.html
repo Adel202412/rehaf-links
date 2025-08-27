@@ -3,34 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links v1.8</title>
+  <title>REHAF — Links v1.9</title>
   <meta name="description" content="Minimal links hub with info." />
-  <meta property="og:title" content="REHAF — Links v1.8" />
+  <meta property="og:title" content="REHAF — Links v1.9" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
-  <!-- Favicon -->
   <link rel="icon" href="/assets/mascot.png" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/mascot.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root {
-      --bg1: #00ab9a;
-      --bg2: #00786c;
-      --accent: #00453e;
-      --ink: #ffffff;
-    }
-    body { background: linear-gradient(160deg, var(--bg1), var(--bg2)); color: var(--ink); font-size: 19px; }
-    .card { background: var(--accent); border: 1.2px solid var(--accent); color: var(--ink); }
-    .btn { background: rgba(255,255,255,.08); border:1.6px solid var(--accent); }
-    .btn:hover { background: rgba(255,255,255,.15); }
-    .disabled { opacity:.55; pointer-events:none; filter: grayscale(0.3); }
-    .badge { font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
+    :root{ --bg1:#00ab9a; --bg2:#00786c; --accent:#00453e; --ink:#fff; }
+    body{ background:linear-gradient(160deg,var(--bg1),var(--bg2)); color:var(--ink); font-size:19px }
+    .card{ background:var(--accent); border:1.2px solid var(--accent); color:var(--ink) }
+    .btn{ background:rgba(255,255,255,.08); border:1.6px solid var(--accent) }
+    .btn:hover{ background:rgba(255,255,255,.15) }
+    .disabled{ opacity:.55; pointer-events:none; filter:grayscale(.3) }
+    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem }
   </style>
 </head>
 <body class="min-h-screen antialiased">
   <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-6">
-
-    <!-- Top: Mascot and Logo -->
     <div class="w-56 md:w-72">
       <img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" />
     </div>
@@ -38,25 +30,20 @@
       <img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" />
     </div>
 
-    <!-- Language toggle -->
     <div class="w-full flex justify-end">
       <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
     </div>
 
-    <!-- Welcome -->
     <section class="card rounded-2xl p-4 text-center w-full">
       <p id="welcomeText" class="text-base md:text-lg"></p>
     </section>
 
-    <!-- Consent sentence -->
     <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
       By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
     </p>
 
-    <!-- Buttons -->
     <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-    <!-- Vacancies section -->
     <section class="card rounded-2xl p-4 w-full">
       <h2 class="text-lg font-bold mb-2">
         <span id="vacTitle"></span>:
@@ -66,22 +53,21 @@
       <p id="vacEmpty" class="text-sm opacity-90"></p>
     </section>
 
-    <!-- Footer -->
     <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
       <p>© <span id="year"></span> REHAF.</p>
       <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
     </div>
   </main>
 
-  <!-- Core JS -->
+  <!-- ===== App logic (unchanged) ===== -->
   <script>
     const CONFIG = {
-      version: "v1.8",
+      version: "v1.9",
       links: [
-        { key: "apply_job", url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
-        { key: "hire_req", url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
-        { key: "consult_req", url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
-        { key: "auto_soon", url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
+        { key: "apply_job",  url: "https://forms.gle/hCTbFxT2b1V8CE2i7", info: "Apply to join REHAF.", icon: "📄" },
+        { key: "hire_req",   url: "https://forms.gle/ut62zpkXB2kXNLqb6", info: "Request hiring for your business.", icon: "🧑‍💼" },
+        { key: "consult_req",url: "https://forms.gle/ZfVrurQazxT8z7xL7", info: "Consultant/Other service request.", icon: "📝" },
+        { key: "auto_soon",  url: "", info: "Automation Service — Coming Soon.", icon: "⚙️", soon: true },
       ],
       vacancies: { items: [] },
       i18n: {
@@ -116,44 +102,42 @@
 
     function todayFormatted(lang){
       const now = new Date();
-      const opts = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: DUBAI_TZ };
-      return new Intl.DateTimeFormat(lang === 'ar' ? 'ar-EG' : 'en-GB', opts).format(now);
+      const opts = { day:'2-digit', month:'2-digit', year:'numeric', timeZone:DUBAI_TZ };
+      return new Intl.DateTimeFormat(lang==='ar'?'ar-EG':'en-GB', opts).format(now);
     }
 
     async function loadVacancies(){
-      try {
-        const res = await fetch('/vacancies.json?v=' + Date.now());
-        if(!res.ok) throw new Error('Failed');
+      try{
+        const res = await fetch('/vacancies.json?v='+Date.now());
+        if(!res.ok) throw 0;
         const data = await res.json();
         CONFIG.vacancies.items = Array.isArray(data.items) ? data.items : [];
-      } catch(e){
-        CONFIG.vacancies.items = [];
-      }
+      }catch{ CONFIG.vacancies.items = []; }
     }
 
     function t(path){
-      const parts = path.split('.');
-      let curr = CONFIG.i18n[state.lang];
+      const parts = path.split('.'); let curr = CONFIG.i18n[state.lang];
       for(const k of parts){ if(!curr) break; curr = curr[k]; }
       return curr || path;
     }
 
     function render(){
-      document.documentElement.setAttribute('dir', state.lang === 'ar' ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('dir', state.lang==='ar'?'rtl':'ltr');
       $('#year').textContent = new Date().getFullYear();
       $('#welcomeText').textContent = t('welcome');
 
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
         const a = document.createElement('a');
-        a.href = l.url || '#'; a.target = l.url ? '_blank' : '' ; a.rel = l.url ? 'noopener' : '';
+        a.href = l.url || '#'; a.target = l.url ? '_blank':'';
         a.className = 'btn rounded-2xl p-4 block transition';
         const label = t(`links.${l.key}.label`);
-        const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>` : '';
-        a.innerHTML = `<div class="flex items-center gap-3">
+        const soon = l.soon ? `<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>`:'';
+        a.innerHTML = `
+          <div class="flex items-center gap-3">
             <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon||'🔗'}</div>
             <div class="flex-1">
-              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
+              <div class="font-semibold text-xl">${label} ${soon}</div>
               <div class="text-base opacity-90">${l.info||''}</div>
             </div>
           </div>`;
@@ -164,107 +148,130 @@
       $('#vacTitle').textContent = t('vacTitle');
       $('#todayDate').textContent = todayFormatted(state.lang);
 
-      const list = $('#vacList'); list.innerHTML = '';
-      if(CONFIG.vacancies.items && CONFIG.vacancies.items.length){
+      const list = $('#vacList'); list.innerHTML='';
+      if(CONFIG.vacancies.items?.length){
         $('#vacEmpty').textContent = '';
         CONFIG.vacancies.items.forEach(v=>{
-          const title = state.lang==='ar' ? (v.title_ar || v.title_en) : (v.title_en || v.title_ar);
-          const meta  = state.lang==='ar' ? (v.meta_ar || '') : (v.meta_en || '');
-          const li = document.createElement('li');
-          li.innerHTML = `<div class="flex items-center gap-2">
+          const title = state.lang==='ar' ? (v.title_ar||v.title_en) : (v.title_en||v.title_ar);
+          const meta  = state.lang==='ar' ? (v.meta_ar||'')       : (v.meta_en||'');
+          list.insertAdjacentHTML('beforeend', `
+            <li><div class="flex items-center gap-2">
               <span class="opacity-80">-</span>
               <span class="text-base">${title}</span>
               <span class="text-sm opacity-70 ml-auto">${meta}</span>
-            </div>`;
-          list.appendChild(li);
+            </div></li>`);
         });
-      } else {
+      }else{
         $('#vacEmpty').textContent = t('vacEmpty');
       }
     }
 
     loadVacancies().then(render);
-    $('#langToggle').addEventListener('click', ()=>{
-      state.lang = state.lang === 'en' ? 'ar' : 'en';
-      render();
-    });
+    $('#langToggle').addEventListener('click', ()=>{ state.lang = state.lang==='en'?'ar':'en'; render(); });
   </script>
 
-  <!-- Chat Bubble v1.8 (UI only) -->
+  <!-- ===== Chat Bubble v1.9 (fully wired) ===== -->
   <style>
-    .rehaf-chat-launcher, .rehaf-chat-panel {
-      position: fixed; right: 20px; z-index: 2147483647;
-    }
-    .rehaf-chat-launcher {
-      bottom: 20px; display: flex; align-items: center; gap: 10px; text-decoration: none;
-    }
-    .rehaf-chat-avatar {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: #00453e; display: grid; place-items: center; overflow: hidden;
-      box-shadow: 0 10px 28px rgba(0,0,0,.28);
-    }
-    .rehaf-chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .rehaf-chat-label {
-      background: #ffffff; color:#00453e; font-weight:700; font-size:12px;
-      border-radius: 999px; padding: 6px 10px; box-shadow: 0 6px 18px rgba(0,0,0,.12);
-    }
-    .rehaf-chat-panel {
-      bottom: 92px; width: 340px; max-height: 70vh; display: none; flex-direction: column;
-      background: #fff; border-radius: 16px; overflow: hidden;
-      box-shadow: 0 18px 44px rgba(0,0,0,.28); border:1px solid #e9ecef;
-    }
-    .rehaf-chat-header {
-      background:#00453e; color:#fff; padding: 12px 14px; font-weight: 700;
-      display:flex; align-items:center; justify-content:space-between;
-    }
-    .rehaf-chat-body { padding: 12px; font-size: 14px; color:#0f2d29; }
-    .rehaf-close { background:transparent; border:0; color:#fff; font-size:16px; cursor:pointer; }
+    .rehaf-chat-launcher,.rehaf-chat-panel{ position:fixed; right:20px; z-index:2147483647 }
+    .rehaf-chat-launcher{ bottom:20px; display:flex; align-items:center; gap:10px; text-decoration:none }
+    .rehaf-chat-avatar{ width:56px; height:56px; border-radius:50%; background:#00453e; display:grid; place-items:center; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.28) }
+    .rehaf-chat-avatar img{ width:100%; height:100%; object-fit:cover }
+    .rehaf-chat-label{ background:#fff; color:#00453e; font-weight:700; font-size:12px; border-radius:999px; padding:6px 10px; box-shadow:0 6px 18px rgba(0,0,0,.12) }
+
+    .rehaf-chat-panel{ bottom:92px; width:360px; max-height:72vh; display:none; flex-direction:column; background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 18px 44px rgba(0,0,0,.28); border:1px solid #e9ecef }
+    .rehaf-chat-header{ background:#00453e; color:#fff; padding:12px 14px; font-weight:700; display:flex; align-items:center; justify-content:space-between }
+    .rehaf-chat-body{ padding:12px; font-size:14px; color:#0f2d29; overflow:auto; flex:1 }
+    .rehaf-chat-input{ display:flex; gap:6px; border-top:1px solid #e9ecef; padding:8px }
+    .rehaf-chat-input input{ flex:1; border:1px solid #dfe3e6; border-radius:12px; padding:10px 12px; font-size:14px; outline:none }
+    .rehaf-chat-input button{ border:0; background:#00453e; color:#fff; padding:0 14px; font-weight:700; border-radius:12px; cursor:pointer }
+
+    .rehaf-msg{ margin:8px 0; display:flex }
+    .rehaf-msg .bubble{ max-width:78%; padding:10px 12px; border-radius:14px; line-height:1.35; font-size:14px; white-space:pre-wrap }
+    .rehaf-msg.user{ justify-content:flex-end }
+    .rehaf-msg.user .bubble{ background:#00453e; color:#fff }
+    .rehaf-msg.bot{ justify-content:flex-start }
+    .rehaf-msg.bot .bubble{ background:#f3f7f6; color:#0f2d29; border:1px solid #e0eeec }
+
+    .rehaf-banner{ background:#fff3cd; color:#856404; border:1px solid #ffeeba; border-left:4px solid #ffc107; padding:8px 10px; border-radius:8px; margin-bottom:10px; font-size:12px }
   </style>
 
   <a class="rehaf-chat-launcher" id="rehafChatBtn" aria-label="Open chat">
-    <span class="rehaf-chat-avatar">
-      <img src="/assets/mascot.png" alt="Chat mascot">
-    </span>
+    <span class="rehaf-chat-avatar"><img src="/assets/mascot.png" alt="Chat mascot"></span>
     <span class="rehaf-chat-label">Chat with me | تحدث معي</span>
   </a>
 
   <div class="rehaf-chat-panel" id="rehafChatPanel" role="dialog" aria-modal="true" aria-label="REHAF Assistant">
     <div class="rehaf-chat-header">
       <span>REHAF Assistant</span>
-      <button class="rehaf-close" id="rehafClose">✕</button>
+      <button class="rehaf-close" id="rehafClose" style="background:transparent;border:0;color:#fff;font-size:16px;cursor:pointer">✕</button>
     </div>
-    <div class="rehaf-chat-body">
-      <p>UI test only ✅ Connected to Rasa test in console.</p>
+    <div class="rehaf-chat-body" id="rehafBody">
+      <div class="rehaf-msg bot"><div class="bubble">👋 Welcome to REHAF Business Solution Provider.\n\nمرحباً بك في REHAF لتوفير حلول الأعمال.</div></div>
+    </div>
+    <div class="rehaf-chat-input">
+      <input id="rehafInput" placeholder="Type here… / اكتب هنا…" />
+      <button id="rehafSend">Send</button>
     </div>
   </div>
 
   <script>
     (function(){
+      // 🔒 Your public HTTPS proxy to Rasa:
+      const RASA_BASE = "https://rasa.75-119-129-70.nip.io/webhooks/rest/webhook";
+
       const btn = document.getElementById('rehafChatBtn');
       const panel = document.getElementById('rehafChatPanel');
       const close = document.getElementById('rehafClose');
+      const body = document.getElementById('rehafBody');
+      const input = document.getElementById('rehafInput');
+      const sendBtn = document.getElementById('rehafSend');
 
-      btn.addEventListener('click', (e)=>{ e.preventDefault(); panel.style.display = 'flex'; });
-      close.addEventListener('click', ()=> panel.style.display = 'none');
+      const senderId = (()=>{ const k='rehaf_sender_id'; let v=localStorage.getItem(k);
+        if(!v){ v='u-'+Math.random().toString(36).slice(2,10)+Date.now().toString(36); localStorage.setItem(k,v); } return v; })();
 
-      // RASA TEST CONNECTION (logs only)
-      async function sendMessageToRasa(msg) {
-        try {
-	const res = await fetch("https://rasa.75-119-129-70.nip.io/webhooks/rest/webhook", {
-	    method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sender: "test-user", message: msg })
+      function pushMsg(role,text){
+        const wrap=document.createElement('div'); wrap.className='rehaf-msg '+role;
+        const b=document.createElement('div'); b.className='bubble'; b.textContent=text;
+        wrap.appendChild(b); body.appendChild(wrap); body.scrollTop=body.scrollHeight;
+      }
+      function banner(text){
+        const d=document.createElement('div'); d.className='rehaf-banner'; d.textContent=text;
+        body.appendChild(d); body.scrollTop=body.scrollHeight;
+      }
+
+      async function askRasa(message){
+        pushMsg('user', message);
+        input.value='';
+        try{
+          const res = await fetch(RASA_BASE,{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ sender: senderId, message })
           });
-          const data = await res.json();
-          console.log("Rasa reply:", data);
-        } catch(err) {
-          console.error("Error talking to Rasa:", err);
+          const data = await res.json().catch(()=>null);
+          if(!Array.isArray(data) || data.length===0){
+            pushMsg('bot', state.lang==='ar'?'عذراً، لم أتلقَ ردًا.':'Sorry, I got no response.');
+            return;
+          }
+          for(const m of data){
+            const text = m.text || m.image || (m.buttons ? JSON.stringify(m.buttons):'');
+            if(text) pushMsg('bot', text);
+          }
+        }catch(err){
+          console.error('Rasa request error:', err);
+          banner(state.lang==='ar'
+            ? '⚠️ لا يمكن الاتصال بالخادم الآن. سنفحص الإعدادات.'
+            : '⚠️ Cannot reach the server right now. We will check the setup.');
         }
       }
 
-      // Auto-test: say hi on load
-      sendMessageToRasa("hi");
+      // UI events
+      btn.addEventListener('click', e=>{ e.preventDefault(); panel.style.display='flex'; input.focus(); });
+      close.addEventListener('click', ()=> panel.style.display='none');
+      sendBtn.addEventListener('click', ()=>{ const v=(input.value||'').trim(); if(v) askRasa(v); });
+      input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=(input.value||'').trim(); if(v) askRasa(v); } });
     })();
   </script>
 </body>
 </html>
+
