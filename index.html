@@ -190,6 +190,30 @@
 <div id="webchat"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
+  <script>
+function debugWebChat() {
+  console.log("=== WebChat Debug Info ===");
+  console.log("window.WebChat exists:", !!window.WebChat);
+  console.log("WebChat object:", window.WebChat);
+  console.log("WebChat type:", typeof window.WebChat);
+  
+  if (window.WebChat) {
+    console.log("WebChat keys:", Object.keys(window.WebChat));
+    console.log("WebChat.init exists:", !!window.WebChat.init);
+    console.log("WebChat.init type:", typeof window.WebChat.init);
+    
+    // Check if it's nested
+    console.log("WebChat.default exists:", !!window.WebChat.default);
+    if (window.WebChat.default) {
+      console.log("WebChat.default.init exists:", !!window.WebChat.default.init);
+    }
+  }
+  console.log("=========================");
+}
+
+// Run debug after library loads
+setTimeout(debugWebChat, 2000);
+</script>
 <script>
   window.onload = () => {
     if (!window.WebChat) {
