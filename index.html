@@ -241,31 +241,52 @@
         const d=document.createElement('div'); d.className='rehaf-banner'; d.textContent=text;
         body.appendChild(d); body.scrollTop=body.scrollHeight;
       }
+<script>
+  async function askRasa(message){
+    pushMsg('user', message);
+    input.value='';
 
-      async function askRasa(message){
-        pushMsg('user', message);
-        input.value='';
-        try{
-          const res = await fetch(RASA_BASE,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ sender: senderId, message })
-          });
-          const data = await res.json().catch(()=>null);
-          if(!Array.isArray(data) || data.length===0){
-            pushMsg('bot', state.lang==='ar'?'عذراً، لم أتلقَ ردًا.':'Sorry, I got no response.');
-            return;
-          }
-          for(const m of data){
-            const text = m.text || m.image || (m.buttons ? JSON.stringify(m.buttons):'');
-            if(text) pushMsg('bot', text);
-          }
-        }catch(err){
-          console.error('Rasa request error:', err);
-          banner(state.lang==='ar'
-            ? '⚠️ لا يمكن الاتصال بالخادم الآن. سنفحص الإعدادات.'
-            : '⚠️ Cannot reach the server right now. We will check the setup.');
-        }
+    try{
+      const res = await fetch(RASA_BASE,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ sender: senderId, message })
+      });
+
+      if(!res.ok){
+        const txt = await res.text().catch(()=>res.statusText);
+        banner(`HTTP ${res.status}: ${txt}`);
+        return;
+      }
+
+      const data = await res.json().catch(()=>null);
+
+      if(!Array.isArray(data)){
+        banner('Bad JSON from server.');
+        return;
+      }
+      if(data.length===0){
+        // model responded with nothing; show fallback in-panel
+        pushMsg('bot', state.lang==='ar'
+          ? 'عذراً، لم أتلقَ ردًا. سأحوّل سؤالك للفريق.'
+          : 'Sorry, I got no response. I will pass this to the team.');
+        return;
+      }
+
+      // Show all messages returned by Rasa
+      for(const m of data){
+        if(m.text){ pushMsg('bot', m.text); continue; }
+        if(m.image){ pushMsg('bot', m.image); continue; }
+        if(m.custom){ pushMsg('bot', JSON.stringify(m.custom)); continue; }
+      }
+    }catch(err){
+      console.error('Rasa request error:', err);
+      banner(state.lang==='ar'
+        ? '⚠️ تعذر الاتصال بالخادم. تحقق من HTTPS/CORS.'
+        : '⚠️ Could not reach the server. Check HTTPS/CORS.');
+    }
+  }
+</script>
       }
 
       // UI events
