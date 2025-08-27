@@ -241,7 +241,6 @@
         const d=document.createElement('div'); d.className='rehaf-banner'; d.textContent=text;
         body.appendChild(d); body.scrollTop=body.scrollHeight;
       }
-<script>
   async function askRasa(message){
     pushMsg('user', message);
     input.value='';
@@ -286,9 +285,7 @@
         : '⚠️ Could not reach the server. Check HTTPS/CORS.');
     }
   }
-</script>
-      }
-
+}
       // UI events
       btn.addEventListener('click', e=>{ e.preventDefault(); panel.style.display='flex'; input.focus(); });
       close.addEventListener('click', ()=> panel.style.display='none');
