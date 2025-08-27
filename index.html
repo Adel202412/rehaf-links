@@ -185,96 +185,33 @@
       render();
     });
   </script>
-
-<!-- Rasa Webchat (debug) -->
-<!-- Rasa Webchat loader with robust init + CDN fallback -->
-<div id="webchat"></div>
-
-<<<<<<< HEAD
-=======
+<!-- Rasa Webchat -->
 <script src="https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js"></script>
-  <script>
-function debugWebChat() {
-  console.log("=== WebChat Debug Info ===");
-  console.log("window.WebChat exists:", !!window.WebChat);
-  console.log("WebChat object:", window.WebChat);
-  console.log("WebChat type:", typeof window.WebChat);
-  
-  if (window.WebChat) {
-    console.log("WebChat keys:", Object.keys(window.WebChat));
-    console.log("WebChat.init exists:", !!window.WebChat.init);
-    console.log("WebChat.init type:", typeof window.WebChat.init);
-    
-    // Check if it's nested
-    console.log("WebChat.default exists:", !!window.WebChat.default);
-    if (window.WebChat.default) {
-      console.log("WebChat.default.init exists:", !!window.WebChat.default.init);
-    }
-  }
-  console.log("=========================");
-}
-
-// Run debug after library loads
-setTimeout(debugWebChat, 2000);
-</script>
->>>>>>> 5c7457276c443b8b318dde4f6cb5c6a188b89122
 <script>
-  (function(){
-    function startWebchat(){
-      try{
-        const WC = window.WebChat;
-        const init = WC && (WC.init || (WC.default && WC.default.init));
-        if(!init){
-          console.error("Rasa Webchat: init function not found on", WC);
-          alert("WebChat loaded but no init() found. Trying alternate CDN…");
-          return tryAltCdn(); // fallback to unpkg
-        }
-        init({
-          selector: "#webchat",
-          initPayload: "/greet",
-          customData: { language: "en" },
-          socketUrl: "http://75.119.129.70:5005",  // will switch to HTTPS next
-          title: "REHAF Assistant",
-          subtitle: "Business Solution Provider",
-          profileAvatar: "/assets/mascot.png",
-          showCloseButton: true,
-          showFullScreenButton: true,
-          showMessageDate: true,
-          inputTextFieldHint: "Type your message..."
-        });
-        console.log("Rasa Webchat initialized.");
-      }catch(e){
-        console.error("Rasa Webchat init error:", e);
-        alert("WebChat init error: " + e.message);
-      }
-    }
-
-    function tryAltCdn(){
-      var s = document.createElement("script");
-      s.src = "https://unpkg.com/rasa-webchat@1.0.1/lib/index.js";
-      s.onload = startWebchat;
-      s.onerror = function(){ alert("Failed to load WebChat from both CDNs"); };
-      document.head.appendChild(s);
-    }
-
-    // primary CDN
-    var s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js?v=force";
-    s.onload = startWebchat;
-    s.onerror = tryAltCdn;
-    document.head.appendChild(s);
+  !(function () {
+    window.WebChat.default.init({
+      selector: "#webchat",
+      initPayload: "/greet",
+      customData: { language: "en" },
+      socketUrl: "http://75.119.129.70:5005",
+      title: "REHAF Assistant",
+      subtitle: "Business Solution Provider",
+      profileAvatar: "/assets/mascot.png",
+      showCloseButton: true,
+      showFullScreenButton: true,
+      showMessageDate: true,
+      inputTextFieldHint: "Type your message..."
+    });
   })();
 </script>
 
+<div id="webchat"></div>
+
 <style>
-  /* Make sure it’s on top and in the corner */
-  .rw-launcher, .rw-conversation-container {
-    position: fixed !important;
-    right: 20px !important;
-    bottom: 20px !important;
+  .rw-launcher,
+  .rw-conversation-container {
     z-index: 2147483647 !important;
   }
-  /* Label under the bubble */
   .rw-launcher:after {
     content: "Chat with me | تحدث معي";
     position: absolute;
