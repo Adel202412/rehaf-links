@@ -193,7 +193,7 @@
     .rehaf-banner{ background:#fff3cd; color:#856404; border:1px solid #ffeeba; border-left:4px solid #ffc107; padding:8px 10px; border-radius:8px; margin-bottom:10px; font-size:12px }
   </style>
 
-  <a class="rehaf-chat-launcher" id="rehafChatBtn" aria-label="Open chat">
+  <a class="rehaf-chat-launcher" id="rehafChatBtn" href="#" aria-label="Open chat">
     <span class="rehaf-chat-avatar"><img src="/assets/mascot.png" alt="Chat mascot"></span>
     <span class="rehaf-chat-label">Chat with me | تحدث معي</span>
   </a>
@@ -280,5 +280,23 @@
       input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=(input.value||'').trim(); if(v) askRasa(v); } });
     })();
   </script>
+<script>
+  // Safe attach after DOM is ready
+  window.addEventListener('DOMContentLoaded', () => {
+    const panel = document.getElementById('rehafChatPanel');
+    const btn   = document.getElementById('rehafChatBtn');
+    const close = document.getElementById('rehafClose');
+
+    function openPanel(e){ if(e) e.preventDefault(); if(panel){ panel.style.display = 'flex'; } }
+    function closePanel(){ if(panel){ panel.style.display = 'none'; } }
+
+    // Attach handlers robustly
+    if (btn) {
+      if (!btn.getAttribute('href')) btn.setAttribute('href', '#');
+      btn.addEventListener('click', openPanel, { passive: false });
+    }
+    if (close) close.addEventListener('click', closePanel);
+  });
+</script>
 </body>
 </html>
