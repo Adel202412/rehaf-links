@@ -212,91 +212,168 @@
     </div>
   </div>
 
-  <script>
-    (function(){
-      const RASA_BASE = "https://rasa.75-119-129-70.nip.io/webhooks/rest/webhook";
-
-      const btn = document.getElementById('rehafChatBtn');
-      const panel = document.getElementById('rehafChatPanel');
-      const close = document.getElementById('rehafClose');
-      const body = document.getElementById('rehafBody');
-      const input = document.getElementById('rehafInput');
-      const sendBtn = document.getElementById('rehafSend');
-
-      const senderId = (()=>{ const k='rehaf_sender_id'; let v=localStorage.getItem(k);
-        if(!v){ v='u-'+Math.random().toString(36).slice(2,10)+Date.now().toString(36); localStorage.setItem(k,v); } return v; })();
-
-      function pushMsg(role,text){
-        const wrap=document.createElement('div'); wrap.className='rehaf-msg '+role;
-        const b=document.createElement('div'); b.className='bubble'; b.textContent=text;
-        wrap.appendChild(b); body.appendChild(wrap); body.scrollTop=body.scrollHeight;
-      }
-      function banner(text){
-        const d=document.createElement('div'); d.className='rehaf-banner'; d.textContent=text;
-        body.appendChild(d); body.scrollTop=body.scrollHeight;
-      }
-
-      async function askRasa(message){
-        pushMsg('user', message);
-        input.value='';
-
-        try{
-          const res = await fetch(RASA_BASE,{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ sender: senderId, message })
-          });
-
-          if(!res.ok){
-            const txt = await res.text().catch(()=>res.statusText);
-            banner(`HTTP ${res.status}: ${txt}`); return;
-          }
-
-          let data = null;
-          try { data = await res.json(); } catch{ data=null; }
-          if(!Array.isArray(data)){ banner('Bad JSON from server.'); return; }
-          if(data.length===0){
-            pushMsg('bot', state.lang==='ar'
-              ? 'عذراً، لم أتلقَ ردًا. سأحوّل سؤالك للفريق.'
-              : 'Sorry, I got no response. I will pass this to the team.');
-            return;
-          }
-          for(const m of data){
-            if(m.text){ pushMsg('bot', m.text); continue; }
-            if(m.image){ pushMsg('bot', m.image); continue; }
-            if(m.custom){ pushMsg('bot', JSON.stringify(m.custom)); continue; }
-          }
-        }catch(err){
-          console.error('Rasa request error:', err);
-          banner(state.lang==='ar'
-            ? '⚠️ تعذر الاتصال بالخادم. تحقق من HTTPS/CORS.'
-            : '⚠️ Could not reach the server. Check HTTPS/CORS.');
-        }
-      }
-
-      btn.addEventListener('click', e=>{ e.preventDefault(); panel.style.display='flex'; input.focus(); });
-      close.addEventListener('click', ()=> panel.style.display='none');
-      sendBtn.addEventListener('click', ()=>{ const v=(input.value||'').trim(); if(v) askRasa(v); });
-      input.addEventListener('keydown', e=>{ if(e.key==='Enter'){ const v=(input.value||'').trim(); if(v) askRasa(v); } });
-    })();
-  </script>
 <script>
-  // Safe attach after DOM is ready
-  window.addEventListener('DOMContentLoaded', () => {
-    const panel = document.getElementById('rehafChatPanel');
-    const btn   = document.getElementById('rehafChatBtn');
-    const close = document.getElementById('rehafClose');
+(function () {
+  const RASA_BASE = "https://rasa.75-119-129-70.nip.io/webhooks/rest/webhook";
 
-    function openPanel(e){ if(e) e.preventDefault(); if(panel){ panel.style.display = 'flex'; } }
-    function closePanel(){ if(panel){ panel.style.display = 'none'; } }
+  // DOM
+  const btn    = document.getElementById('rehafChatBtn');
+  const panel  = document.getElementById('rehafChatPanel');
+  const close  = document.getElementById('rehafClose');
+  const body   = document.getElementById('rehafBody');
+  const input  = document.getElementById('rehafInput');
+  const sendBtn= document.getElementById('rehafSend');
 
-    // Attach handlers robustly
-    if (btn) {
-      if (!btn.getAttribute('href')) btn.setAttribute('href', '#');
-      btn.addEventListener('click', openPanel, { passive: false });
+  // Language: read page direction (rtl => ar)
+  const LANG = (document.documentElement.dir || '').toLowerCase() === 'rtl' ? 'ar' : 'en';
+
+  // Persisted sender id
+  const senderId = (() => {
+    const k = 'rehaf_sender_id';
+    let v = localStorage.getItem(k);
+    if (!v) { v = 'u-' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); localStorage.setItem(k, v); }
+    return v;
+  })();
+
+  // Mini UI helpers
+  function pushMsg(role, text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'rehaf-msg ' + role;
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    b.textContent = text;
+    wrap.appendChild(b);
+    body.appendChild(wrap);
+    body.scrollTop = body.scrollHeight;
+  }
+  function banner(text) {
+    const d = document.createElement('div');
+    d.className = 'rehaf-banner';
+    d.textContent = text;
+    body.appendChild(d);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // ---- FAQ MODEL (buttons only) ----
+  // payloads MUST start with "/" to trigger intents in Rasa.
+  const FAQ = [
+    { id:'whatis',  payload:'/faq_whatis',
+      label_en:'What is REHAF?',                          label_ar:'ما هي REHAF؟' },
+    { id:'services',payload:'/faq_services',
+      label_en:'What services do you provide?',           label_ar:'ما هي الخدمات التي تقدّمونها؟' },
+    { id:'pricing', payload:'/faq_pricing',
+      label_en:'How does pricing work?',                  label_ar:'كيف تعمل سياسة التسعير؟' },
+    { id:'apply',   payload:'/faq_apply_job',
+      label_en:'Where can I apply for a job?',            label_ar:'أين أستطيع التقدّم لوظيفة؟' },
+    { id:'vac',     payload:'/faq_vacancies',
+      label_en:'Vacancies available today',               label_ar:'الوظائف المتاحة اليوم' },
+    { id:'hiring',  payload:'/faq_hiring_request',
+      label_en:'Request hiring for my business',          label_ar:'طلب توظيف لشركتي' },
+    { id:'contact', payload:'/faq_contact',
+      label_en:'How can I contact you?',                  label_ar:'كيف أتواصل معكم؟' }
+  ];
+
+  function t(en, ar){ return LANG === 'ar' ? ar : en; }
+
+  function renderMenu() {
+    const box = document.createElement('div');
+    box.className = 'rehaf-menu';
+    const title = document.createElement('div');
+    title.className = 'rehaf-menu-title';
+    title.textContent = t('Please choose a topic:', 'يرجى اختيار موضوع:');
+    box.appendChild(title);
+
+    FAQ.forEach(item => {
+      const b = document.createElement('button');
+      b.className = 'rehaf-menu-btn';
+      b.type = 'button';
+      b.textContent = t(item.label_en, item.label_ar);
+      b.addEventListener('click', () => {
+        // Show what the user picked
+        pushMsg('user', t(item.label_en, item.label_ar));
+        // Send payload to Rasa
+        askRasa(item.payload);
+      });
+      box.appendChild(b);
+    });
+
+    body.appendChild(box);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  // ---- Rasa call (button payloads only) ----
+  async function askRasa(message) {
+    try {
+      const res = await fetch(RASA_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender: senderId, message })
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => res.statusText);
+        banner(`HTTP ${res.status}: ${txt}`);
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (!Array.isArray(data) || data.length === 0) {
+        pushMsg('bot', t('Please choose from the FAQ below.', 'يرجى الاختيار من الأسئلة الشائعة بالأسفل.'));
+        renderMenu();
+        return;
+      }
+
+      for (const m of data) {
+        if (m.text)  pushMsg('bot', m.text);
+        if (m.image) pushMsg('bot', m.image);
+        if (m.custom)pushMsg('bot', JSON.stringify(m.custom));
+      }
+
+      // After every reply, re-show the menu so user must pick again
+      renderMenu();
+
+    } catch (err) {
+      console.error('Rasa request error:', err);
+      banner(t('⚠️ Could not reach the server. Check HTTPS/CORS.',
+               '⚠️ تعذر الاتصال بالخادم. تحقق من HTTPS/CORS.'));
+      renderMenu();
     }
-    if (close) close.addEventListener('click', closePanel);
+  }
+
+  // ---- Open/close + initial UI ----
+  function openPanel(e){
+    if (e) e.preventDefault();
+    panel.style.display='flex';
+
+    // Hide typing UI entirely
+    if (input)  { input.disabled = true; input.placeholder = t('Please use the buttons below…','يرجى استخدام الأزرار بالأسفل…'); input.style.display='none'; }
+    if (sendBtn) sendBtn.style.display='none';
+
+    // Clear old content and show greeting + menu
+    body.innerHTML = '';
+    pushMsg('bot', t(
+      '👋 Welcome to REHAF Business Solution Provider.\nPlease choose from the FAQ below.',
+      '👋 مرحباً بك في REHAF لتوفير حلول الأعمال.\nيرجى الاختيار من الأسئلة الشائعة بالأسفل.'
+    ));
+    renderMenu();
+  }
+  function closePanel(){ panel.style.display='none'; }
+
+  // Attach handlers
+  if (btn)   btn.addEventListener('click', openPanel, { passive:false });
+  if (close) close.addEventListener('click', closePanel);
+
+  // If someone still types (e.g., from old UI), block it politely
+  if (sendBtn) sendBtn.addEventListener('click', () => {
+    pushMsg('bot', t('Please choose from the FAQ below.', 'يرجى الاختيار من الأسئلة الشائعة بالأسفل.'));
   });
+  if (input) input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      pushMsg('bot', t('Please choose from the FAQ below.', 'يرجى الاختيار من الأسئلة الشائعة بالأسفل.'));
+    }
+  });
+})();
 </script>
 </body>
 </html>
