@@ -1,106 +1,83 @@
 <!doctype html>
-<html lang="en" class="scroll-smooth" dir="ltr">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — Links v2</title>
-  <meta name="description" content="REHAF Business Solution Provider — links and FAQ chat." />
-  <meta property="og:title" content="REHAF — Links v2" />
+  <title>REHAF — Links v2.1</title>
+  <meta name="description" content="Minimal links hub with info." />
+  <meta property="og:title" content="REHAF — Links v2.1" />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
   <link rel="icon" href="/assets/mascot.png" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/mascot.png" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- BotUI (front-end only) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/botui/build/botui-theme-default.css">
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/botui/build/botui.min.js"></script>
-
   <style>
-    :root{ --bg1:#00ab9a; --bg2:#00786c; --accent:#00453e; --ink:#ffffff; --brand:#227976; }
-    body{ background:linear-gradient(160deg,var(--bg1),var(--bg2)); color:var(--ink); font-size:19px; }
-    .card{ background:var(--accent); border:1.2px solid var(--accent); color:var(--ink); }
-    .btn{ background:rgba(255,255,255,.08); border:1.6px solid var(--accent); }
-    .btn:hover{ background:rgba(255,255,255,.15); }
-    .disabled{ opacity:.55; pointer-events:none; filter:grayscale(.3); }
-    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem; }
+    :root{ --bg1:#00ab9a; --bg2:#00786c; --accent:#00453e; --ink:#fff }
+    body{ background:linear-gradient(160deg,var(--bg1),var(--bg2)); color:var(--ink); font-size:19px }
+    .card{ background:var(--accent); border:1.2px solid var(--accent); color:var(--ink) }
+    .btn{ background:rgba(255,255,255,.08); border:1.6px solid var(--accent) }
+    .btn:hover{ background:rgba(255,255,255,.15) }
+    .disabled{ opacity:.55; pointer-events:none; filter:grayscale(.3) }
+    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem }
 
-    /* ---- Floating FAQ bubble + panel ---- */
-    .rehaf-launcher,.rehaf-panel{ position:fixed; right:20px; z-index:2147483647 }
-    .rehaf-launcher{ bottom:20px; display:flex; align-items:center; gap:10px; text-decoration:none }
-    .rehaf-launcher .avatar{
-      width:56px; height:56px; border-radius:50%; background:#00453e;
-      display:grid; place-items:center; box-shadow:0 10px 28px rgba(0,0,0,.28); overflow:hidden;
+    /* ===== FAQ Bubble v2.1 ===== */
+    .faq-launcher,.faq-panel{ position:fixed; right:20px; z-index:2147483647 }
+    .faq-launcher{ bottom:20px; display:flex; align-items:center; gap:10px; text-decoration:none }
+    .faq-avatar{ width:56px; height:56px; border-radius:50%; background:#00453e; display:grid; place-items:center; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.28) }
+    .faq-avatar img{ width:100%; height:100%; object-fit:cover }
+    .faq-label{ background:#fff; color:#00453e; font-weight:700; font-size:12px; border-radius:999px; padding:6px 10px; box-shadow:0 6px 18px rgba(0,0,0,.12) }
+
+    .faq-panel{
+      bottom:92px; width:360px; max-width:92vw; max-height:72vh;
+      display:none; flex-direction:column; background:#fff; border-radius:14px;
+      overflow:hidden; border:1px solid #e6f1ef; box-shadow:0 18px 44px rgba(0,0,0,.25);
+      box-sizing:border-box;
     }
-    .rehaf-launcher .avatar img{ width:100%; height:100%; object-fit:cover }
-    .rehaf-launcher .label{ background:#fff; color:#00453e; font-weight:700; font-size:12px; border-radius:999px; padding:6px 10px; box-shadow:0 6px 18px rgba(0,0,0,.12) }
+    .faq-header{ background:#00453e; color:#fff; padding:10px 12px; font-weight:700; display:flex; align-items:center; justify-content:space-between }
+    .faq-body{ padding:10px; overflow:auto; flex:1; color:#0f2d29 }
+    .faq-actions{ display:flex; gap:8px; margin-top:10px }
+    .faq-actions .btn{ padding:8px 12px; border-radius:10px; color:#fff; background:#227976; border:1px solid #1b615c }
+    .faq-actions .btn.secondary{ background:#eef8f6; color:#1b615c; border-color:#cfe9e4 }
 
-    .rehaf-panel{
-      bottom:92px; width:380px; max-width:95vw; max-height:75vh; display:none; flex-direction:column;
-      background:#fff; color:#111827; border-radius:16px; overflow:hidden;
-      box-shadow:0 18px 44px rgba(0,0,0,.28); border:2px solid var(--brand);
+    .faq-item{
+      border:1px solid #227976; background:#fff; border-radius:10px;
+      padding:8px 10px; font-size:14px; line-height:1.25; cursor:pointer;
+      transition:background .15s ease, border-color .15s ease, transform .05s ease;
+      margin-bottom:8px;
     }
-    html[dir="rtl"] .rehaf-panel{ right:auto; left:20px }
-    html[dir="rtl"] .rehaf-launcher{ right:auto; left:20px }
+    .faq-item:hover{ background:#f1fcfa; border-color:#1b615c }
+    .faq-item:active{ transform:scale(.995) }
 
-    .rehaf-panel .header{
-      background:var(--brand); color:#fff; padding:12px 14px; font-weight:700;
-      display:flex; align-items:center; justify-content:space-between;
+    .faq-answer{
+      background:#f6fbfa; border:1px solid #d4efea; border-left:4px solid #227976;
+      border-radius:10px; padding:10px 12px; font-size:14px; line-height:1.5;
     }
-    .rehaf-close{ background:transparent; border:0; color:#fff; font-size:16px; cursor:pointer }
 
-    #rehaf-botui{ padding:10px 10px 12px 10px }
-
-    /* BotUI: hide text input (button-only UX) */
-    .botui-actions-text{ display:none !important }
-
-    /* Questions as bordered cards in #227976 */
-    .botui-actions-buttons-button{
-      border:1.5px solid var(--brand);
-      border-radius:12px;
-      background:#fff;
-      color:var(--brand);
-      font-weight:600;
-      margin:6px 0; padding:10px 14px;
-      transition:background .15s ease,color .15s ease,transform .02s;
-      width:100%; text-align:left;
-    }
-    .botui-actions-buttons-button:hover{ background:var(--brand); color:#fff }
-    .botui-actions-buttons-button:active{ transform:scale(.99) }
-
-    /* Bot bubbles to match site */
-    .botui-message-content{
-      border:1px solid #e0eeec; background:#f3f7f6; color:#0f2d29;
-      border-radius:14px; padding:10px 12px; line-height:1.35;
-    }
+    /* rtl tweaks for panel */
+    html[dir="rtl"] .faq-launcher{ right:auto; left:20px }
+    html[dir="rtl"] .faq-panel{ right:auto; left:20px }
   </style>
 </head>
-
 <body class="min-h-screen antialiased">
   <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-6">
-    <!-- Mascot + Logo -->
     <div class="w-56 md:w-72"><img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" /></div>
-    <div class="w-64 md:w-80"><img src="/assets/logo.png" alt="REHAF Logo" class="mx-auto" /></div>
+    <h1 class="text-6xl md:text-7xl font-black tracking-widest drop-shadow">REHAF</h1>
 
-    <!-- Language toggle -->
-    <div class="w-full flex justify-end"><button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button></div>
+    <div class="w-full flex justify-end">
+      <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
+    </div>
 
-    <!-- Welcome -->
     <section class="card rounded-2xl p-4 text-center w-full">
       <p id="welcomeText" class="text-base md:text-lg"></p>
     </section>
 
-    <!-- Consent -->
     <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
       By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
     </p>
 
-    <!-- Links -->
     <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-    <!-- Vacancies -->
     <section class="card rounded-2xl p-4 w-full">
       <h2 class="text-lg font-bold mb-2">
         <span id="vacTitle"></span>:
@@ -110,35 +87,16 @@
       <p id="vacEmpty" class="text-sm opacity-90"></p>
     </section>
 
-    <!-- Footer -->
     <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
       <p>© <span id="year"></span> REHAF.</p>
       <a id="email" href="mailto:lilafutum@gmail.com" class="underline underline-offset-4">lilafutum@gmail.com</a>
     </div>
   </main>
 
-  <!-- Floating FAQ Bubble -->
-  <a class="rehaf-launcher" id="rehafOpen" href="#" aria-label="Open FAQ chat">
-    <span class="avatar"><img src="/assets/mascot.png" alt="Chat"></span>
-    <span class="label" id="rehafBubbleLabel">FAQ Chat</span>
-  </a>
-
-  <!-- Chat Panel (BotUI inside) -->
-  <div class="rehaf-panel" id="rehafPanel" role="dialog" aria-modal="true" aria-label="REHAF FAQ">
-    <div class="header">
-      <span id="rehafHeaderTitle">REHAF Assistant — FAQ</span>
-      <button class="rehaf-close" id="rehafClose">✕</button>
-    </div>
-    <div id="rehaf-botui">
-      <div class="botui-app-container" id="rehaf-app"><bot-ui></bot-ui></div>
-    </div>
-  </div>
-
-  <!-- Page + BotUI Logic -->
+  <!-- ===== App logic ===== -->
   <script>
-    /* -------- Main page content (kept from earlier versions) -------- */
     const CONFIG = {
-      version: "v2",
+      version: "v2.1",
       links: [
         { key:"apply_job",  url:"https://forms.gle/hCTbFxT2b1V8CE2i7", info:"Apply to join REHAF.", icon:"📄" },
         { key:"hire_req",   url:"https://forms.gle/ut62zpkXB2kXNLqb6", info:"Request hiring for your business.", icon:"🧑‍💼" },
@@ -156,7 +114,11 @@
             hire_req:{ label:"Hiring Service Request" },
             consult_req:{ label:"Other Service Request (Consultant Service)" },
             auto_soon:{ label:"Automation Service (Soon)" }
-          }
+          },
+          faqTitle: "REHAF Assistant — FAQ",
+          faqBack: "Back to FAQ",
+          faqClose: "Close",
+          bubble:  "FAQ Chat"
         },
         ar:{
           welcome:"مرحبًا بكم في REHAF. استخدم الأزرار أدناه لطلب الخدمات أو التقديم.",
@@ -167,17 +129,24 @@
             hire_req:{ label:"طلب توظيف" },
             consult_req:{ label:"طلب خدمة أخرى (استشارات)" },
             auto_soon:{ label:"خدمة الأتمتة (قريبًا)" }
-          }
+          },
+          faqTitle: "مساعد REHAF — الأسئلة الشائعة",
+          faqBack: "رجوع للأسئلة",
+          faqClose: "إغلاق",
+          bubble:  "الأسئلة الشائعة"
         }
       }
     };
 
     const $ = s => document.querySelector(s);
-    const state = { lang: (document.documentElement.getAttribute('dir') === 'rtl' ? 'ar' : 'en') };
+    const DUBAI_TZ = 'Asia/Dubai';
+    const state = {
+      lang: localStorage.getItem('rehaf_lang') || 'en'
+    };
 
     function todayFormatted(lang){
       const now = new Date();
-      const opts = { day:'2-digit', month:'2-digit', year:'numeric', timeZone:'Asia/Dubai' };
+      const opts = { day:'2-digit', month:'2-digit', year:'numeric', timeZone:DUBAI_TZ };
       return new Intl.DateTimeFormat(lang==='ar'?'ar-EG':'en-GB', opts).format(now);
     }
 
@@ -197,150 +166,182 @@
 
     function render(){
       document.documentElement.setAttribute('dir', state.lang==='ar'?'rtl':'ltr');
+      document.documentElement.lang = state.lang;
       $('#year').textContent = new Date().getFullYear();
       $('#welcomeText').textContent = t('welcome');
 
-      const wrap = $('#links'); wrap.innerHTML='';
+      const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
-        const a=document.createElement('a');
-        a.href=l.url||'#'; a.target=l.url?'_blank':''; a.rel=l.url?'noopener':'';
-        a.className='btn rounded-2xl p-4 block transition';
-        const label=t(`links.${l.key}.label`);
-        const soonBadge=l.soon?`<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>`:'';
-        a.innerHTML=`<div class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon||'🔗'}</div>
-          <div class="flex-1">
-            <div class="font-semibold text-xl">${label} ${soonBadge}</div>
-            <div class="text-base opacity-90">${l.info||''}</div>
-          </div></div>`;
+        const a = document.createElement('a');
+        a.href = l.url || '#'; a.target = l.url ? '_blank' : '';
+        a.className = 'btn rounded-2xl p-4 block transition';
+        const label = t(`links.${l.key}.label`);
+        const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>`:'';
+        a.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon||'🔗'}</div>
+            <div class="flex-1">
+              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
+              <div class="text-base opacity-90">${l.info||''}</div>
+            </div>
+          </div>`;
         if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
         wrap.appendChild(a);
       });
 
       $('#vacTitle').textContent = t('vacTitle');
       $('#todayDate').textContent = todayFormatted(state.lang);
-      const list = $('#vacList'); list.innerHTML='';
-      if(CONFIG.vacancies.items.length){
-        $('#vacEmpty').textContent='';
-        CONFIG.vacancies.items.forEach(v=>{
-          const title=state.lang==='ar'?(v.title_ar||v.title_en):(v.title_en||v.title_ar);
-          const meta =state.lang==='ar'?(v.meta_ar ||''):(v.meta_en ||'');
-          list.insertAdjacentHTML('beforeend', `<li><div class="flex items-center gap-2">
-            <span class="opacity-80">-</span>
-            <span class="text-base">${title}</span>
-            <span class="text-sm opacity-70 ml-auto">${meta}</span>
-          </div></li>`);
-        });
-      }else{ $('#vacEmpty').textContent = t('vacEmpty'); }
 
-      // Bubble texts by language
-      $('#rehafBubbleLabel').textContent = state.lang==='ar' ? 'الأسئلة الشائعة' : 'FAQ Chat';
-      $('#rehafHeaderTitle').textContent = state.lang==='ar' ? 'مساعد REHAF — الأسئلة الشائعة' : 'REHAF Assistant — FAQ';
+      const list = $('#vacList'); list.innerHTML='';
+      if(CONFIG.vacancies.items?.length){
+        $('#vacEmpty').textContent = '';
+        CONFIG.vacancies.items.forEach(v=>{
+          const title = state.lang==='ar' ? (v.title_ar||v.title_en) : (v.title_en||v.title_ar);
+          const meta  = state.lang==='ar' ? (v.meta_ar||'')       : (v.meta_en||'');
+          list.insertAdjacentHTML('beforeend', `
+            <li><div class="flex items-center gap-2">
+              <span class="opacity-80">-</span>
+              <span class="text-base">${title}</span>
+              <span class="text-sm opacity-70 ml-auto">${meta}</span>
+            </div></li>`);
+        });
+      }else{
+        $('#vacEmpty').textContent = t('vacEmpty');
+      }
+
+      // sync FAQ header/bubble labels if already present
+      const h = document.getElementById('faqTitle');
+      if(h) h.textContent = t('faqTitle');
+      const bLabel = document.getElementById('faqBubbleLabel');
+      if(bLabel) bLabel.textContent = t('bubble');
     }
 
     loadVacancies().then(render);
+
+    // language toggle
     $('#langToggle').addEventListener('click', ()=>{
       state.lang = state.lang==='en' ? 'ar' : 'en';
-      render();
+      localStorage.setItem('rehaf_lang', state.lang);
+      render();                       // page
+      window.rehafFaqRender?.();      // FAQ panel
     });
+  </script>
 
-    /* -------- BotUI FAQ bubble -------- */
-    const FAQ_EN = [
-      { id:'whatis',   q:'What is REHAF?',
-        a:`REHAF is a Business Solution Provider. We help with consultancy, recruitment, management, cost analysis, business plans, design, AI automation, and **customized solutions** for growth.` },
-      { id:'services', q:'What services does REHAF provide?',
-        a:`Our main service is **customizing solutions** for clients: hiring & recruitment, project setup/design, and AI automation/digital solutions.` },
-      { id:'pricing',  q:'How does pricing work?',
-        a:`Pricing depends on service type and customization. Some services may be free. Please submit the **Business Consultancy Request** form and we will contact you.` },
-      { id:'apply',    q:'Where can I apply for a job?',
-        a:`Use the **Apply for a Job** form on the site. Current vacancies are listed at the bottom of this page.` },
-      { id:'vac',      q:'What vacancies are available today?',
-        a:`Vacancies are updated regularly in the **Vacancies** section below. If none are listed, there are no openings today.` },
-      { id:'hiring',   q:'How can I request hiring for my business?',
-        a:`Please use the **Hiring Service Request** form; our team will call you after submission.` },
-      { id:'consult',  q:'How can I request a business consultancy?',
-        a:`Please use the **Business Consultancy Request** form. We’ll review and contact you with tailored solutions.` },
-      { id:'timeline', q:'How long does hiring take?',
-        a:`It can be as fast as 5 minutes or up to 48 hours to complete interviews.` },
-      { id:'automation',q:'Do you provide automation services?',
-        a:`Yes — AI automation to improve workflows. The service is being expanded.` },
-      { id:'contact',  q:'How can I contact REHAF?',
-        a:`Email: **lilafutum@gmail.com** — our team will call you after reviewing your request.` },
-    ];
+  <!-- ===== FAQ Bubble — Markup ===== -->
+  <a class="faq-launcher" id="faqBubble" href="#">
+    <span class="faq-avatar"><img src="/assets/mascot.png" alt="Chat mascot"></span>
+    <span id="faqBubbleLabel" class="faq-label">FAQ Chat</span>
+  </a>
 
-    const FAQ_AR = [
-      { id:'whatis',   q:'ما هي REHAF؟',
-        a:`REHAF مزوّد حلول أعمال: استشارات، توظيف، إدارة، تحليل تكاليف، خطط أعمال، تصميم، أتمتة بالذكاء الاصطناعي وحلول **مخصّصة** للنمو.` },
-      { id:'services', q:'ما الخدمات التي تقدّمونها؟',
-        a:`خدمتنا الأساسية **تخصيص الحلول** للعملاء: التوظيف، تهيئة/تصميم المشاريع، والأتمتة الرقمية.` },
-      { id:'pricing',  q:'كيف تعمل التسعير؟',
-        a:`تختلف الأسعار حسب نوع الخدمة ومستوى التخصيص. بعض الخدمات قد تكون مجانية. الرجاء إرسال **نموذج طلب استشارة الأعمال** وسنتواصل معك.` },
-      { id:'apply',    q:'أين يمكنني التقديم لوظيفة؟',
-        a:`استخدم **نموذج التقدّم لوظيفة** في الموقع. الوظائف الحالية أسفل هذه الصفحة.` },
-      { id:'vac',      q:'ما الوظائف المتاحة اليوم؟',
-        a:`يتم تحديث الوظائف بشكل منتظم في قسم **الوظائف** أسفل الصفحة. إذا لم توجد وظائف، فلا شواغر اليوم.` },
-      { id:'hiring',   q:'كيف أطلب توظيفاً لشركتي؟',
-        a:`استخدم **نموذج طلب التوظيف**؛ وسيتواصل فريقنا معك بعد الإرسال.` },
-      { id:'consult',  q:'كيف أطلب استشارة أعمال؟',
-        a:`استخدم **نموذج طلب استشارة الأعمال**. سنراجع طلبك ونتواصل معك بحلول مناسبة.` },
-      { id:'timeline', q:'كم تستغرق عملية التوظيف؟',
-        a:`قد تستغرق من 5 دقائق وحتى 48 ساعة لإتمام المقابلات.` },
-      { id:'automation',q:'هل لديكم خدمة أتمتة؟',
-        a:`نعم — أتمتة بالذكاء الاصطناعي لتحسين سير العمل، والخدمة قيد التوسّع.` },
-      { id:'contact',  q:'كيف أتواصل مع REHAF؟',
-        a:`البريد: **lilafutum@gmail.com** — سيتواصل فريقنا معك بعد مراجعة الطلب.` },
-    ];
+  <div class="faq-panel" id="faqPanel" role="dialog" aria-modal="true">
+    <div class="faq-header">
+      <span id="faqTitle">REHAF Assistant — FAQ</span>
+      <button id="faqClose" style="background:transparent;border:0;color:#fff;font-size:16px;cursor:pointer">✕</button>
+    </div>
+    <div class="faq-body" id="faqBody"></div>
+  </div>
 
-    function buildChoices(arr){ return arr.map(i => ({ text:i.q, value:i.id })).concat([{ text: (state.lang==='ar'?'إغلاق':'Close'), value:'close' }]); }
+  <!-- ===== FAQ Bubble — Logic ===== -->
+  <script>
+  (function(){
+    const faqBtn    = document.getElementById('faqBubble');
+    const faqPanel  = document.getElementById('faqPanel');
+    const faqBody   = document.getElementById('faqBody');
+    const faqClose  = document.getElementById('faqClose');
+    const faqTitle  = document.getElementById('faqTitle');
 
-    // Bubble open/close + boot BotUI per current language
-    (function(){
-      const openBtn = $('#rehafOpen');
-      const panel   = $('#rehafPanel');
-      const close   = $('#rehafClose');
+    const getLang = () => (window.state?.lang === 'ar' ? 'ar' : 'en');
 
-      function showPanel(e){
-        if(e) e.preventDefault();
-        panel.style.display='flex';
+    // Q&A data
+    const FAQ = {
+      en: [
+        ['what','What is REHAF?','REHAF is a Business Solution Provider. We help with consultancy, recruitment, management, cost analysis, business plans, design, AI automation, and <strong>customized solutions</strong> for growth.'],
+        ['services','What services does REHAF provide?','Our main service is <strong>customizing solutions</strong> for clients: hiring & recruitment, project setup/design, and AI automation/digital solutions.'],
+        ['pricing','How does pricing work?','Pricing depends on service type and customization. Some services may be free. Start by submitting the Business Consultancy form and we will contact you.'],
+        ['apply','Where can I apply for a job?','Fill out the <strong>Apply for a Job</strong> form on the site. Current vacancies are shown at the bottom of this page.'],
+        ['vacancies','What vacancies are available today?','Vacancies are updated daily in the Vacancies section at the bottom of this page. If none appear, there are no openings today.'],
+        ['hire','How can I request hiring for my business?','Use the <strong>Hiring Service Request</strong> form. After submission, our team will contact you.'],
+        ['consult','How can I request a business consultancy?','Use the <strong>Business Consultancy Request</strong> form. We’ll review and contact you to discuss solutions.'],
+        ['time','How long does hiring take?','It depends on applicants. It may take <strong>5 minutes</strong> to <strong>48 hours</strong> to complete an interview process.'],
+        ['contact','How can I contact REHAF?','Email us at <strong>lilafutum@gmail.com</strong> and we’ll get back to you.']
+      ],
+      ar: [
+        ['what','ما هي REHAF؟','شركة <strong>REHAF</strong> لتقديم حلول الأعمال. نساعد في الاستشارات، التوظيف، الإدارة، تحليل التكاليف، خطط الأعمال، التصميم، أتمتة الذكاء الاصطناعي، و<strong>حلول مخصصة</strong> للنمو.'],
+        ['services','ما هي خدمات REHAF؟','خدمتنا الأساسية هي <strong>تخصيص الحلول</strong> للعملاء: التوظيف والاستقطاب، إعداد/تصميم المشاريع، وحلول الأتمتة والرقمنة.'],
+        ['pricing','كيف تعمل الأسعار؟','الأسعار حسب نوع الخدمة ومستوى التخصيص. بعض الخدمات قد تكون مجانية. ابدأ بتقديم نموذج الاستشارة وسنتواصل معك.'],
+        ['apply','أين يمكنني التقديم على وظيفة؟','املأ نموذج <strong>التقدّم لوظيفة</strong> بالموقع. الوظائف الحالية تظهر أسفل هذه الصفحة.'],
+        ['vacancies','ما هي الوظائف المتاحة اليوم؟','يتم تحديث الوظائف يوميًا في قسم الوظائف أسفل الصفحة. إن لم تظهر وظائف، فلا يوجد شواغر اليوم.'],
+        ['hire','كيف أطلب خدمة توظيف؟','استخدم نموذج <strong>طلب خدمة التوظيف</strong>. بعد الإرسال سنتواصل معك.'],
+        ['consult','كيف أطلب استشارة أعمال؟','استخدم نموذج <strong>طلب خدمة أخرى (استشارات)</strong>. سنراجع الطلب ونتواصل معك.'],
+        ['time','كم يستغرق التوظيف؟','حسب المتقدمين؛ قد يستغرق من <strong>5 دقائق</strong> حتى <strong>48 ساعة</strong> لإتمام المقابلات.'],
+        ['contact','كيف أتواصل مع REHAF؟','راسلنا على <strong>lilafutum@gmail.com</strong> وسنعاود التواصل.']
+      ]
+    };
 
-        // reset BotUI container
-        const host = document.querySelector('#rehaf-botui .botui');
-        if(host) host.innerHTML = '';
+    const faqState = JSON.parse(localStorage.getItem('rehaf_faq_state') || '{"view":"list","key":null}');
 
-        const botui = new BotUI('rehaf-app');
-        const isAr = (state.lang==='ar');
-        const T = isAr ? {
-          hello:'👋 مرحباً بك في REHAF. اختر سؤالاً:',
-          back:'⬅︎ الرجوع للقائمة',
-          faqs: FAQ_AR
-        } : {
-          hello:'👋 Welcome to REHAF. Please choose a question:',
-          back:'⬅︎ Back to FAQ',
-          faqs: FAQ_EN
-        };
+    function saveState(){
+      localStorage.setItem('rehaf_faq_state', JSON.stringify(faqState));
+    }
 
-        function menu(){
-          return botui.action.button({ addMessage:false, action: buildChoices(T.faqs) })
-            .then(async res=>{
-              if(res.value==='close'){ panel.style.display='none'; return; }
-              const item = T.faqs.find(x=>x.id===res.value);
-              if(!item) return menu();
-              await botui.message.bot({ type:'html', content: item.a.replace(/\n/g,'<br>') });
-              return botui.action.button({ addMessage:false, action:[{text:T.back, value:'back'},{text:(isAr?'إغلاق':'Close'), value:'close'}] })
-                .then(next=>{
-                  if(next.value==='back') return menu();
-                  if(next.value==='close') panel.style.display='none';
-                });
-            });
-        }
+    function renderList(){
+      faqBody.innerHTML = '';
+      const lang = getLang();
+      FAQ[lang].forEach(([key, q])=>{
+        const li = document.createElement('div');
+        li.className = 'faq-item';
+        li.textContent = q;
+        li.addEventListener('click', ()=>{ faqState.view='answer'; faqState.key=key; saveState(); render(); });
+        faqBody.appendChild(li);
+      });
+    }
 
-        botui.message.bot({ content: T.hello }).then(menu);
-      }
-      function hidePanel(){ panel.style.display='none'; }
+    function renderAnswer(){
+      faqBody.innerHTML = '';
+      const lang = getLang();
+      const item = FAQ[lang].find(([k])=>k===faqState.key);
+      if(!item){ faqState.view='list'; faqState.key=null; saveState(); return render(); }
+      const [, q, a] = item;
 
-      openBtn.addEventListener('click', showPanel, { passive:false });
-      close.addEventListener('click', hidePanel);
-    })();
+      const card = document.createElement('div');
+      card.className = 'faq-answer';
+      card.innerHTML = `<div style="font-weight:700;margin-bottom:6px">${q}</div><div>${a}</div>`;
+      faqBody.appendChild(card);
+
+      const actions = document.createElement('div');
+      actions.className = 'faq-actions';
+      actions.innerHTML = `
+        <button class="btn">${getLang()==='ar' ? 'رجوع للأسئلة' : 'Back to FAQ'} →</button>
+        <button class="btn secondary">${getLang()==='ar' ? 'إغلاق' : 'Close'}</button>`;
+      const [backBtn, closeBtn] = actions.querySelectorAll('button');
+      backBtn.onclick  = ()=>{ faqState.view='list'; faqState.key=null; saveState(); render(); };
+      closeBtn.onclick = ()=>{ faqPanel.style.display='none'; };
+      faqBody.appendChild(actions);
+    }
+
+    function render(){
+      // header/bubble labels sync with site language
+      faqTitle.textContent = (window.t?.('faqTitle')) || (getLang()==='ar' ? 'مساعد REHAF — الأسئلة الشائعة' : 'REHAF Assistant — FAQ');
+      const bubbleLabel = document.getElementById('faqBubbleLabel');
+      if(bubbleLabel) bubbleLabel.textContent = (window.t?.('bubble')) || (getLang()==='ar' ? 'الأسئلة الشائعة' : 'FAQ Chat');
+
+      if(faqState.view==='list') renderList(); else renderAnswer();
+    }
+
+    // expose for EN/AR toggle
+    window.rehafFaqRender = render;
+
+    // open/close
+    faqBtn?.addEventListener('click', (e)=>{
+      e.preventDefault();
+      faqPanel.style.display='flex';
+      if(!faqBody.childElementCount){ render(); }
+    });
+    faqClose?.addEventListener('click', ()=>{ faqPanel.style.display='none'; });
+
+    // initial render (in case bubble is pre-opened by CSS in future)
+    render();
+  })();
   </script>
 </body>
 </html>
