@@ -1,124 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>REHAF — Automation Services (Version A)</title>
-  <meta name="description" content="REHAF builds Make.com-powered automations that save time, cut errors, and scale your business." />
-  <meta name="theme-color" content="#00ab9a" />
-  <link rel="icon" href="/assets/logo.png" type="image/png" />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --teal: #00ab9a;      /* primary */
-      --teal-dark: #00786c; /* hover/cta */
-      --accent: #00453e;    /* headings */
-    }
-    .brand-gradient {
-      background: linear-gradient(135deg, var(--teal) 0%, #39c6b9 40%, #82e2d8 100%);
-    }
-    .soft-gradient {
-      background: linear-gradient(180deg, #fff, #f8fafc 50%, #f1f5f9 100%);
-    }
-    .card {
-      transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px rgba(0,0,0,.08);
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>REHAF Automation — Interactive Landing</title>
+<meta name="theme-color" content="#00ab9a" />
+<style>
+  :root{
+    --teal:#00ab9a;        /* primary */
+    --teal-dark:#00786c;   /* darker teal */
+    --accent:#00453e;      /* deep green */
+    --ink:#0f172a;         /* dark text */
+    --bg:#f7faf9;          /* soft light background */
+  }
+  /* reset */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+    background:
+      radial-gradient(60rem 40rem at 110% -10%, rgba(0,171,154,.08), transparent 60%),
+      radial-gradient(60rem 40rem at -10% -10%, rgba(0,120,108,.06), transparent 60%),
+      linear-gradient(180deg, #fff 0%, var(--bg) 60%, #eef6f4 100%);
+    color: var(--ink);
+    overflow-x:hidden;
+    cursor:none; /* we’ll draw our own */
+  }
+
+  /* header */
+  .header{
+    position:sticky; top:0; z-index:30;
+    backdrop-filter:saturate(1.1) blur(8px);
+    background:rgba(255,255,255,.7);
+    border-bottom:1px solid #e5eff0;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;gap:10px;align-items:center}
+  .logo{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--teal),#38c7b9,#82e2d8);
+  }
+  .brand span{font-weight:700;letter-spacing:.3px;color:var(--accent)}
+  .cta{
+    display:inline-flex;gap:10px;align-items:center;
+    padding:10px 16px;border-radius:14px;
+    color:#fff;background:var(--teal);font-weight:600;text-decoration:none;
+    box-shadow:0 6px 16px rgba(0,171,154,.28);
+  }
+  .cta:hover{background:var(--teal-dark)}
+
+  /* hero */
+  .hero{
+    max-width:1100px;margin:0 auto;padding:64px 20px 36px; position:relative;
+  }
+  h1{font-size:clamp(32px,5vw,56px);line-height:1.05;color:var(--accent);font-weight:900;}
+  .lead{margin-top:14px;max-width:720px;color:#475569;font-size:clamp(16px,2.2vw,18px)}
+  .buttons{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+  .btn{
+    padding:12px 18px;border-radius:14px;font-weight:700;text-decoration:none;display:inline-block
+  }
+  .btn.primary{background:var(--teal);color:#fff;box-shadow:0 10px 20px rgba(0,171,154,.25)}
+  .btn.primary:hover{background:var(--teal-dark)}
+  .btn.ghost{border:1px solid #cfe7e3;color:var(--teal);background:#fff}
+  .btn.ghost:hover{border-color:var(--teal);}
+
+  /* custom cursor “R” */
+  .cursorR{
+    position:fixed; left:0; top:0; transform:translate(-50%,-50%);
+    width:40px; height:40px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900; font-family:inherit;
+    color:#fff; background:linear-gradient(135deg,var(--teal),var(--teal-dark));
+    text-shadow:0 1px 0 rgba(0,0,0,.2);
+    box-shadow:0 6px 18px rgba(0,0,0,.12), 0 0 0 6px rgba(0,171,154,.12);
+    pointer-events:none; z-index:50;
+    transition: transform .08s ease-out;
+  }
+
+  /* spawned AI shapes */
+  .shape{
+    position:fixed; pointer-events:none; z-index:10;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.12));
+    animation:floatFade 1200ms ease-out forwards;
+  }
+  @keyframes floatFade{
+    0%{opacity:.88; transform:translate(-50%,-50%) scale(.6) rotate(0deg)}
+    60%{opacity:.66; transform:translate(calc(-50% + 2px), calc(-50% - 6px)) scale(1.05) rotate(8deg)}
+    100%{opacity:0; transform:translate(calc(-50% + 6px), calc(-50% - 18px)) scale(0.9) rotate(16deg)}
+  }
+
+  /* footer note */
+  .foot{max-width:1100px;margin:32px auto 40px; padding:0 20px; color:#64748b; font-size:14px}
+</style>
 </head>
-<body class="bg-white text-slate-800 antialiased">
+<body>
 
-  <!-- Version Intro Banner -->
-  <div class="bg-[color:var(--teal)] text-white text-center py-2 text-sm font-medium">
-    Version A — Landing Page Design for REHAF Automation
-  </div>
-
-  <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-3">
-        <img src="/assets/logo.png" alt="REHAF logo" class="h-8 w-8"/>
-        <span class="font-semibold tracking-wide text-[color:var(--accent)]">REHAF Automation</span>
-      </a>
-      <nav class="hidden md:flex items-center gap-8 text-sm">
-        <a href="#solutions" class="hover:text-[color:var(--accent)]">Solutions</a>
-        <a href="#benefits" class="hover:text-[color:var(--accent)]">Benefits</a>
-        <a href="#contact" class="hover:text-[color:var(--accent)]">Contact</a>
-      </nav>
-      <a href="#contact" class="hidden sm:inline-flex px-4 py-2 rounded-xl text-white font-semibold" style="background: var(--teal);">
-        Get a Demo
-      </a>
+  <header class="header">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>REHAF Automation</span>
+      </div>
+      <a class="cta" href="mailto:info@rehaf.ae">Book Free Audit</a>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="relative soft-gradient">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight text-[color:var(--accent)]">
-            Automate. Orchestrate. Scale.
-          </h1>
-          <p class="mt-4 text-lg text-slate-600">
-            We design Make.com workflows that connect ClickUp, Airtable, Gmail, Telegram, Google Sheets and more — cutting manual work, errors, and context switching.
-          </p>
-          <div class="mt-8 flex gap-3">
-            <a href="#contact" class="px-6 py-3 rounded-xl text-white font-semibold" style="background: var(--teal);">Book Free Audit</a>
-            <a href="#solutions" class="px-6 py-3 rounded-xl font-semibold border border-slate-300 hover:border-[color:var(--teal)] hover:text-[color:var(--teal)]">See Solutions</a>
-          </div>
-        </div>
-        <div class="md:pl-10">
-          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm card">
-            <h3 class="font-semibold text-[color:var(--teal-dark)] mb-3">Sample Workflow</h3>
-            <ol class="space-y-2 text-sm text-slate-600">
-              <li>✓ Form fills on Website / Telegram</li>
-              <li>✓ Enrich in Google Sheets / Airtable</li>
-              <li>✓ Create ClickUp task + assign owner</li>
-              <li>✓ Notify on Telegram with summary</li>
-            </ol>
-          </div>
-        </div>
-      </div>
+  <main class="hero">
+    <h1>Automate. Orchestrate. Scale.</h1>
+    <p class="lead">
+      Move your mouse (or finger) and watch “AI shapes” grow from your path.
+      We build Make.com workflows that connect ClickUp, Airtable, Gmail, Telegram, and Google Sheets — so your team moves faster with fewer errors.
+    </p>
+    <div class="buttons">
+      <a href="mailto:info@rehaf.ae" class="btn primary">Get Started</a>
+      <a href="#how" class="btn ghost">How it Works</a>
     </div>
-  </section>
+  </main>
 
-  <!-- Benefits Section -->
-  <section id="benefits" class="py-20 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold text-[color:var(--accent)]">Why REHAF Automation?</h2>
-      <p class="mt-3 text-slate-600 max-w-2xl mx-auto">Practical automations that pay for themselves — fast.</p>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="card p-6 bg-white rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-semibold text-[color:var(--teal-dark)]">⚡ Save Hours Weekly</h3>
-          <p class="mt-2 text-slate-600">Remove repetitive steps across sales, ops, and finance.</p>
-        </div>
-        <div class="card p-6 bg-white rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-semibold text-[color:var(--teal-dark)]">🤝 Seamless Integrations</h3>
-          <p class="mt-2 text-slate-600">ClickUp, Airtable, Gmail, WhatsApp/Telegram, Sheets, Drive, and more.</p>
-        </div>
-        <div class="card p-6 bg-white rounded-2xl border border-slate-200">
-          <h3 class="text-lg font-semibold text-[color:var(--teal-dark)]">📈 Fewer Errors</h3>
-          <p class="mt-2 text-slate-600">Validation and guardrails keep your data clean and processes reliable.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <p class="foot">
+    Tip: On mobile, drag your finger — shapes will follow your gesture. Palette: teal / deep green to match REHAF.
+  </p>
 
-  <!-- Call to Action -->
-  <section id="contact" class="py-20 text-center">
-    <h2 class="text-3xl font-bold text-[color:var(--accent)] mb-4">Ready to Automate?</h2>
-    <p class="mb-6 text-slate-600">Contact us today and let REHAF handle the busy work while you grow.</p>
-    <a href="mailto:info@rehaf.ae" class="px-8 py-3 rounded-xl text-white font-semibold" style="background: var(--teal);">Contact Us</a>
-  </section>
+  <!-- custom cursor “R” -->
+  <div class="cursorR" id="cursorR">R</div>
 
-  <!-- Footer -->
-  <footer class="py-6 text-center text-gray-500 text-sm bg-gray-100 border-t border-gray-200">
-    © 2025 REHAF Project Management. All rights reserved.
-  </footer>
+<script>
+(function(){
+  const cursor = document.getElementById('cursorR');
+  let lastSpawn = 0;
+  const SPAWN_EVERY_MS = 24; // throttling for performance
+  const SHAPES_MAX = 200;    // keep DOM light
 
+  const palette = [
+    'rgba(0,171,154,0.95)',  // --teal
+    'rgba(0,120,108,0.95)',  // --teal-dark
+    'rgba(0,69,62,0.95)',    // --accent
+    'rgba(130,226,216,0.95)' // highlight
+  ];
+
+  function moveCursor(x,y){
+    cursor.style.left = x + 'px';
+    cursor.style.top  = y + 'px';
+    // tiny scale pulse for “alive” feeling
+    cursor.style.transform = 'translate(-50%,-50%) scale(1.02)';
+    requestAnimationFrame(()=>{ cursor.style.transform = 'translate(-50%,-50%) scale(1.0)'; });
+  }
+
+  function rand(min,max){ return Math.random()*(max-min)+min; }
+  function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+
+  function spawnShape(x,y){
+    const now = performance.now();
+    if(now - lastSpawn < SPAWN_EVERY_MS) return;
+    lastSpawn = now;
+
+    // clean up if too many
+    const existing = document.querySelectorAll('.shape');
+    if(existing.length > SHAPES_MAX){
+      for(let i=0;i<existing.length- SHAPES_MAX;i++){ existing[i].remove(); }
+    }
+
+    const d = document.createElement('div');
+    d.className = 'shape';
+
+    const size = rand(12, 46); // px
+    const br1 = rand(30, 90), br2 = rand(30, 90), br3 = rand(30, 90), br4 = rand(30, 90);
+    const c1 = pick(palette), c2 = pick(palette);
+
+    // sometimes make a ring or a triangle-ish blob
+    const isRing = Math.random() < 0.18;
+    const isTri  = !isRing && Math.random() < 0.18;
+
+    if(isTri){
+      const triSize = size + rand(12, 26);
+      d.style.width = triSize + 'px';
+      d.style.height = triSize + 'px';
+      d.style.background = 'conic-gradient(from '+rand(0,360)+'deg, '+c1+', '+c2+')';
+      d.style.clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+      d.style.borderRadius = '10%';
+    }else{
+      d.style.width = size + 'px';
+      d.style.height = size + 'px';
+      d.style.borderRadius = `${br1}% ${br2}% ${br3}% ${br4}% / ${br2}% ${br3}% ${br4}% ${br1}%`;
+      if(isRing){
+        d.style.background = 'transparent';
+        d.style.border = '2px solid '+c1.replace('0.95','0.7');
+      }else{
+        d.style.background = `radial-gradient(circle at ${rand(20,80)}% ${rand(20,80)}%, ${c1}, ${c2})`;
+      }
+    }
+
+    d.style.left = x + 'px';
+    d.style.top  = y + 'px';
+
+    // subtle random rotation offset
+    d.style.transform = `translate(-50%,-50%) rotate(${rand(-8,8)}deg)`;
+
+    d.addEventListener('animationend', ()=> d.remove(), {once:true});
+    document.body.appendChild(d);
+  }
+
+  // mouse & touch support
+  window.addEventListener('mousemove', (e)=>{
+    moveCursor(e.clientX, e.clientY);
+    spawnShape(e.clientX, e.clientY);
+  }, {passive:true});
+
+  window.addEventListener('touchmove', (e)=>{
+    const t = e.touches[0];
+    if(!t) return;
+    moveCursor(t.clientX, t.clientY);
+    spawnShape(t.clientX, t.clientY);
+  }, {passive:true});
+
+  // hide “R” when leaving window
+  window.addEventListener('mouseleave', ()=> cursor.style.opacity = '0');
+  window.addEventListener('mouseenter', ()=> cursor.style.opacity = '1');
+
+  // initial center position
+  moveCursor(window.innerWidth/2, window.innerHeight/2);
+})();
+</script>
 </body>
 </html>
 
