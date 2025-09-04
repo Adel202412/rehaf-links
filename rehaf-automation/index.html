@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>REHAF Automation — Interactive Landing</title>
+<title>REHAF Automation — Interactive + Runner</title>
 <meta name="theme-color" content="#00ab9a" />
 <style>
   :root{
@@ -51,7 +51,7 @@
 
   /* hero */
   .hero{
-    max-width:1100px;margin:0 auto;padding:64px 20px 36px; position:relative;
+    max-width:1100px;margin:0 auto;padding:64px 20px 24px; position:relative;
   }
   h1{font-size:clamp(32px,5vw,56px);line-height:1.05;color:var(--accent);font-weight:900;}
   .lead{margin-top:14px;max-width:720px;color:#475569;font-size:clamp(16px,2.2vw,18px)}
@@ -74,7 +74,7 @@
     text-shadow:0 1px 0 rgba(0,0,0,.2);
     box-shadow:0 6px 18px rgba(0,0,0,.12), 0 0 0 6px rgba(0,171,154,.12);
     pointer-events:none; z-index:50;
-    transition: transform .08s ease-out;
+    transition: transform .08s ease-out, opacity .12s ease-out;
   }
 
   /* spawned AI shapes */
@@ -89,8 +89,32 @@
     100%{opacity:0; transform:translate(calc(-50% + 6px), calc(-50% - 18px)) scale(0.9) rotate(16deg)}
   }
 
-  /* footer note */
-  .foot{max-width:1100px;margin:32px auto 40px; padding:0 20px; color:#64748b; font-size:14px}
+  /* Runner (bottom center) */
+  .runner-wrap{
+    width:100%;
+    display:flex; justify-content:center;
+    margin:36px 0 40px;
+  }
+  .runner-card{
+    width:min(92vw, 760px);
+    background:#ffffff;
+    border:1px solid #e6eef0;
+    border-radius:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    padding:12px 12px 6px;
+  }
+  .runner-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 6px 8px; color:#475569; font-size:14px;
+  }
+  .runner-head b{ color:var(--accent); }
+  #rehafRunner{ width:100%; height:180px; display:block; cursor:default; }
+  .runner-help{
+    text-align:center; color:#64748b; font-size:12px; padding:6px 0 2px;
+  }
+
+  /* footer */
+  .foot{max-width:1100px;margin:8px auto 0; padding:0 20px 20px; color:#64748b; font-size:14px}
 </style>
 </head>
 <body>
@@ -109,52 +133,70 @@
     <h1>Automate. Orchestrate. Scale.</h1>
     <p class="lead">
       Move your mouse (or finger) and watch “AI shapes” grow from your path.
-      We build Make.com workflows that connect ClickUp, Airtable, Gmail, Telegram, and Google Sheets — so your team moves faster with fewer errors.
+      Then try the mini-runner at the bottom — “R” jumps over circle-trees 🌳.
     </p>
     <div class="buttons">
       <a href="mailto:info@rehaf.ae" class="btn primary">Get Started</a>
-      <a href="#how" class="btn ghost">How it Works</a>
+      <a href="#runner-game" class="btn ghost">Play Runner ↓</a>
     </div>
   </main>
 
   <p class="foot">
-    Tip: On mobile, drag your finger — shapes will follow your gesture. Palette: teal / deep green to match REHAF.
+    Tip: On mobile, drag your finger — shapes follow your gesture. In the runner, tap to jump.
   </p>
 
   <!-- custom cursor “R” -->
   <div class="cursorR" id="cursorR">R</div>
 
+  <!-- ===== RUNNER GAME (bottom-center) ===== -->
+  <div class="runner-wrap" id="runner-game">
+    <div class="runner-card">
+      <div class="runner-head">
+        <div>🎮 <b>REHAF Runner</b> — tap or press <b>Space/↑/W</b> to jump</div>
+        <div>Score: <span id="runnerScore">0</span></div>
+      </div>
+      <canvas id="rehafRunner" width="760" height="180" aria-label="REHAF Runner game"></canvas>
+      <div class="runner-help">Avoid the “trees” (circle + trunk). “R” auto-runs. Tap to jump!</div>
+    </div>
+  </div>
+  <!-- ===== /RUNNER GAME ===== -->
+
 <script>
-(function(){
+(() => {
+  /* =========================================================
+     1) CUSTOM CURSOR “R” + AI SHAPES (with runner area pause)
+  ==========================================================*/
   const cursor = document.getElementById('cursorR');
+  const runnerBox = document.getElementById('runner-game');
   let lastSpawn = 0;
-  const SPAWN_EVERY_MS = 24; // throttling for performance
-  const SHAPES_MAX = 200;    // keep DOM light
+  const SPAWN_EVERY_MS = 28;   // throttled
+  const SHAPES_MAX = 180;      // keep DOM light
+  let cursorPaused = false;    // pause when over runner
 
   const palette = [
-    'rgba(0,171,154,0.95)',  // --teal
-    'rgba(0,120,108,0.95)',  // --teal-dark
-    'rgba(0,69,62,0.95)',    // --accent
+    'rgba(0,171,154,0.95)',  // teal
+    'rgba(0,120,108,0.95)',  // teal-dark
+    'rgba(0,69,62,0.95)',    // accent
     'rgba(130,226,216,0.95)' // highlight
   ];
 
   function moveCursor(x,y){
+    if (cursorPaused) return;
     cursor.style.left = x + 'px';
     cursor.style.top  = y + 'px';
-    // tiny scale pulse for “alive” feeling
+    // tiny pulse
     cursor.style.transform = 'translate(-50%,-50%) scale(1.02)';
     requestAnimationFrame(()=>{ cursor.style.transform = 'translate(-50%,-50%) scale(1.0)'; });
   }
-
   function rand(min,max){ return Math.random()*(max-min)+min; }
   function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
 
   function spawnShape(x,y){
+    if (cursorPaused) return;
     const now = performance.now();
     if(now - lastSpawn < SPAWN_EVERY_MS) return;
     lastSpawn = now;
 
-    // clean up if too many
     const existing = document.querySelectorAll('.shape');
     if(existing.length > SHAPES_MAX){
       for(let i=0;i<existing.length- SHAPES_MAX;i++){ existing[i].remove(); }
@@ -163,16 +205,14 @@
     const d = document.createElement('div');
     d.className = 'shape';
 
-    const size = rand(12, 46); // px
+    const size = rand(12, 42);
     const br1 = rand(30, 90), br2 = rand(30, 90), br3 = rand(30, 90), br4 = rand(30, 90);
     const c1 = pick(palette), c2 = pick(palette);
-
-    // sometimes make a ring or a triangle-ish blob
-    const isRing = Math.random() < 0.18;
-    const isTri  = !isRing && Math.random() < 0.18;
+    const isRing = Math.random() < 0.16;
+    const isTri  = !isRing && Math.random() < 0.16;
 
     if(isTri){
-      const triSize = size + rand(12, 26);
+      const triSize = size + rand(10, 22);
       d.style.width = triSize + 'px';
       d.style.height = triSize + 'px';
       d.style.background = 'conic-gradient(from '+rand(0,360)+'deg, '+c1+', '+c2+')';
@@ -189,85 +229,46 @@
         d.style.background = `radial-gradient(circle at ${rand(20,80)}% ${rand(20,80)}%, ${c1}, ${c2})`;
       }
     }
-
     d.style.left = x + 'px';
     d.style.top  = y + 'px';
-
-    // subtle random rotation offset
     d.style.transform = `translate(-50%,-50%) rotate(${rand(-8,8)}deg)`;
-
     d.addEventListener('animationend', ()=> d.remove(), {once:true});
     document.body.appendChild(d);
   }
 
-  // mouse & touch support
+  // mouse & touch
   window.addEventListener('mousemove', (e)=>{
     moveCursor(e.clientX, e.clientY);
     spawnShape(e.clientX, e.clientY);
   }, {passive:true});
-
   window.addEventListener('touchmove', (e)=>{
     const t = e.touches[0];
     if(!t) return;
     moveCursor(t.clientX, t.clientY);
     spawnShape(t.clientX, t.clientY);
   }, {passive:true});
-
-  // hide “R” when leaving window
   window.addEventListener('mouseleave', ()=> cursor.style.opacity = '0');
   window.addEventListener('mouseenter', ()=> cursor.style.opacity = '1');
-
-  // initial center position
   moveCursor(window.innerWidth/2, window.innerHeight/2);
-})();
-</script>
 
-<!-- ===== RUNNER GAME (bottom-center) ===== -->
-<style>
-  :root{
-    --teal:#00ab9a; --teal-dark:#00786c; --accent:#00453e;
-  }
-  .runner-wrap{
-    width:100%;
-    display:flex; justify-content:center;
-    margin:42px 0 28px;
-  }
-  .runner-card{
-    width:min(92vw, 760px);
-    background:#ffffff;
-    border:1px solid #e6eef0;
-    border-radius:16px;
-    box-shadow:0 8px 24px rgba(0,0,0,.06);
-    padding:12px 12px 6px;
-  }
-  .runner-head{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:0 6px 8px; color:#475569; font-size:14px;
-  }
-  .runner-head b{ color:var(--accent); }
-  #rehafRunner{ width:100%; height:180px; display:block; }
-  .runner-help{
-    text-align:center; color:#64748b; font-size:12px; padding:6px 0 2px;
-  }
-</style>
+  // Pause/hide cursor when over the runner area
+  runnerBox.addEventListener('mouseenter', () => {
+    cursorPaused = true;
+    cursor.style.display = 'none';
+  });
+  runnerBox.addEventListener('mouseleave', () => {
+    cursorPaused = false;
+    cursor.style.display = 'flex';
+  });
 
-<div class="runner-wrap" id="runner-game">
-  <div class="runner-card">
-    <div class="runner-head">
-      <div>🎮 <b>REHAF Runner</b> — tap or press <b>Space/↑/W</b> to jump</div>
-      <div>Score: <span id="runnerScore">0</span></div>
-    </div>
-    <canvas id="rehafRunner" width="760" height="180" aria-label="REHAF Runner game"></canvas>
-    <div class="runner-help">Avoid the “trees” (circle + trunk). “R” auto-runs. Tap to jump!</div>
-  </div>
-</div>
-
-<script>
-(() => {
-  // Canvas & DPI
+  /* ============================================
+     2) REHAF RUNNER — slower + jump rotation
+  =============================================*/
   const canvas = document.getElementById('rehafRunner');
   const scoreEl = document.getElementById('runnerScore');
   const ctx = canvas.getContext('2d');
+  const view = { w: canvas.clientWidth, h: canvas.clientHeight };
+
   function fitDPR() {
     const cssW = canvas.clientWidth;
     const cssH = canvas.clientHeight;
@@ -277,7 +278,6 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     view.w = cssW; view.h = cssH;
   }
-  const view = { w: canvas.clientWidth, h: canvas.clientHeight };
   window.addEventListener('resize', fitDPR, { passive:true });
   fitDPR();
 
@@ -297,73 +297,70 @@
   let score = 0;
   let best = 0;
   let tLast = 0;
-
-  // Ground baseline
   const groundY = () => Math.round(view.h - 36);
 
-  // Player “R”
+  // Player “R” with jump rotation & squash/stretch
   const R = {
     x: 80,
-    y: 0,          // will be set to ground
-    w: 32,
-    h: 38,
+    y: 0,          // set at reset
+    w: 34,
+    h: 40,
     vy: 0,
-    gravity: 0.8,
-    jumpV: -12.5,
-    onGround: true
+    gravity: 0.70,   // gentler
+    jumpV: -10.8,    // reduced jump speed
+    onGround: true,
+    angle: 0,        // rotation angle
+    scaleX: 1,       // squash/stretch
+    scaleY: 1
   };
 
-  // Obstacles (trees: lollipop shape)
+  // Obstacles — slower
   const obstacles = [];
-  const spawn = {
-    timer: 0,
-    next: 900  // ms
-  };
+  const spawn = { timer: 0, next: 950 }; // ms, slightly slower cadence
 
   function resetGame() {
     score = 0;
     R.y = groundY() - R.h;
     R.vy = 0;
     R.onGround = true;
+    R.angle = 0;
+    R.scaleX = 1; R.scaleY = 1;
     obstacles.length = 0;
     spawn.timer = 0;
-    spawn.next = 900;
+    spawn.next = 950;
     running = true;
   }
   resetGame();
 
   function jump() {
-    if (!running) {
-      resetGame();
-      return;
-    }
+    if (!running) { resetGame(); return; }
     if (R.onGround) {
       R.vy = R.jumpV;
       R.onGround = false;
+      // squash then stretch
+      R.scaleX = 1.10; R.scaleY = 0.90;
+      // small rotation kick; more rotation while airborne will be derived from velocity
+      R.angle = -0.20;
     }
   }
 
   // Controls
   window.addEventListener('keydown', (e) => {
-    if ([' ', 'ArrowUp', 'KeyW', 'w'].includes(e.code) || [' ', 'ArrowUp', 'w', 'W'].includes(e.key)) {
+    if ([' ', 'ArrowUp', 'KeyW'].includes(e.code) || [' ', 'ArrowUp', 'w', 'W'].includes(e.key)) {
       e.preventDefault();
       jump();
     }
   });
   canvas.addEventListener('pointerdown', jump, { passive: true });
 
-  // Helpers
   function rand(min, max){ return Math.random()*(max-min)+min; }
 
   function spawnObstacle() {
     const base = groundY();
-    // circle radius and trunk height
-    const rad = rand(8, 16);
+    const rad = rand(8, 15);
     const trunk = rand(22, 36);
-    const gap = rand(260, 360); // distance between obstacles
-    const speed = rand(3.8, 4.6);
-
-    // Put new obstacle offscreen to the right, after last one
+    const gap = rand(280, 380);
+    const speed = rand(2.4, 3.1);  // 👈 reduced speed range
     const rightmost = obstacles.length ? obstacles[obstacles.length-1].x : view.w + 50;
     obstacles.push({
       x: Math.max(view.w + 20, rightmost + gap),
@@ -378,18 +375,33 @@
     // Player physics
     R.vy += R.gravity;
     R.y += R.vy;
+
+    // rotation tied to vertical velocity (smooth, limited)
+    const targetAngle = Math.max(-0.6, Math.min(0.6, R.vy * 0.045));
+    R.angle += (targetAngle - R.angle) * 0.25;
+
+    // ease squash/stretch back to 1
+    R.scaleX += (1 - R.scaleX) * 0.15;
+    R.scaleY += (1 - R.scaleY) * 0.15;
+
     const gy = groundY() - R.h;
     if (R.y >= gy) {
       R.y = gy;
       R.vy = 0;
+      if (!R.onGround) {
+        // landing squash
+        R.scaleX = 0.94; R.scaleY = 1.06;
+      }
       R.onGround = true;
+      // settle rotation
+      R.angle *= 0.6;
     }
 
     // Obstacles
     spawn.timer += dt;
     if (spawn.timer >= spawn.next) {
       spawn.timer = 0;
-      spawn.next = rand(700, 1200);
+      spawn.next = rand(850, 1200); // slower spawn rhythm
       spawnObstacle();
     }
 
@@ -397,23 +409,22 @@
       const o = obstacles[i];
       o.x -= o.speed;
 
-      // Remove if offscreen
       if (o.x + o.r < -30) obstacles.splice(i, 1);
 
-      // Collision (AABB vs circle+line envelope)
+      // Collisions
       const rLeft = R.x, rRight = R.x + R.w;
       const rTop = R.y, rBot = R.y + R.h;
 
-      // Check circle hit
+      // circle
       const cx = o.x;
-      const cy = o.baseY - o.trunkH - o.r; // top of trunk + radius
+      const cy = o.baseY - o.trunkH - o.r;
       const nearestX = Math.max(rLeft, Math.min(cx, rRight));
       const nearestY = Math.max(rTop, Math.min(cy, rBot));
       const distX = cx - nearestX;
       const distY = cy - nearestY;
       const hitCircle = (distX*distX + distY*distY) <= (o.r*o.r);
 
-      // Check trunk hit (vertical line approximated as thin rect)
+      // trunk (thin rect)
       const trunkLeft = o.x - 2, trunkRight = o.x + 2;
       const trunkTop = o.baseY - o.trunkH;
       const trunkBottom = o.baseY;
@@ -425,13 +436,11 @@
       }
     }
 
-    // Score
-    if (running) score += dt * 0.01;
+    if (running) score += dt * 0.01; // scoring pace unchanged
     scoreEl.textContent = `${Math.floor(score)}${best ? ' / Best ' + best : ''}`;
   }
 
   function drawGround() {
-    // Ground line
     ctx.strokeStyle = C.ground;
     ctx.lineWidth = 2;
     ctx.beginPath();
@@ -441,19 +450,24 @@
   }
 
   function drawR() {
-    // body
     ctx.save();
-    ctx.translate(R.x, R.y);
+    ctx.translate(R.x + R.w/2, R.y + R.h/2);
+
+    // apply rotation & squash/stretch
+    ctx.rotate(R.angle);
+    ctx.scale(R.scaleX, R.scaleY);
+
     // shadow
+    ctx.save();
+    ctx.translate(-R.w/2, -R.h/2);
     ctx.fillStyle = C.shadow;
     ctx.beginPath();
     ctx.ellipse(R.w/2, R.h + 6, R.w*0.36, 6, 0, 0, Math.PI*2);
     ctx.fill();
 
-    // main rounded rect
-    const r = 8;
+    // body rounded rect
+    const r = 8, x=0, y=0, w=R.w, h=R.h;
     ctx.beginPath();
-    const x=0,y=0,w=R.w,h=R.h;
     ctx.moveTo(x+r, y);
     ctx.lineTo(x+w-r, y);
     ctx.quadraticCurveTo(x+w, y, x+w, y+r);
@@ -475,7 +489,9 @@
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('R', w/2, h/2 - 1);
-    ctx.restore();
+
+    ctx.restore(); // undo inner translate for shadow/body
+    ctx.restore(); // undo rotate/scale/translate
   }
 
   function drawTree(o) {
@@ -498,24 +514,20 @@
     ctx.fillStyle = C.bg1;
     ctx.fillRect(0,0, view.w, view.h);
   }
-
-  function drawObstacles() {
-    for (const o of obstacles) drawTree(o);
-  }
+  function drawObstacles() { for (const o of obstacles) drawTree(o); }
 
   function drawGameOver() {
     if (running) return;
     ctx.save();
     ctx.fillStyle = 'rgba(255,255,255,0.85)';
     ctx.fillRect(0, 0, view.w, view.h);
-    ctx.fillStyle = C.accent || '#00453e';
+    ctx.fillStyle = C.dot;
     ctx.font = 'bold 22px ui-sans-serif, system-ui';
     ctx.textAlign = 'center';
     ctx.fillText('Game Over — tap or press Space to restart', view.w/2, view.h/2);
     ctx.restore();
   }
 
-  // Loop
   function loop(ts) {
     const dt = Math.min(32, ts - (tLast || ts));
     tLast = ts;
@@ -532,8 +544,5 @@
   requestAnimationFrame(loop);
 })();
 </script>
-<!-- ===== /RUNNER GAME ===== -->
-
 </body>
 </html>
-
