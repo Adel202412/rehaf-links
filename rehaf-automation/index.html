@@ -1,310 +1,62 @@
-<!doctype html>
-<html lang="en" class="scroll-smooth">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REHAF — AI Employees</title>
-  <meta name="description" content="AI + Human collaboration — REHAF AI Employees." />
-  <meta name="theme-color" content="#001f1c" />
-  <link rel="icon" href="/assets/logo.png" type="image/png" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>REHAF Automation</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    :root{
-      --reef-600:#00786c;   /* palette teal */
-      --leaf-600:#2c863e;   /* palette green */
-      --teal-500:#227976;
-      --mint-400:#00ab9a;
-      --ink-900:#00453e;
-      --paper:#0b1f1d;      /* deep teal bg */
-      --paper-2:#0e2522;    /* slightly lighter */
-      --ink:#eaf6f4;        /* light ink for dark bg */
+    :root {
+      --teal: #00ab9a;
+      --teal-dark: #00786c;
+      --accent: #00453e;
     }
-    body{
-      color:var(--ink);
-      background:
-        radial-gradient(1200px 600px at 75% -10%, rgba(0,171,154,.18), rgba(0,0,0,0)),
-        linear-gradient(180deg, rgba(0,31,28,1), rgba(10,38,34,1));
-      background-color:var(--paper);
-    }
-    .btn-primary{
-      background: linear-gradient(90deg, var(--mint-400), var(--leaf-600));
-      color:#fff;
-      box-shadow: 0 10px 24px rgba(0,171,154,.25);
-    }
-    .btn-primary:hover{ filter:brightness(.95) }
-    .btn-ghost{ border:1px solid rgba(255,255,255,.18) }
-    .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border:1px solid rgba(255,255,255,.14);
-      backdrop-filter: blur(10px);
-    }
-    .headline-grad{
-      background-image: linear-gradient(90deg, var(--mint-400), var(--leaf-600));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    /* floating logo on top of everything */
-    .floating-logo{
-      position: fixed; inset-inline: 0; top: 10px; z-index: 60;
-      display:flex; justify-content:center; pointer-events:none;
-    }
-    .wordmark-wrap{ pointer-events:auto }
-    .wordmark{
-      font-weight:800; letter-spacing:.5px;
-      background-image: linear-gradient(90deg, #e8fff8, #9af1d9, #e8fff8);
-      -webkit-background-clip: text; background-clip: text; color:transparent;
-      filter: drop-shadow(0 2px 14px rgba(0,171,154,.25));
-      transition: transform .2s ease;
-    }
-    .wordmark:hover{ transform:scale(1.02) }
   </style>
 </head>
-<body class="antialiased selection:bg-emerald-300/20 selection:text-white">
+<body class="bg-white text-gray-800 font-sans">
+  
+  <!-- Hero Section -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-white to-gray-50">
+    <h1 class="text-5xl font-bold mb-4 text-[var(--accent)]">Automate Your Workflows with REHAF 🚀</h1>
+    <p class="text-lg max-w-2xl mb-6 text-gray-600">
+      Streamline your business processes with powerful automation solutions tailored for you.
+    </p>
+    <a href="#contact" class="bg-[var(--teal)] hover:bg-[var(--teal-dark)] text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md">
+      Get Started
+    </a>
+  </section>
 
-  <!-- Floating wordmark that can switch term (on top of everything) -->
-  <div class="floating-logo">
-    <div class="wordmark-wrap glass rounded-full px-5 py-2">
-      <span id="wordmark" class="wordmark text-2xl sm:text-3xl">motion</span>
-      <button id="cycleLogo"
-              class="ml-3 align-middle text-xs rounded-full px-3 py-1 btn-ghost hover:bg-white/5">
-        switch
-      </button>
-    </div>
-  </div>
-
-  <!-- Header / Nav -->
-  <header class="sticky top-0 z-50 border-b border-white/10 bg-[rgba(5,20,18,.55)] backdrop-blur">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 items-center justify-between">
-        <a href="#" class="flex items-center gap-3">
-          <!-- Example inline SVG logo (replace with your file if you prefer) -->
-          <svg width="34" height="34" viewBox="0 0 48 48" class="drop-shadow"
-               aria-label="REHAF mark">
-            <defs>
-              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stop-color="#00ab9a"/><stop offset="1" stop-color="#2c863e"/>
-              </linearGradient>
-            </defs>
-            <rect x="2" y="2" width="44" height="44" rx="12" fill="url(#g1)"/>
-            <circle cx="16" cy="24" r="5" fill="white"/>
-            <path d="M26 16h10a6 6 0 010 12H26V16z" fill="white" opacity=".85"/>
-          </svg>
-          <span class="sr-only">REHAF</span>
-        </a>
-
-        <nav class="hidden md:flex items-center gap-7 text-sm">
-          <a href="#employees" class="hover:underline underline-offset-4">AI Employees</a>
-          <a href="#features" class="hover:underline underline-offset-4">Features</a>
-          <a href="#usecases" class="hover:underline underline-offset-4">Use Cases</a>
-          <a href="#integrations" class="hover:underline underline-offset-4">Integrations</a>
-          <a href="#pricing" class="hover:underline underline-offset-4">Pricing</a>
-        </nav>
-
-        <div class="hidden md:flex items-center gap-3">
-          <a href="#contact" class="rounded-xl px-4 py-2 text-sm btn-ghost">Contact sales</a>
-          <a href="#get-started" class="rounded-xl px-4 py-2 text-sm btn-primary">Try REHAF</a>
-        </div>
-
-        <button id="mnav" class="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-xl btn-ghost">☰</button>
+  <!-- Features -->
+  <section class="py-20 px-6 bg-gray-100 text-center">
+    <h2 class="text-3xl font-bold mb-12 text-[var(--accent)]">Why Choose REHAF Automation?</h2>
+    <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-3 text-[var(--teal-dark)]">⚡ Speed</h3>
+        <p class="text-gray-600">Save hours every week by automating repetitive tasks.</p>
       </div>
-    </div>
-
-    <!-- mobile drawer -->
-    <div id="drawer" class="hidden md:hidden border-t border-white/10 bg-[rgba(5,20,18,.75)]">
-      <div class="mx-auto max-w-7xl px-4 py-4 space-y-3 text-sm">
-        <a class="block" href="#employees">AI Employees</a>
-        <a class="block" href="#features">Features</a>
-        <a class="block" href="#usecases">Use Cases</a>
-        <a class="block" href="#integrations">Integrations</a>
-        <a class="block" href="#pricing">Pricing</a>
-        <a class="block rounded-xl px-4 py-2 btn-ghost" href="#contact">Contact sales</a>
-        <a class="block rounded-xl px-4 py-2 btn-primary text-center" href="#get-started">Try REHAF</a>
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-3 text-[var(--teal-dark)]">🤝 Integration</h3>
+        <p class="text-gray-600">Connect your apps seamlessly with Make.com and ClickUp.</p>
       </div>
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="pt-20 pb-10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="grid lg:grid-cols-2 gap-10 items-center">
-        <div>
-          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">
-            AI + Human collaboration for <span class="headline-grad">REHAF</span>
-          </h1>
-          <p class="mt-4 text-lg text-white/80 max-w-xl">
-            Hire “AI Employees” that plan projects, draft content, manage tasks and automate SOPs — integrated with your tools.
-          </p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="#get-started" class="btn-primary rounded-xl px-5 py-3 text-sm font-semibold">Deploy an Employee</a>
-            <a href="#contact" class="rounded-xl px-5 py-3 text-sm font-semibold btn-ghost">Contact sales</a>
-          </div>
-          <div class="mt-6 flex items-center gap-4 opacity-80">
-            <img src="/assets/logo-forbes.png" class="h-6" alt="">
-            <img src="/assets/logo-techcrunch.png" class="h-6" alt="">
-            <img src="/assets/logo-bi.png" class="h-6" alt="">
-          </div>
-        </div>
-        <div class="glass rounded-3xl p-6">
-          <img src="/assets/hero-mascots.png" class="rounded-2xl w-full" alt="Mascots">
-        </div>
+      <div class="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-3 text-[var(--teal-dark)]">📈 Growth</h3>
+        <p class="text-gray-600">Focus on scaling your business while automation runs in the background.</p>
       </div>
     </div>
   </section>
 
-  <!-- AI Employees -->
-  <section id="employees" class="py-14">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold">Meet Your AI Employees</h2>
-      <p class="mt-1 text-white/70">Pick a role, connect your tools, go live in minutes.</p>
-
-      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <!-- Card template -->
-        <article class="glass rounded-2xl p-5 hover:shadow-2xl hover:shadow-emerald-500/10 transition">
-          <img src="/assets/ai-exec.png" class="h-20 w-20" alt="">
-          <h3 class="mt-3 font-semibold">Alfred — Executive Assistant</h3>
-          <ul class="mt-2 space-y-1 text-sm text-white/75">
-            <li>• Schedule calendar</li><li>• Prioritize tasks</li><li>• Draft emails</li><li>• Take notes</li>
-          </ul>
-          <a href="#get-started" class="mt-4 inline-block text-sm font-medium text-emerald-200 hover:underline">Deploy</a>
-        </article>
-
-        <article class="glass rounded-2xl p-5 hover:shadow-2xl hover:shadow-emerald-500/10 transition">
-          <img src="/assets/ai-sales.png" class="h-20 w-20" alt="">
-          <h3 class="mt-3 font-semibold">Chip — Sales Rep</h3>
-          <ul class="mt-2 space-y-1 text-sm text-white/75">
-            <li>• Update CRM</li><li>• Find & chase leads</li><li>• Personalized outreach</li><li>• Follow-ups</li>
-          </ul>
-          <a href="#get-started" class="mt-4 inline-block text-sm font-medium text-emerald-200 hover:underline">Deploy</a>
-        </article>
-
-        <article class="glass rounded-2xl p-5 hover:shadow-2xl hover:shadow-emerald-500/10 transition">
-          <img src="/assets/ai-marketing.png" class="h-20 w-20" alt="">
-          <h3 class="mt-3 font-semibold">Suki — Marketing Associate</h3>
-          <ul class="mt-2 space-y-1 text-sm text-white/75">
-            <li>• Write posts & SEO</li><li>• Manage socials</li><li>• Brand-voice drafts</li><li>• Content calendar</li>
-          </ul>
-          <a href="#get-started" class="mt-4 inline-block text-sm font-medium text-emerald-200 hover:underline">Deploy</a>
-        </article>
-
-        <article class="glass rounded-2xl p-5 hover:shadow-2xl hover:shadow-emerald-500/10 transition">
-          <img src="/assets/ai-pm.png" class="h-20 w-20" alt="">
-          <h3 class="mt-3 font-semibold">Millie — Project Manager</h3>
-          <ul class="mt-2 space-y-1 text-sm text-white/75">
-            <li>• Capacity planning</li><li>• Auto Gantt</li><li>• Check-ins</li><li>• Reports</li>
-          </ul>
-          <a href="#get-started" class="mt-4 inline-block text-sm font-medium text-emerald-200 hover:underline">Deploy</a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Integrations -->
-  <section id="integrations" class="py-14">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold">Integrates with your tools</h2>
-      <p class="mt-1 text-white/70">Gmail, Outlook, ClickUp, Notion, Slack, Zoom, HubSpot, Make.com and more.</p>
-      <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-        <img src="/assets/integrations/gmail.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/outlook.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/clickup.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/notion.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/slack.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/zoom.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/hubspot.png" class="h-10 mx-auto opacity-90" alt="">
-        <img src="/assets/integrations/make.png" class="h-10 mx-auto opacity-90" alt="">
-      </div>
-    </div>
-  </section>
-
-  <!-- Features / Accordion -->
-  <section id="features" class="py-14">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold">What AI Employees can do</h2>
-      <div class="mt-8 grid lg:grid-cols-2 gap-10">
-        <img src="/assets/feature-panel.png" class="rounded-2xl glass" alt="">
-        <div class="space-y-3">
-          <details class="glass rounded-xl p-4" open>
-            <summary class="cursor-pointer font-semibold">Manage & draft emails</summary>
-            <p class="mt-2 text-white/75">Categorize, summarize, draft replies, and surface urgent threads.</p>
-          </details>
-          <details class="glass rounded-xl p-4">
-            <summary class="cursor-pointer font-semibold">Gather meeting context</summary>
-            <p class="mt-2 text-white/75">Pull CRM/Docs/Calendar context into a single brief.</p>
-          </details>
-          <details class="glass rounded-xl p-4">
-            <summary class="cursor-pointer font-semibold">Create social content</summary>
-            <p class="mt-2 text-white/75">Daily plan with brand-voice drafts and assets.</p>
-          </details>
-          <details class="glass rounded-xl p-4">
-            <summary class="cursor-pointer font-semibold">Create project plans</summary>
-            <p class="mt-2 text-white/75">Auto-build tasks, owners, estimates, and timelines.</p>
-          </details>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section id="get-started" class="py-20">
-    <div class="mx-auto max-w-4xl text-center px-4">
-      <h2 class="text-3xl sm:text-4xl font-extrabold">Start in minutes, not months</h2>
-      <p class="mt-3 text-white/70">Connect your tools → choose an AI Employee → deploy via Make.com.</p>
-      <div class="mt-6 flex flex-wrap justify-center gap-3">
-        <a href="#contact" class="rounded-xl px-5 py-3 text-sm font-semibold btn-ghost">Talk to us</a>
-        <a href="#" class="btn-primary rounded-xl px-5 py-3 text-sm font-semibold">Deploy an Employee</a>
-      </div>
-    </div>
+  <!-- Call to Action -->
+  <section id="contact" class="py-20 px-6 text-center">
+    <h2 class="text-3xl font-bold mb-6 text-[var(--accent)]">Ready to Automate?</h2>
+    <p class="mb-6 text-gray-600">Contact us today and let REHAF handle the busy work while you grow.</p>
+    <a href="mailto:info@rehaf.ae" class="bg-[var(--teal)] hover:bg-[var(--teal-dark)] px-8 py-3 rounded-lg text-lg font-semibold text-white shadow-md">
+      Contact Us
+    </a>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-white/10 py-12">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8 text-sm">
-      <div>
-        <img src="/assets/rehaf-logo.png" alt="REHAF" class="h-8">
-        <p class="mt-3 text-white/70">Automation-driven project management and AI employees.</p>
-      </div>
-      <div>
-        <h4 class="font-semibold">REHAF</h4>
-        <ul class="mt-3 space-y-2 text-white/75">
-          <li><a href="#pricing" class="hover:underline">Pricing</a></li>
-          <li><a href="#contact" class="hover:underline">Contact</a></li>
-          <li><a href="#" class="hover:underline">Careers</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold">Resources</h4>
-        <ul class="mt-3 space-y-2 text-white/75">
-          <li><a href="#" class="hover:underline">Blog</a></li>
-          <li><a href="#" class="hover:underline">Security</a></li>
-          <li><a href="#" class="hover:underline">Terms</a></li>
-          <li><a href="#" class="hover:underline">Privacy</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold">Compare</h4>
-        <ul class="mt-3 space-y-2 text-white/75">
-          <li><a href="#" class="hover:underline">vs ClickUp</a></li>
-          <li><a href="#" class="hover:underline">vs Monday</a></li>
-          <li><a href="#" class="hover:underline">vs Asana</a></li>
-        </ul>
-      </div>
-    </div>
-    <p class="mt-10 text-center text-xs text-white/50">© 2025 REHAF Project Management</p>
+  <footer class="py-6 text-center text-gray-500 text-sm bg-gray-50 border-t border-gray-200">
+    © 2025 REHAF Project Management. All rights reserved.
   </footer>
-
-  <script>
-    // mobile drawer
-    const mbtn = document.getElementById('mnav');
-    const drawer = document.getElementById('drawer');
-    mbtn?.addEventListener('click', ()=> drawer.classList.toggle('hidden'));
-
-    // wordmark cycling (click button or auto cycle)
-    const terms = ["motion","REHAF","AI Employees","Your Brand"];
-    let idx = 0;
-    const wm = document.getElementById('wordmark');
-    const cycleBtn = document.getElementById('cycleLogo');
-    function nextTerm(){ idx = (idx+1) % terms.length; wm.textContent = terms[idx]; }
-    cycleBtn.addEventListener('click', nextTerm);
-    setInterval(nextTerm, 4000);
-  </script>
 </body>
 </html>
