@@ -221,6 +221,319 @@
   moveCursor(window.innerWidth/2, window.innerHeight/2);
 })();
 </script>
+
+<!-- ===== RUNNER GAME (bottom-center) ===== -->
+<style>
+  :root{
+    --teal:#00ab9a; --teal-dark:#00786c; --accent:#00453e;
+  }
+  .runner-wrap{
+    width:100%;
+    display:flex; justify-content:center;
+    margin:42px 0 28px;
+  }
+  .runner-card{
+    width:min(92vw, 760px);
+    background:#ffffff;
+    border:1px solid #e6eef0;
+    border-radius:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.06);
+    padding:12px 12px 6px;
+  }
+  .runner-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 6px 8px; color:#475569; font-size:14px;
+  }
+  .runner-head b{ color:var(--accent); }
+  #rehafRunner{ width:100%; height:180px; display:block; }
+  .runner-help{
+    text-align:center; color:#64748b; font-size:12px; padding:6px 0 2px;
+  }
+</style>
+
+<div class="runner-wrap" id="runner-game">
+  <div class="runner-card">
+    <div class="runner-head">
+      <div>🎮 <b>REHAF Runner</b> — tap or press <b>Space/↑/W</b> to jump</div>
+      <div>Score: <span id="runnerScore">0</span></div>
+    </div>
+    <canvas id="rehafRunner" width="760" height="180" aria-label="REHAF Runner game"></canvas>
+    <div class="runner-help">Avoid the “trees” (circle + trunk). “R” auto-runs. Tap to jump!</div>
+  </div>
+</div>
+
+<script>
+(() => {
+  // Canvas & DPI
+  const canvas = document.getElementById('rehafRunner');
+  const scoreEl = document.getElementById('runnerScore');
+  const ctx = canvas.getContext('2d');
+  function fitDPR() {
+    const cssW = canvas.clientWidth;
+    const cssH = canvas.clientHeight;
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    canvas.width = Math.round(cssW * dpr);
+    canvas.height = Math.round(cssH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    view.w = cssW; view.h = cssH;
+  }
+  const view = { w: canvas.clientWidth, h: canvas.clientHeight };
+  window.addEventListener('resize', fitDPR, { passive:true });
+  fitDPR();
+
+  // Colors
+  const C = {
+    bg1: '#ffffff',
+    ground: '#e7f4f1',
+    line: 'rgba(0,171,154,.8)',  // teal
+    dot: '#00453e',             // accent
+    rFill1: '#00ab9a',
+    rFill2: '#00786c',
+    shadow: 'rgba(0,0,0,.10)'
+  };
+
+  // Game state
+  let running = true;
+  let score = 0;
+  let best = 0;
+  let tLast = 0;
+
+  // Ground baseline
+  const groundY = () => Math.round(view.h - 36);
+
+  // Player “R”
+  const R = {
+    x: 80,
+    y: 0,          // will be set to ground
+    w: 32,
+    h: 38,
+    vy: 0,
+    gravity: 0.8,
+    jumpV: -12.5,
+    onGround: true
+  };
+
+  // Obstacles (trees: lollipop shape)
+  const obstacles = [];
+  const spawn = {
+    timer: 0,
+    next: 900  // ms
+  };
+
+  function resetGame() {
+    score = 0;
+    R.y = groundY() - R.h;
+    R.vy = 0;
+    R.onGround = true;
+    obstacles.length = 0;
+    spawn.timer = 0;
+    spawn.next = 900;
+    running = true;
+  }
+  resetGame();
+
+  function jump() {
+    if (!running) {
+      resetGame();
+      return;
+    }
+    if (R.onGround) {
+      R.vy = R.jumpV;
+      R.onGround = false;
+    }
+  }
+
+  // Controls
+  window.addEventListener('keydown', (e) => {
+    if ([' ', 'ArrowUp', 'KeyW', 'w'].includes(e.code) || [' ', 'ArrowUp', 'w', 'W'].includes(e.key)) {
+      e.preventDefault();
+      jump();
+    }
+  });
+  canvas.addEventListener('pointerdown', jump, { passive: true });
+
+  // Helpers
+  function rand(min, max){ return Math.random()*(max-min)+min; }
+
+  function spawnObstacle() {
+    const base = groundY();
+    // circle radius and trunk height
+    const rad = rand(8, 16);
+    const trunk = rand(22, 36);
+    const gap = rand(260, 360); // distance between obstacles
+    const speed = rand(3.8, 4.6);
+
+    // Put new obstacle offscreen to the right, after last one
+    const rightmost = obstacles.length ? obstacles[obstacles.length-1].x : view.w + 50;
+    obstacles.push({
+      x: Math.max(view.w + 20, rightmost + gap),
+      baseY: base,
+      r: rad,
+      trunkH: trunk,
+      speed
+    });
+  }
+
+  function update(dt) {
+    // Player physics
+    R.vy += R.gravity;
+    R.y += R.vy;
+    const gy = groundY() - R.h;
+    if (R.y >= gy) {
+      R.y = gy;
+      R.vy = 0;
+      R.onGround = true;
+    }
+
+    // Obstacles
+    spawn.timer += dt;
+    if (spawn.timer >= spawn.next) {
+      spawn.timer = 0;
+      spawn.next = rand(700, 1200);
+      spawnObstacle();
+    }
+
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+      const o = obstacles[i];
+      o.x -= o.speed;
+
+      // Remove if offscreen
+      if (o.x + o.r < -30) obstacles.splice(i, 1);
+
+      // Collision (AABB vs circle+line envelope)
+      const rLeft = R.x, rRight = R.x + R.w;
+      const rTop = R.y, rBot = R.y + R.h;
+
+      // Check circle hit
+      const cx = o.x;
+      const cy = o.baseY - o.trunkH - o.r; // top of trunk + radius
+      const nearestX = Math.max(rLeft, Math.min(cx, rRight));
+      const nearestY = Math.max(rTop, Math.min(cy, rBot));
+      const distX = cx - nearestX;
+      const distY = cy - nearestY;
+      const hitCircle = (distX*distX + distY*distY) <= (o.r*o.r);
+
+      // Check trunk hit (vertical line approximated as thin rect)
+      const trunkLeft = o.x - 2, trunkRight = o.x + 2;
+      const trunkTop = o.baseY - o.trunkH;
+      const trunkBottom = o.baseY;
+      const hitTrunk = !(rRight < trunkLeft || rLeft > trunkRight || rBot < trunkTop || rTop > trunkBottom);
+
+      if (hitCircle || hitTrunk) {
+        running = false;
+        best = Math.max(best, Math.floor(score));
+      }
+    }
+
+    // Score
+    if (running) score += dt * 0.01;
+    scoreEl.textContent = `${Math.floor(score)}${best ? ' / Best ' + best : ''}`;
+  }
+
+  function drawGround() {
+    // Ground line
+    ctx.strokeStyle = C.ground;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, groundY()+0.5);
+    ctx.lineTo(view.w, groundY()+0.5);
+    ctx.stroke();
+  }
+
+  function drawR() {
+    // body
+    ctx.save();
+    ctx.translate(R.x, R.y);
+    // shadow
+    ctx.fillStyle = C.shadow;
+    ctx.beginPath();
+    ctx.ellipse(R.w/2, R.h + 6, R.w*0.36, 6, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // main rounded rect
+    const r = 8;
+    ctx.beginPath();
+    const x=0,y=0,w=R.w,h=R.h;
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    const grad = ctx.createLinearGradient(0,0,0,h);
+    grad.addColorStop(0, C.rFill1);
+    grad.addColorStop(1, C.rFill2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // white letter R
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 22px ui-sans-serif, system-ui';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('R', w/2, h/2 - 1);
+    ctx.restore();
+  }
+
+  function drawTree(o) {
+    // trunk (line)
+    ctx.strokeStyle = C.line;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(o.x, o.baseY);
+    ctx.lineTo(o.x, o.baseY - o.trunkH);
+    ctx.stroke();
+
+    // crown (circle)
+    ctx.fillStyle = C.dot;
+    ctx.beginPath();
+    ctx.arc(o.x, o.baseY - o.trunkH - o.r, o.r, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  function drawBackground() {
+    ctx.fillStyle = C.bg1;
+    ctx.fillRect(0,0, view.w, view.h);
+  }
+
+  function drawObstacles() {
+    for (const o of obstacles) drawTree(o);
+  }
+
+  function drawGameOver() {
+    if (running) return;
+    ctx.save();
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fillRect(0, 0, view.w, view.h);
+    ctx.fillStyle = C.accent || '#00453e';
+    ctx.font = 'bold 22px ui-sans-serif, system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('Game Over — tap or press Space to restart', view.w/2, view.h/2);
+    ctx.restore();
+  }
+
+  // Loop
+  function loop(ts) {
+    const dt = Math.min(32, ts - (tLast || ts));
+    tLast = ts;
+
+    update(dt);
+    drawBackground();
+    drawGround();
+    drawObstacles();
+    drawR();
+    drawGameOver();
+
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+<!-- ===== /RUNNER GAME ===== -->
+
 </body>
 </html>
 
