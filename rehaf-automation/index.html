@@ -922,20 +922,29 @@
 <script>
 const debug = document.getElementById('debug');
 
-// Test if services.json loads
 fetch('services.json')
-  .then(res => {
-    debug.innerHTML = 'JSON fetch OK, parsing...';
-    return res.json();
-  })
+  .then(res => res.json())
   .then(data => {
-    debug.innerHTML = `JSON loaded! Found ${data.departments.length} departments`;
-    debug.style.background = 'green';
+    debug.innerHTML = `JSON loaded! Found ${data.departments.length} departments<br>`;
     
-    // Test if hotspots are being created
+    // Check each department's position data
+    data.departments.forEach((d, i) => {
+      debug.innerHTML += `${i+1}. ${d.title}: pos(${d.position.x}, ${d.position.y})<br>`;
+    });
+    
+    debug.style.background = 'green';
+    debug.style.fontSize = '10px';
+    
+    // Test hotspot creation after a delay
     setTimeout(() => {
+      const wrap = document.getElementById('officeWrap');
       const hotspots = document.querySelectorAll('.hotspot');
+      debug.innerHTML += `<br>OfficeWrap found: ${wrap ? 'YES' : 'NO'}`;
       debug.innerHTML += `<br>Hotspots created: ${hotspots.length}`;
+      
+      if (hotspots.length === 0) {
+        debug.innerHTML += `<br>ERROR: No hotspots created!`;
+      }
     }, 1000);
   })
   .catch(err => {
