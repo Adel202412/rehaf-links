@@ -579,58 +579,93 @@
     </section>
 
     <!-- Scripts -->
+    
     <script>
-        (async function() {
-                    try {
-                        const res = await fetch('services.json', {
-                            cache: 'no-cache'
-                        });
-                        const data = await res.json();
-                        const wrap = document.getElementById('officeWrap');
-                        const pop = document.getElementById('pop');
+     (async function() {
+         const debug = document.getElementById('debug');
+         try {
+             const res = await fetch('services.json', {
+                 cache: 'no-cache'
+             });
+             const data = await res.json();
+             const wrap = document.getElementById('officeWrap');
+             const pop = document.getElementById('pop');
 
-                        data.departments.forEach(d => {
-                                    if (!d.position) return;
-                                    const b = document.createElement('button');
-                                    b.className = 'hotspot';
-                                    b.style.left = d.position.x + '%';
-                                    b.style.top = d.position.y + '%';
-                                    b.dataset.key = d.key;
-                                    b.innerHTML = `<img src="${d.img}" alt="${d.title} mascot"><div class="lbl">${d.title}</div>`;
-      wrap.appendChild(b);
-    });
+             debug.innerHTML += '<br>Starting hotspot creation...';
 
-    let openKey=null;
-    function openPop(d,anchor){
-      pop.innerHTML=\`<h4>\${d.title}</h4><p>\${d.tagline}</p><ul>\${d.services.map(s=>\`<li>\${s}</li>\`).join('')}</ul>\`;
-      const W=wrap.getBoundingClientRect(); const R=anchor.getBoundingClientRect();
-      const popW=Math.min(320,W.width-16);
-      let left=R.left-W.left-popW/2+R.width/2;
-      left=Math.max(8,Math.min(left,W.width-popW-8));
-      const top=R.top-W.top-8+window.scrollY;
-      pop.style.left=left+'px'; pop.style.top=top+'px'; pop.style.width=popW+'px';
-      pop.classList.add('show');
-    }
-    function closePop(){pop.classList.remove('show');openKey=null;}
+             data.departments.forEach((d, index) => {
+                 debug.innerHTML += `<br>Processing ${d.title}...`;
 
-    wrap.addEventListener('click',e=>{
-      const hit=e.target.closest('.hotspot'); if(!hit) return;
-      const key=hit.dataset.key; if(openKey===key){closePop();return;}
-      const d=data.departments.find(x=>x.key===key); openKey=key; openPop(d,hit);
-    });
-    wrap.addEventListener('pointerdown',e=>{
-      const hit=e.target.closest('.hotspot'); if(!hit) return;
-      const key=hit.dataset.key; if(openKey===key){closePop();return;}
-      const d=data.departments.find(x=>x.key===key); openKey=key; openPop(d,hit);
-    });
-    document.addEventListener('click',e=>{
-      if(!pop.classList.contains('show')) return;
-      if(e.target.closest('.hotspot')||e.target.closest('#pop')) return;
-      closePop();
-    });
-  }catch(err){console.error('Failed to load services.json',err);}
-})();
-    </script>
+                 if (!d.position) {
+                     debug.innerHTML += ` - SKIP: No position`;
+                     return;
+                 }
+
+                 debug.innerHTML += ` - Creating button...`;
+
+                 const b = document.createElement('button');
+                 b.className = 'hotspot';
+                 b.style.left = d.position.x + '%';
+                 b.style.top = d.position.y + '%';
+                 b.dataset.key = d.key;
+                 b.innerHTML = `<img src="${d.img}" alt="${d.title} mascot"><div class="lbl">${d.title}</div>`;
+
+                 debug.innerHTML += ` - Adding to wrap...`;
+                 wrap.appendChild(b);
+
+                 debug.innerHTML += ` - DONE`;
+             });
+
+             const hotspots = document.querySelectorAll('.hotspot');
+             debug.innerHTML += `<br>Final count: ${hotspots.length} hotspots`;
+
+             // Rest of the original code for click handlers...
+             let openKey = null;
+
+             function openPop(d, anchor) {
+                 pop.innerHTML = `<h4>${d.title}</h4><p>${d.tagline}</p><ul>${d.services.map(s=>`<li>${s}</li>`).join('')}</ul>`;
+                 const W = wrap.getBoundingClientRect();
+                 const R = anchor.getBoundingClientRect();
+                 const popW = Math.min(320, W.width - 16);
+                 let left = R.left - W.left - popW / 2 + R.width / 2;
+                 left = Math.max(8, Math.min(left, W.width - popW - 8));
+                 const top = R.top - W.top - 8 + window.scrollY;
+                 pop.style.left = left + 'px';
+                 pop.style.top = top + 'px';
+                 pop.style.width = popW + 'px';
+                 pop.classList.add('show');
+             }
+
+             function closePop() {
+                 pop.classList.remove('show');
+                 openKey = null;
+             }
+
+             wrap.addEventListener('click', e => {
+                 const hit = e.target.closest('.hotspot');
+                 if (!hit) return;
+                 const key = hit.dataset.key;
+                 if (openKey === key) {
+                     closePop();
+                     return;
+                 }
+                 const d = data.departments.find(x => x.key === key);
+                 openKey = key;
+                 openPop(d, hit);
+             });
+
+             document.addEventListener('click', e => {
+                 if (!pop.classList.contains('show')) return;
+                 if (e.target.closest('.hotspot') || e.target.closest('#pop')) return;
+                 closePop();
+             });
+
+         } catch (err) {
+             debug.innerHTML += `<br>ERROR: ${err.message}`;
+             console.error('Failed to load services.json', err);
+         }
+     })();
+ </script>
 
     <script>
         (function() {
