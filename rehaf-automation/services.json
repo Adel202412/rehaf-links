@@ -4,7 +4,7 @@
       "key": "management",
       "title": "Management",
       "tagline": "Projects planned. Processes automated.",
-      "img": "mascots/management.png",
+      "img": "assets/mascots/management.png",
       "services": [
         "Project Planner — dates & owners",
         "Smart Timelines — auto-adjust",
@@ -19,7 +19,7 @@
       "key": "hr",
       "title": "HR",
       "tagline": "Right people, right process.",
-      "img": "mascots/hr.png",
+      "img": "assets/mascots/hr.png",
       "services": [
         "AI Recruiter — screen & schedule",
         "Resume Manager — CVs organized",
@@ -34,7 +34,7 @@
       "key": "accounting",
       "title": "Accounting",
       "tagline": "Clear numbers. Smooth invoices.",
-      "img": "mascots/accounting.png",
+      "img": "assets/mascots/accounting.png",
       "services": [
         "Expense Tracker — clear spending",
         "Invoicing — faster, cleaner",
@@ -49,7 +49,7 @@
       "key": "marketing",
       "title": "Marketing",
       "tagline": "More leads. Better follow-ups.",
-      "img": "mascots/marketing.png",
+      "img": "assets/mascots/marketing.png",
       "services": [
         "Content Engine — posts & updates",
         "Campaigns — targeted pushes",
@@ -64,7 +64,7 @@
       "key": "support",
       "title": "Customer Support",
       "tagline": "First response, right route.",
-      "img": "mascots/support.png",
+      "img": "assets/mascots/support.png",
       "services": [
         "Ticket Triage — quick routing",
         "Auto Replies — first response",
@@ -79,7 +79,7 @@
       "key": "sales",
       "title": "Sales",
       "tagline": "Connect and close.",
-      "img": "mascots/sales.png",
+      "img": "assets/mascots/sales.png",
       "services": [
         "Lead Capture — from everywhere",
         "CRM Updates — always fresh",
@@ -94,7 +94,7 @@
       "key": "admin",
       "title": "Secretaries / Admin",
       "tagline": "Everyday tasks handled.",
-      "img": "mascots/admin.png",
+      "img": "assets/mascots/admin.png",
       "services": [
         "Daily Tasks — done on time",
         "Meetings — scheduled & prepped",
@@ -109,7 +109,7 @@
       "key": "knowledge",
       "title": "Knowledge & Reporting",
       "tagline": "Capture, summarize, act.",
-      "img": "mascots/knowledge.png",
+      "img": "assets/mascots/knowledge.png",
       "services": [
         "Meeting Notes — key points",
         "Dashboards — live metrics",
@@ -124,7 +124,7 @@
       "key": "integrations",
       "title": "Integrations Hub",
       "tagline": "Everything connected.",
-      "img": "mascots/integrations.png",
+      "img": "assets/mascots/integrations.png",
       "services": [
         "Unified Messaging — one inbox",
         "Tool Sync — data aligned",
