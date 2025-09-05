@@ -916,6 +916,33 @@
             io.observe(canvas);
         })();
     </script>
+<!-- Add this right after your existing scripts, before </body> -->
+<div id="debug" style="position:fixed; top:10px; left:10px; background:red; color:white; padding:10px; font-size:12px; max-width:300px; z-index:1000;"></div>
+
+<script>
+const debug = document.getElementById('debug');
+
+// Test if services.json loads
+fetch('services.json')
+  .then(res => {
+    debug.innerHTML = 'JSON fetch OK, parsing...';
+    return res.json();
+  })
+  .then(data => {
+    debug.innerHTML = `JSON loaded! Found ${data.departments.length} departments`;
+    debug.style.background = 'green';
+    
+    // Test if hotspots are being created
+    setTimeout(() => {
+      const hotspots = document.querySelectorAll('.hotspot');
+      debug.innerHTML += `<br>Hotspots created: ${hotspots.length}`;
+    }, 1000);
+  })
+  .catch(err => {
+    debug.innerHTML = `Error: ${err.message}`;
+  });
+</script>
+
 </body>
 
 </html>
