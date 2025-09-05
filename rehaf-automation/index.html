@@ -18,12 +18,10 @@
 html,body{height:100%}
 body{
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  color:var(--ink); background:#fff;
-  overflow-x:hidden;
-  cursor:none; /* custom cursor shows instead */
+  color:var(--ink); background:#fff; overflow-x:hidden; /* normal cursor */
 }
 
-/* ===== Header / Hero (Welcome) ===== */
+/* ===== Header ===== */
 .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .container{max-width:1120px;margin:0 auto;padding:0 20px}
 .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
@@ -33,40 +31,51 @@ body{
 .cta{background:var(--teal);color:#fff;padding:10px 16px;border-radius:14px;font-weight:800;text-decoration:none}
 .cta:hover{background:var(--teal-dark)}
 
+/* ===== Hero (Welcome) ===== */
 .hero{
-  min-height:70vh; display:grid; place-items:center; text-align:center;
-  background: radial-gradient(60rem 40rem at 110% -10%, rgba(0,171,154,.08), transparent 60%), radial-gradient(60rem 40rem at -10% -10%, rgba(0,120,108,.06), transparent 60%), linear-gradient(180deg,#fff 0%,var(--bg) 100%);
+  min-height:80vh; display:grid; place-items:center; text-align:center;
+  background: radial-gradient(60rem 40rem at 110% -10%, rgba(0,171,154,.08), transparent 60%),
+              radial-gradient(60rem 40rem at -10% -10%, rgba(0,120,108,.06), transparent 60%),
+              linear-gradient(180deg,#fff 0%,var(--bg) 100%);
 }
 .heroInner{padding:40px 20px}
+.mascotWelcome{
+  width:min(520px,84vw); /* BIGGER mascot as requested */
+  height:auto; display:block; margin:0 auto 10px;
+  filter:drop-shadow(0 12px 22px rgba(0,0,0,.12));
+}
 .hero h1{font-size:clamp(34px,6vw,64px);color:var(--accent);font-weight:900;line-height:1.04}
-.hero p{margin-top:12px;color:#465667}
-.mascotWelcome{width:min(220px,50vw);margin:18px auto 6px;display:block}
-
-/* soft scroll hint */
+.hero p{margin-top:10px;color:#465667;font-size:clamp(16px,2.2vw,18px)}
 .downHint{margin-top:14px;color:var(--muted);font-size:14px}
 
-/* ===== Office (floorplan) ===== */
+/* ===== Sections / Sizing ===== */
 .section{padding:48px 0}
+@media (min-width:1024px){.section{padding:64px 0}}
 .section h2{font-size:28px;color:var(--accent)}
 .section .sub{color:var(--muted);margin-top:6px}
+
+/* ===== Office (floorplan) ===== */
 .officeWrap{margin-top:16px;position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.06)}
-/* background image for floor plan */
 #floorplan{
-  display:block;width:100%;height:auto;max-height:560px;object-fit:cover;opacity:.96;
+  display:block;width:100%;height:auto;max-height:560px;object-fit:cover;opacity:.98;
   filter:saturate(1.02) contrast(1.02);
 }
+@media (max-width:1024px){#floorplan{max-height:360px}}
+@media (max-width:640px){#floorplan{max-height:280px}}
+
 /* hotspot mascots */
 .hotspot{
   position:absolute; transform:translate(-50%,-100%); /* align to feet */
   display:flex; flex-direction:column; align-items:center; gap:6px;
   outline:none; border:0; background:transparent; cursor:pointer;
 }
-.hotspot img{height:76px;width:auto;display:block;filter:drop-shadow(0 8px 16px rgba(0,0,0,.18))}
+.hotspot img{height:86px;width:auto;display:block;filter:drop-shadow(0 8px 16px rgba(0,0,0,.18))}
 .hotspot .lbl{
   background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px 8px;font-size:12px;color:var(--accent);
   box-shadow:0 6px 16px rgba(0,0,0,.08); opacity:0; transform:translateY(-6px); transition:all .18s ease
 }
 .hotspot:hover .lbl, .hotspot:focus-visible .lbl{opacity:1; transform:translateY(0)}
+
 /* popover card (one open at a time) */
 .pop{position:absolute; z-index:30; background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px; width:min(320px, 80vw); box-shadow:0 16px 36px rgba(0,0,0,.16); display:none}
 .pop.show{display:block; animation:pop .2s ease}
@@ -76,7 +85,8 @@ body{
 .pop ul{list-style:none;display:grid;gap:6px}
 .pop li{font-size:13px;color:#334155;padding-left:16px;position:relative}
 .pop li::before{content:"•"; position:absolute; left:4px; color:var(--teal)}
-/* quick scan grid */
+
+/* ===== Quick scan grid ===== */
 .qgrid{margin-top:18px;display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:900px){.qgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.qgrid{grid-template-columns:repeat(1,minmax(0,1fr))}}
@@ -130,20 +140,24 @@ body{
 }
 .arabic .sub{margin-top:8px; opacity:.9}
 
-/* ===== Custom Cursor “R” + shapes ===== */
-.cursorR{
-  position:fixed; left:0; top:0; transform:translate(-50%,-50%);
-  width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  font-weight:900; color:#fff; background:linear-gradient(135deg,var(--teal),var(--teal-dark));
-  text-shadow:0 1px 0 rgba(0,0,0,.2); box-shadow:0 6px 18px rgba(0,0,0,.12), 0 0 0 6px rgba(0,171,154,.12);
-  pointer-events:none; z-index:60; transition: transform .08s ease-out, opacity .12s ease-out;
-}
-.shape{position:fixed; pointer-events:none; z-index:10; filter:drop-shadow(0 6px 14px rgba(0,0,0,.12)); animation:floatFade 1200ms ease-out forwards}
-@keyframes floatFade{
-  0%{opacity:.88; transform:translate(-50%,-50%) scale(.6) rotate(0deg)}
-  60%{opacity:.66; transform:translate(calc(-50% + 2px), calc(-50% - 6px)) scale(1.05) rotate(8deg)}
-  100%{opacity:0; transform:translate(calc(-50% + 6px), calc(-50% - 18px)) scale(0.9) rotate(16deg)}
-}
+/* ===== Automation Animation v1.1 (reveal system) ===== */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; will-change: opacity, transform;}
+.reveal.in{opacity:1; transform:none;}
+.reveal.fade{transform:none;}
+.reveal.up{transform:translateY(24px);}
+.reveal.left{transform:translateX(-24px);}
+.reveal.right{transform:translateX(24px);}
+.reveal.delay-1{transition-delay:.08s}
+.reveal.delay-2{transition-delay:.16s}
+.reveal.delay-3{transition-delay:.24s}
+.stagger > *{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease}
+.stagger.in > *{opacity:1; transform:none}
+.stagger.in > *:nth-child(1){transition-delay:.04s}
+.stagger.in > *:nth-child(2){transition-delay:.10s}
+.stagger.in > *:nth-child(3){transition-delay:.16s}
+.stagger.in > *:nth-child(4){transition-delay:.22s}
+.stagger.in > *:nth-child(5){transition-delay:.28s}
+.stagger.in > *:nth-child(6){transition-delay:.34s}
 </style>
 </head>
 <body>
@@ -158,30 +172,32 @@ body{
 <!-- ===== Welcome / Hero ===== -->
 <section class="hero">
   <div class="heroInner container">
-    <img class="mascotWelcome" src="assets/moscot.png" alt="REHAF mascot waving" />
-    <h1>Hi, I am REHAF</h1>
-    <p>Welcome to our AI Virtual Office.</p>
-    <div class="downHint">Scroll to enter the office ↓</div>
+    <!-- Use any mascot you have as a big welcome image -->
+    <img class="mascotWelcome reveal up" src="/assets/moscots.png" alt="REHAF mascot waving" />
+    <h1 class="reveal up delay-1">Hi, I am REHAF</h1>
+    <p class="reveal fade delay-2">Welcome to our AI Virtual Office.</p>
+    <div class="downHint reveal fade delay-3">Scroll to enter the office ↓</div>
   </div>
 </section>
 
 <!-- ===== Office Floorplan ===== -->
 <section id="office" class="section container">
-  <h2>REHAF Office</h2>
-  <div class="sub">“To know our services, move your mouse over the department officers.” (Tap on mobile)</div>
+  <h2 class="reveal up">REHAF Office</h2>
+  <div class="sub reveal fade delay-1">“To know our services, move your mouse over the department officers.” (Tap on mobile)</div>
 
-  <div class="officeWrap" id="officeWrap">
-    <!-- floorplan image (replace with your own image) -->
-    <img id="floorplan" src="assets/floorplan.jpg" alt="REHAF office floor plan" />
+  <div class="officeWrap reveal up" id="officeWrap">
+    <!-- floorplan image -->
+    <img id="floorplan" src="/assets/floorplan.jpg" alt="REHAF office floor plan" loading="eager" />
     <!-- hotspots injected by JS from services.json -->
     <div class="pop" id="pop"></div>
   </div>
 
-  <div class="qgrid" id="quickGrid"><!-- filled by JS --></div>
+  <!-- Quick scan grid (filled by JS) -->
+  <div class="qgrid stagger" id="quickGrid"></div>
 </section>
 
 <!-- ===== Journey CTA ===== -->
-<section class="ctaBlock container">
+<section class="ctaBlock container reveal up">
   <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
   <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
   <div style="display:flex;justify-content:center;margin-top:12px">
@@ -191,7 +207,7 @@ body{
 
 <!-- ===== Runner Game ===== -->
 <section id="runner" class="section runner-wrap">
-  <div class="runner-card" id="runnerCard">
+  <div class="runner-card reveal up" id="runnerCard">
     <div class="runner-head">
       <div>🎮 <b>REHAF Runner</b> — auto-starts here. Tap or press <b>Space/↑/W</b> (double jump)</div>
       <div>Score: <span id="runnerScore">0</span></div>
@@ -204,9 +220,9 @@ body{
 <!-- ===== Architecture / Workflow ===== -->
 <section class="arch">
   <div class="container">
-    <div class="box">
+    <div class="box reveal up">
       <h2 style="color:var(--accent)">How it works</h2>
-      <div class="diagram">
+      <div class="diagram stagger">
         <div class="card">
           <h4>Inputs</h4>
           <p>Emails, forms, messages, invoices, schedules.</p>
@@ -225,125 +241,118 @@ body{
 </section>
 
 <!-- ===== Arabic Close ===== -->
-<section class="arabic">
+<section class="arabic reveal fade">
   <div class="container">
     <div class="headline">كن الأوّل في السوق</div>
     <div class="sub">مع REHAF، المستقبل يبدأ الآن.</div>
   </div>
 </section>
 
-<!-- Custom Cursor “R” -->
-<div class="cursorR" id="cursorR">R</div>
-
 <!-- ===== Scripts ===== -->
+
+<!-- 1) Automation Animation v1.1 (reveal system) -->
 <script>
-/* ========== 1) Load services + place hotspots from JSON ========== */
-(async function(){
-  const res = await fetch('services.json');
-  const data = await res.json();
-
-  const wrap = document.getElementById('officeWrap');
-  const pop  = document.getElementById('pop');
-
-  // create hotspots based on positions from JSON (% of image)
-  data.departments.forEach(d => {
-    if(!d.position) return;
-    const b = document.createElement('button');
-    b.className = 'hotspot';
-    b.style.left = d.position.x + '%';
-    b.style.top  = d.position.y + '%';
-    b.setAttribute('aria-label', d.title + ' — click to view services');
-    b.dataset.key = d.key;
-    b.innerHTML = `
-      <img src="${d.img}" alt="${d.title} mascot">
-      <div class="lbl">${d.title}</div>
-    `;
-    wrap.appendChild(b);
-  });
-
-  // one open at a time
-  let openKey = null;
-  function openPop(d, anchor){
-    pop.innerHTML = `
-      <h4>${d.title}</h4>
-      <p>${d.tagline}</p>
-      <ul>${d.services.map(s => `<li>${s}</li>`).join('')}</ul>
-    `;
-    // position near the anchor, keep in box
-    const W = wrap.getBoundingClientRect();
-    const R = anchor.getBoundingClientRect();
-    const popW = Math.min(320, W.width - 16);
-    let left = R.left - W.left - popW/2 + R.width/2;
-    left = Math.max(8, Math.min(left, W.width - popW - 8));
-    const top = R.top - W.top - 8 + window.scrollY;
-
-    pop.style.left = left + 'px';
-    pop.style.top  = (top) + 'px';
-    pop.style.width = popW + 'px';
-    pop.classList.add('show');
-  }
-  function closePop(){ pop.classList.remove('show'); openKey=null; }
-
-  wrap.addEventListener('click', (e)=>{
-    const hit = e.target.closest('.hotspot');
-    if(!hit) return;
-    const key = hit.dataset.key;
-    if(openKey === key){ closePop(); return; }
-    const d = data.departments.find(x => x.key === key);
-    openKey = key; openPop(d, hit);
-  });
-  document.addEventListener('click', (e)=>{
-    if(!pop.classList.contains('show')) return;
-    if(e.target.closest('.hotspot') || e.target.closest('#pop')) return;
-    closePop();
-  });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePop(); });
-
-  // quick grid list (3 items each)
-  const quick = document.getElementById('quickGrid');
-  data.departments.filter(d=>!d.quickHide).forEach(d=>{
-    const el = document.createElement('div'); el.className='qitem';
-    const three = d.services.slice(0,3).map(s=>s.split(' — ')[0]).join(', ');
-    el.innerHTML = `<b>${d.title}</b><p>${three}.</p>`;
-    quick.appendChild(el);
-  });
-})();
-</script>
-
-<script>
-/* ========== 2) Custom cursor “R” + shapes (hidden over runner) ========== */
 (function(){
-  const cursor = document.getElementById('cursorR');
-  const runnerCard = document.getElementById('runnerCard');
-  let paused = false, last = 0;
-  const palette = ['rgba(0,171,154,0.95)','rgba(0,120,108,0.95)','rgba(0,69,62,0.95)','rgba(130,226,216,0.95)'];
-  function move(x,y){ if(paused) return; cursor.style.left=x+'px'; cursor.style.top=y+'px'; }
-  function pick(a){ return a[(Math.random()*a.length)|0]; }
-  function spawn(x,y){
-    if(paused) return;
-    const d=document.createElement('div'); d.className='shape';
-    const size = 14 + Math.random()*28;
-    d.style.width=size+'px'; d.style.height=size+'px';
-    d.style.left=x+'px'; d.style.top=y+'px';
-    d.style.background=`radial-gradient(circle at 40% 40%, ${pick(palette)}, ${pick(palette)})`;
-    d.style.borderRadius='40% 70% 60% 50% / 60% 40% 70% 50%';
-    d.addEventListener('animationend',()=>d.remove(),{once:true});
-    document.body.appendChild(d);
-  }
-  window.addEventListener('mousemove',e=>{ move(e.clientX,e.clientY); if(performance.now()-last>28){spawn(e.clientX,e.clientY); last=performance.now(); }},{passive:true});
-  window.addEventListener('touchmove',e=>{ const t=e.touches[0]; if(!t) return; move(t.clientX,t.clientY); },{passive:true});
-  runnerCard.addEventListener('mouseenter',()=>{ paused=true; cursor.style.display='none'; });
-  runnerCard.addEventListener('mouseleave',()=>{ paused=false; cursor.style.display='flex'; });
+  if (window.__rehafReveal) return; window.__rehafReveal = true;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el = e.target;
+      if (el.classList.contains('stagger')) { el.classList.add('in'); io.unobserve(el); return; }
+      if (el.classList.contains('reveal')) { el.classList.add('in'); io.unobserve(el); }
+    });
+  }, { rootMargin:'0px 0px -10% 0px', threshold:0.08 });
+  document.querySelectorAll('.reveal, .stagger').forEach(el=>io.observe(el));
 })();
 </script>
 
+<!-- 2) Load services + place hotspots from services.json -->
 <script>
-/* ========== 3) REHAF Runner (auto-start in view) ========== */
+(async function(){
+  try{
+    const res = await fetch('services.json', {cache:'no-cache'});
+    const data = await res.json();
+
+    const wrap = document.getElementById('officeWrap');
+    const pop  = document.getElementById('pop');
+
+    // Create hotspots based on positions from JSON (% of image)
+    data.departments.forEach(d => {
+      if(!d.position) return;
+      const b = document.createElement('button');
+      b.className = 'hotspot';
+      b.style.left = d.position.x + '%';
+      b.style.top  = d.position.y + '%';
+      b.setAttribute('aria-label', d.title + ' — click to view services');
+      b.dataset.key = d.key;
+      b.innerHTML = `
+        <img src="${d.img}" alt="${d.title} mascot" loading="lazy">
+        <div class="lbl">${d.title}</div>
+      `;
+      wrap.appendChild(b);
+    });
+
+    // One popover open at a time
+    let openKey = null;
+    function openPop(d, anchor){
+      pop.innerHTML = `
+        <h4>${d.title}</h4>
+        <p>${d.tagline}</p>
+        <ul>${d.services.map(s => `<li>${s}</li>`).join('')}</ul>
+      `;
+      // position near the anchor
+      const W = wrap.getBoundingClientRect();
+      const R = anchor.getBoundingClientRect();
+      const popW = Math.min(320, W.width - 16);
+      let left = R.left - W.left - popW/2 + R.width/2;
+      left = Math.max(8, Math.min(left, W.width - popW - 8));
+      const top = R.top - W.top - 8 + window.scrollY;
+
+      pop.style.left = left + 'px';
+      pop.style.top  = (top) + 'px';
+      pop.style.width = popW + 'px';
+      pop.classList.add('show');
+    }
+    function closePop(){ pop.classList.remove('show'); openKey=null; }
+
+    wrap.addEventListener('click', (e)=>{
+      const hit = e.target.closest('.hotspot');
+      if(!hit) return;
+      const key = hit.dataset.key;
+      if(openKey === key){ closePop(); return; }
+      const d = data.departments.find(x => x.key === key);
+      openKey = key; openPop(d, hit);
+    });
+    document.addEventListener('click', (e)=>{
+      if(!pop.classList.contains('show')) return;
+      if(e.target.closest('.hotspot') || e.target.closest('#pop')) return;
+      closePop();
+    });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePop(); });
+
+    // quick grid list (first 3 items each)
+    const quick = document.getElementById('quickGrid');
+    data.departments.filter(d=>!d.quickHide).forEach(d=>{
+      const el = document.createElement('div'); el.className='qitem';
+      const three = d.services.slice(0,3).map(s=>s.split(' — ')[0]).join(', ');
+      el.innerHTML = `<b>${d.title}</b><p>${three}.</p>`;
+      quick.appendChild(el);
+    });
+  }catch(err){
+    console.error('Failed to load services.json', err);
+  }
+})();
+</script>
+
+<!-- 3) REHAF Runner (auto-start in view, slower physics, double-jump, E/H/A/F) -->
+<script>
 (function(){
   const canvas = document.getElementById('rehafRunner');
   const scoreEl= document.getElementById('runnerScore');
   const card = document.getElementById('runnerCard');
   const ctx = canvas.getContext('2d');
+
+  // Fit canvas to DPR
   function fit(){ const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1)); const w=canvas.clientWidth,h=canvas.clientHeight; canvas.width=w*dpr; canvas.height=h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); vw=w; vh=h; }
   let vw=canvas.clientWidth, vh=canvas.clientHeight; fit(); window.addEventListener('resize',fit,{passive:true});
 
@@ -397,6 +406,7 @@ body{
   function loop(ts){ const dt=Math.min(32, ts-(t0||ts)); t0=ts; if(inView){ update(dt); drawBG(); obs.forEach(drawObs); drawRunner(); drawOver(); } else { drawBG(); obs.forEach(drawObs); drawRunner(); } requestAnimationFrame(loop); }
   requestAnimationFrame(loop);
 
+  // Auto-start / pause when in view
   const io = new IntersectionObserver(es=>{ es.forEach(e=>{ inView=e.isIntersecting; }); },{threshold:.2});
   io.observe(canvas);
 })();
