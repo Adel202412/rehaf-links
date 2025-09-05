@@ -1,406 +1,314 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>REHAF — AI Virtual Office</title>
-<meta name="theme-color" content="#00ab9a" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REHAF — Links v2.2</title>
+  <meta name="description" content="Minimal links hub with info." />
+  <meta property="og:title" content="REHAF — Links v2.2" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#00453e" />
+  <link rel="icon" href="/assets/mascot.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/mascot.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --bg1:#00ab9a; --bg2:#00786c; --accent:#00453e; --ink:#fff; --faq:#227976 }
+    body{ background:linear-gradient(160deg,var(--bg1),var(--bg2)); color:var(--ink); font-size:19px }
+    .card{ background:var(--accent); border:1.2px solid var(--accent); color:var(--ink) }
+    .btn{ background:rgba(255,255,255,.08); border:1.6px solid var(--accent) }
+    .btn:hover{ background:rgba(255,255,255,.15) }
+    .disabled{ opacity:.55; pointer-events:none; filter:grayscale(.3) }
+    .badge{ font-size:.75em; padding:.15em .55em; border:1px solid #ffffff40; border-radius:.6rem }/* FAQ bubble */
+.rehaf-faq-launcher,.rehaf-faq-panel{ position:fixed; right:18px; z-index:2147483647 }
+.rehaf-faq-launcher{ bottom:18px; display:flex; align-items:center; gap:8px; text-decoration:none }
+.rehaf-faq-avatar{ width:52px; height:52px; border-radius:50%; background:#00453e; display:grid; place-items:center; overflow:hidden; box-shadow:0 10px 28px rgba(0,0,0,.28) }
+.rehaf-faq-avatar img{ width:100%; height:100%; object-fit:cover }
+.rehaf-faq-label{ background:#fff; color:#00453e; font-weight:700; font-size:12px; border-radius:999px; padding:6px 10px; box-shadow:0 6px 18px rgba(0,0,0,.12) }
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+.rehaf-faq-panel{ bottom:84px; width:360px; max-height:72vh; display:none; flex-direction:column; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 18px 44px rgba(0,0,0,.28); border:1px solid #e9ecef }
+.rehaf-faq-header{ background:#00453e; color:#fff; padding:10px 12px; font-weight:700; display:flex; align-items:center; justify-content:space-between; line-height:1 }
+.rehaf-faq-body{ padding:10px; font-size:14px; color:#0f2d29; overflow:auto; flex:1 }
+.rehaf-faq-close{ background:transparent; border:0; color:#fff; font-size:16px; cursor:pointer }
 
-<style>
-:root{
-  --teal:#00ab9a; --teal-dark:#00786c; --accent:#00453e;
-  --ink:#0f172a; --muted:#64748b; --bg:#f6fbfa; --line:#e5efee;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%}
-body{
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-  color:var(--ink); background:#fff;
-  overflow-x:hidden;
-  cursor:none; /* custom cursor shows instead */
-}
+.q-item{ border:1px solid var(--faq); border-radius:10px; padding:8px 10px; margin:8px 0; background:#f8fffd; cursor:pointer; display:flex; align-items:center; gap:8px }
+.q-item:hover{ background:#f2fbf8 }
+.q-dot{ width:8px; height:8px; border-radius:999px; background:var(--faq); opacity:.85 }
+.answer{ border:1px solid var(--faq); border-radius:12px; padding:10px 12px; background:#f8fffd; white-space:pre-wrap; line-height:1.35 }
+.faq-actions{ display:flex; gap:8px; margin-top:10px }
+.faq-actions button{ border:1px solid var(--faq); background:#ffffff; color:#0f2d29; padding:7px 10px; border-radius:10px; font-weight:600; cursor:pointer }
+.faq-actions button:hover{ background:#f2fbf8 }
 
-/* ===== Header / Hero (Welcome) ===== */
-.header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.container{max-width:1120px;margin:0 auto;padding:0 20px}
-.bar{height:64px;display:flex;align-items:center;justify-content:space-between}
-.logoMark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#38c7b9,#82e2d8)}
-.brand{display:flex;gap:10px;align-items:center;text-decoration:none}
-.brand span{font-weight:900;color:var(--accent);letter-spacing:.4px}
-.cta{background:var(--teal);color:#fff;padding:10px 16px;border-radius:14px;font-weight:800;text-decoration:none}
-.cta:hover{background:var(--teal-dark)}
-
-.hero{
-  min-height:70vh; display:grid; place-items:center; text-align:center;
-  background: radial-gradient(60rem 40rem at 110% -10%, rgba(0,171,154,.08), transparent 60%), radial-gradient(60rem 40rem at -10% -10%, rgba(0,120,108,.06), transparent 60%), linear-gradient(180deg,#fff 0%,var(--bg) 100%);
-}
-.heroInner{padding:40px 20px}
-.hero h1{font-size:clamp(34px,6vw,64px);color:var(--accent);font-weight:900;line-height:1.04}
-.hero p{margin-top:12px;color:#465667}
-.mascotWelcome{width:min(220px,50vw);margin:18px auto 6px;display:block}
-
-/* soft scroll hint */
-.downHint{margin-top:14px;color:var(--muted);font-size:14px}
-
-/* ===== Office (floorplan) ===== */
-.section{padding:48px 0}
-.section h2{font-size:28px;color:var(--accent)}
-.section .sub{color:var(--muted);margin-top:6px}
-.officeWrap{margin-top:16px;position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.06)}
-/* background image for floor plan */
-#floorplan{
-  display:block;width:100%;height:auto;max-height:560px;object-fit:cover;opacity:.96;
-  filter:saturate(1.02) contrast(1.02);
-}
-/* hotspot mascots */
-.hotspot{
-  position:absolute; transform:translate(-50%,-100%); /* align to feet */
-  display:flex; flex-direction:column; align-items:center; gap:6px;
-  outline:none; border:0; background:transparent; cursor:pointer;
-}
-.hotspot img{height:76px;width:auto;display:block;filter:drop-shadow(0 8px 16px rgba(0,0,0,.18))}
-.hotspot .lbl{
-  background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px 8px;font-size:12px;color:var(--accent);
-  box-shadow:0 6px 16px rgba(0,0,0,.08); opacity:0; transform:translateY(-6px); transition:all .18s ease
-}
-.hotspot:hover .lbl, .hotspot:focus-visible .lbl{opacity:1; transform:translateY(0)}
-/* popover card (one open at a time) */
-.pop{position:absolute; z-index:30; background:#fff; border:1px solid var(--line); border-radius:16px; padding:14px; width:min(320px, 80vw); box-shadow:0 16px 36px rgba(0,0,0,.16); display:none}
-.pop.show{display:block; animation:pop .2s ease}
-@keyframes pop{from{opacity:0; transform:translateY(-6px)} to{opacity:1; transform:translateY(0)}}
-.pop h4{color:var(--accent);font-size:16px;margin-bottom:6px}
-.pop p{color:#465667;font-size:13px;margin-bottom:8px}
-.pop ul{list-style:none;display:grid;gap:6px}
-.pop li{font-size:13px;color:#334155;padding-left:16px;position:relative}
-.pop li::before{content:"•"; position:absolute; left:4px; color:var(--teal)}
-/* quick scan grid */
-.qgrid{margin-top:18px;display:grid;gap:10px;grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:900px){.qgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:600px){.qgrid{grid-template-columns:repeat(1,minmax(0,1fr))}}
-.qitem{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
-.qitem b{color:var(--accent)}
-.qitem p{color:#465667;margin-top:6px}
-
-/* ===== Journey CTA ===== */
-.ctaBlock{padding:40px 0;text-align:center}
-.btn{padding:12px 18px;border-radius:14px;font-weight:800;text-decoration:none}
-.btn.primary{background:var(--teal);color:#fff;box-shadow:0 10px 20px rgba(0,171,154,.25)}
-.btn.primary:hover{background:var(--teal-dark)}
-
-/* ===== Runner ===== */
-.runner-wrap{display:flex;justify-content:center}
-.runner-card{width:min(92vw,760px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 26px rgba(0,0,0,.08);padding:12px 12px 6px;position:relative}
-.runner-head{display:flex;justify-content:space-between;align-items:center;padding:0 6px 8px;color:#475569;font-size:14px}
-.runner-head b{color:var(--accent)}
-#rehafRunner{width:100%;height:180px;display:block;cursor:default}
-.runner-help{text-align:center;color:#64748b;font-size:12px;padding:6px 0 2px}
-.toast{
-  position:absolute; left:50%; top:34px; transform:translateX(-50%);
-  background:linear-gradient(135deg,var(--teal),var(--teal-dark)); color:#fff; padding:8px 14px; border-radius:12px; font-weight:800;
-  box-shadow:0 10px 18px rgba(0,0,0,.18); animation:toastPop 1600ms ease forwards; pointer-events:none; white-space:nowrap
-}
-@keyframes toastPop{
-  0%{opacity:0; transform:translate(-50%,-6px) scale(.95)}
-  15%{opacity:1; transform:translate(-50%,0) scale(1)}
-  70%{opacity:1; transform:translate(-50%,0) scale(1)}
-  100%{opacity:0; transform:translate(-50%,-10px) scale(.96)}
-}
-
-/* ===== Architecture / Workflow ===== */
-.arch{padding:44px 0;background:linear-gradient(180deg,#f9fefe 0%, #f2fbf8 100%)}
-.arch .box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:12px}
-.diagram{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media (max-width:800px){.diagram{grid-template-columns:1fr}}
-.card{
-  background:#f9fbfb;border:1px dashed #d7ece6;border-radius:12px;padding:12px;color:#334155;min-height:80px
-}
-.card h4{color:var(--accent);margin-bottom:6px}
-
-/* ===== Arabic Close ===== */
-.arabic{
-  padding:52px 0; text-align:center; background:#0d1217; color:#e9fbf7
-}
-.arabic .headline{
-  font-family: "Tajawal", system-ui, sans-serif;
-  font-weight:800; font-size:clamp(28px,5.6vw,52px);
-  letter-spacing:.5px;
-}
-.arabic .sub{margin-top:8px; opacity:.9}
-
-/* ===== Custom Cursor “R” + shapes ===== */
-.cursorR{
-  position:fixed; left:0; top:0; transform:translate(-50%,-50%);
-  width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center;
-  font-weight:900; color:#fff; background:linear-gradient(135deg,var(--teal),var(--teal-dark));
-  text-shadow:0 1px 0 rgba(0,0,0,.2); box-shadow:0 6px 18px rgba(0,0,0,.12), 0 0 0 6px rgba(0,171,154,.12);
-  pointer-events:none; z-index:60; transition: transform .08s ease-out, opacity .12s ease-out;
-}
-.shape{position:fixed; pointer-events:none; z-index:10; filter:drop-shadow(0 6px 14px rgba(0,0,0,.12)); animation:floatFade 1200ms ease-out forwards}
-@keyframes floatFade{
-  0%{opacity:.88; transform:translate(-50%,-50%) scale(.6) rotate(0deg)}
-  60%{opacity:.66; transform:translate(calc(-50% + 2px), calc(-50% - 6px)) scale(1.05) rotate(8deg)}
-  100%{opacity:0; transform:translate(calc(-50% + 6px), calc(-50% - 18px)) scale(0.9) rotate(16deg)}
-}
-</style>
+  </style>
 </head>
-<body>
+<body class="min-h-screen antialiased">
+  <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-6">
+    <div class="w-56 md:w-72"><img src="/assets/mascot.png" alt="Mascot" class="rounded-2xl shadow-lg mx-auto" loading="lazy" /></div>
+    <h1 class="text-6xl font-black tracking-wide">REHAF</h1><div class="w-full flex justify-end">
+  <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm">EN / AR</button>
+</div>
 
-<header class="header">
-  <div class="container bar">
-    <a class="brand" href="#"><div class="logoMark"></div><span>REHAF</span></a>
-    <a class="cta" href="mailto:info@rehaf.ae">Contact</a>
-  </div>
-</header>
-
-<!-- ===== Welcome / Hero ===== -->
-<section class="hero">
-  <div class="heroInner container">
-    <img class="mascotWelcome" src="mascots/welcome.png" alt="REHAF mascot waving" />
-    <h1>Hi, I am REHAF</h1>
-    <p>Welcome to our AI Virtual Office.</p>
-    <div class="downHint">Scroll to enter the office ↓</div>
-  </div>
+<section class="card rounded-2xl p-4 text-center w-full">
+  <p id="welcomeText" class="text-base md:text-lg"></p>
 </section>
 
-<!-- ===== Office Floorplan ===== -->
-<section id="office" class="section container">
-  <h2>REHAF Office</h2>
-  <div class="sub">“To know our services, move your mouse over the department officers.” (Tap on mobile)</div>
+<p class="text-sm md:text-base text-center opacity-90 max-w-xl">
+  By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
+</p>
 
-  <div class="officeWrap" id="officeWrap">
-    <!-- floorplan image (replace with your own image) -->
-    <img id="floorplan" src="assets/floorplan.jpg" alt="REHAF office floor plan" />
-    <!-- hotspots injected by JS from services.json -->
-    <div class="pop" id="pop"></div>
-  </div>
+<div id="links" class="mt-2 grid gap-3 w-full"></div>
 
-  <div class="qgrid" id="quickGrid"><!-- filled by JS --></div>
+<section class="card rounded-2xl p-4 w-full">
+  <h2 class="text-lg font-bold mb-2">
+    <span id="vacTitle"></span>: <span id="todayDate" class="ml-1 text-base opacity-90"></span>
+  </h2>
+  <ul id="vacList" class="space-y-2"></ul>
+  <p id="vacEmpty" class="text-sm opacity-90"></p>
 </section>
 
-<!-- ===== Journey CTA ===== -->
-<section class="ctaBlock container">
-  <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
-  <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
-  <div style="display:flex;justify-content:center;margin-top:12px">
-    <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
-  </div>
-</section>
+<div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
+  <p>© <span id="year"></span> REHAF.</p>
+  <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
+</div>
 
-<!-- ===== Runner Game ===== -->
-<section id="runner" class="section runner-wrap">
-  <div class="runner-card" id="runnerCard">
-    <div class="runner-head">
-      <div>🎮 <b>REHAF Runner</b> — auto-starts here. Tap or press <b>Space/↑/W</b> (double jump)</div>
-      <div>Score: <span id="runnerScore">0</span></div>
-    </div>
-    <canvas id="rehafRunner" width="760" height="180" aria-label="REHAF Runner game"></canvas>
-    <div class="runner-help">Obstacles are E, H, A, F — slower, smoother physics.</div>
-  </div>
-</section>
+  </main>  <!-- ===== App logic ===== -->  <script>
+    const CONFIG = {
+      version: "v2.2",
+      links: [
+        { key:"apply_job",   url:"https://forms.gle/hCTbFxT2b1V8CE2i7", info:"Apply to join REHAF.", icon:"📄" },
+        { key:"hire_req",    url:"https://forms.gle/ut62zpkXB2kXNLqb6", info:"Request hiring for your business.", icon:"🧑\u200d💼" },
+        { key:"consult_req", url:"https://forms.gle/ZfVrurQazxT8z7xL7", info:"Consultant/Other service request.", icon:"📝" },
+        { key:"auto_soon",   url:"", info:"Automation Service — Coming Soon.", icon:"⚙️", soon:true },
+        // NEW in v2.2 — Company Setup Guide card (same style as others)
+        { key:"setup_guide", url:"/setup-business", info:"Start your business step-by-step.", icon:"🏢" }
+      ],
+      vacancies:{ items:[] },
+      i18n:{
+        en:{
+          welcome:"Welcome to REHAF. Use the buttons below to request services or apply.",
+          vacTitle:"Vacancies open for today",
+          vacEmpty:"No vacancies available at the moment.",
+          links:{
+            apply_job:{ label:"Apply for a Job" },
+            hire_req:{ label:"Hiring Service Request" },
+            consult_req:{ label:"Other Service Request (Consultant Service)" },
+            auto_soon:{ label:"Automation Service (Soon)" },
+            setup_guide:{ label:"Company Setup Guide (Abu Dhabi)" }
+          }
+        },
+        ar:{
+          welcome:"مرحبًا بكم في REHAF. استخدم الأزرار أدناه لطلب الخدمات أو التقديم.",
+          vacTitle:"الوظائف المتاحة اليوم",
+          vacEmpty:"لا توجد وظائف متاحة حالياً.",
+          links:{
+            apply_job:{ label:"التقدم لوظيفة" },
+            hire_req:{ label:"طلب خدمة التوظيف" },
+            consult_req:{ label:"طلب خدمة أخرى (استشارات)" },
+            auto_soon:{ label:"خدمة الأتمتة (قريبًا)" },
+            setup_guide:{ label:"دليل تأسيس شركة (أبوظبي)" }
+          }
+        }
+      }
+    };
 
-<!-- ===== Architecture / Workflow ===== -->
-<section class="arch">
-  <div class="container">
-    <div class="box">
-      <h2 style="color:var(--accent)">How it works</h2>
-      <div class="diagram">
-        <div class="card">
-          <h4>Inputs</h4>
-          <p>Emails, forms, messages, invoices, schedules.</p>
-        </div>
-        <div class="card">
-          <h4>Automation Brain</h4>
-          <p>AI assistants & workflows coordinate tasks, approvals, and data.</p>
-        </div>
-        <div class="card">
-          <h4>Outputs</h4>
-          <p>Reports, dashboards, messages, and actions — all on time.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+    const $ = s => document.querySelector(s);
+    const state = { lang: localStorage.getItem('rehaf_lang') || 'en' };
+    document.documentElement.setAttribute('dir', state.lang==='ar'?'rtl':'ltr');
 
-<!-- ===== Arabic Close ===== -->
-<section class="arabic">
-  <div class="container">
-    <div class="headline">كن الأوّل في السوق</div>
-    <div class="sub">مع REHAF، المستقبل يبدأ الآن.</div>
-  </div>
-</section>
+    const DUBAI_TZ = 'Asia/Dubai';
 
-<!-- Custom Cursor “R” -->
-<div class="cursorR" id="cursorR">R</div>
-
-<!-- ===== Scripts ===== -->
-<script>
-/* ========== 1) Load services + place hotspots from JSON ========== */
-(async function(){
-  const res = await fetch('services.json');
-  const data = await res.json();
-
-  const wrap = document.getElementById('officeWrap');
-  const pop  = document.getElementById('pop');
-
-  // create hotspots based on positions from JSON (% of image)
-  data.departments.forEach(d => {
-    if(!d.position) return;
-    const b = document.createElement('button');
-    b.className = 'hotspot';
-    b.style.left = d.position.x + '%';
-    b.style.top  = d.position.y + '%';
-    b.setAttribute('aria-label', d.title + ' — click to view services');
-    b.dataset.key = d.key;
-    b.innerHTML = `
-      <img src="${d.img}" alt="${d.title} mascot">
-      <div class="lbl">${d.title}</div>
-    `;
-    wrap.appendChild(b);
-  });
-
-  // one open at a time
-  let openKey = null;
-  function openPop(d, anchor){
-    pop.innerHTML = `
-      <h4>${d.title}</h4>
-      <p>${d.tagline}</p>
-      <ul>${d.services.map(s => `<li>${s}</li>`).join('')}</ul>
-    `;
-    // position near the anchor, keep in box
-    const W = wrap.getBoundingClientRect();
-    const R = anchor.getBoundingClientRect();
-    const popW = Math.min(320, W.width - 16);
-    let left = R.left - W.left - popW/2 + R.width/2;
-    left = Math.max(8, Math.min(left, W.width - popW - 8));
-    const top = R.top - W.top - 8 + window.scrollY;
-
-    pop.style.left = left + 'px';
-    pop.style.top  = (top) + 'px';
-    pop.style.width = popW + 'px';
-    pop.classList.add('show');
-  }
-  function closePop(){ pop.classList.remove('show'); openKey=null; }
-
-  wrap.addEventListener('click', (e)=>{
-    const hit = e.target.closest('.hotspot');
-    if(!hit) return;
-    const key = hit.dataset.key;
-    if(openKey === key){ closePop(); return; }
-    const d = data.departments.find(x => x.key === key);
-    openKey = key; openPop(d, hit);
-  });
-  document.addEventListener('click', (e)=>{
-    if(!pop.classList.contains('show')) return;
-    if(e.target.closest('.hotspot') || e.target.closest('#pop')) return;
-    closePop();
-  });
-  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closePop(); });
-
-  // quick grid list (3 items each)
-  const quick = document.getElementById('quickGrid');
-  data.departments.filter(d=>!d.quickHide).forEach(d=>{
-    const el = document.createElement('div'); el.className='qitem';
-    const three = d.services.slice(0,3).map(s=>s.split(' — ')[0]).join(', ');
-    el.innerHTML = `<b>${d.title}</b><p>${three}.</p>`;
-    quick.appendChild(el);
-  });
-})();
-</script>
-
-<script>
-/* ========== 2) Custom cursor “R” + shapes (hidden over runner) ========== */
-(function(){
-  const cursor = document.getElementById('cursorR');
-  const runnerCard = document.getElementById('runnerCard');
-  let paused = false, last = 0;
-  const palette = ['rgba(0,171,154,0.95)','rgba(0,120,108,0.95)','rgba(0,69,62,0.95)','rgba(130,226,216,0.95)'];
-  function move(x,y){ if(paused) return; cursor.style.left=x+'px'; cursor.style.top=y+'px'; }
-  function pick(a){ return a[(Math.random()*a.length)|0]; }
-  function spawn(x,y){
-    if(paused) return;
-    const d=document.createElement('div'); d.className='shape';
-    const size = 14 + Math.random()*28;
-    d.style.width=size+'px'; d.style.height=size+'px';
-    d.style.left=x+'px'; d.style.top=y+'px';
-    d.style.background=`radial-gradient(circle at 40% 40%, ${pick(palette)}, ${pick(palette)})`;
-    d.style.borderRadius='40% 70% 60% 50% / 60% 40% 70% 50%';
-    d.addEventListener('animationend',()=>d.remove(),{once:true});
-    document.body.appendChild(d);
-  }
-  window.addEventListener('mousemove',e=>{ move(e.clientX,e.clientY); if(performance.now()-last>28){spawn(e.clientX,e.clientY); last=performance.now(); }},{passive:true});
-  window.addEventListener('touchmove',e=>{ const t=e.touches[0]; if(!t) return; move(t.clientX,t.clientY); },{passive:true});
-  runnerCard.addEventListener('mouseenter',()=>{ paused=true; cursor.style.display='none'; });
-  runnerCard.addEventListener('mouseleave',()=>{ paused=false; cursor.style.display='flex'; });
-})();
-</script>
-
-<script>
-/* ========== 3) REHAF Runner (auto-start in view) ========== */
-(function(){
-  const canvas = document.getElementById('rehafRunner');
-  const scoreEl= document.getElementById('runnerScore');
-  const card = document.getElementById('runnerCard');
-  const ctx = canvas.getContext('2d');
-  function fit(){ const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1)); const w=canvas.clientWidth,h=canvas.clientHeight; canvas.width=w*dpr; canvas.height=h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); vw=w; vh=h; }
-  let vw=canvas.clientWidth, vh=canvas.clientHeight; fit(); window.addEventListener('resize',fit,{passive:true});
-
-  const C={bg:'#fff', ground:'#e7f4f1', r1:'#00ab9a', r2:'#00786c', letter:'#00453e', shadow:'rgba(0,0,0,.10)'};
-  let inView=false, running=true, score=0, best=0, lastMile=0, t0=0;
-  const gy=()=>Math.round(vh-36);
-  const R={x:80,y:0,w:34,h:40,vy:0,gravity:.68,jumpV:-10.6,onGround:true,angle:0,scaleX:1,scaleY:1,jumps:0,maxJumps:2};
-  const letters=['E','H','A','F'], obs=[], spawn={t:0,next:980};
-
-  function reset(){ score=0; lastMile=0; running=true; R.y=gy()-R.h; R.vy=0; R.onGround=true; R.jumps=0; R.angle=0; R.scaleX=1; R.scaleY=1; obs.length=0; spawn.t=0; spawn.next=980; }
-  reset();
-
-  function toast(txt){ const d=document.createElement('div'); d.className='toast'; d.textContent=txt; card.appendChild(d); setTimeout(()=>d.remove(),1600); }
-  function jump(){ if(!inView) return; if(!running){ reset(); return; } if(R.jumps<R.maxJumps){ R.vy=R.jumpV; R.onGround=false; R.jumps++; R.scaleX=1.10; R.scaleY=.90; R.angle=-.20; } }
-  window.addEventListener('keydown',e=>{ if([' ','ArrowUp','w','W'].includes(e.key)||['Space','ArrowUp','KeyW'].includes(e.code)){ e.preventDefault(); jump(); }});
-  canvas.addEventListener('pointerdown',jump,{passive:true});
-
-  function rnd(a,b){ return Math.random()*(b-a)+a; }
-  function spawnObs(){ const size=rnd(18,28), speed=rnd(2.2,2.9), right=obs.length?obs[obs.length-1].x:vw+50; obs.push({x:Math.max(vw+20,right+rnd(300,420)), y:gy(), s:size, v:speed, ch:letters[(Math.random()*letters.length)|0]}); }
-
-  function update(dt){
-    R.vy+=R.gravity; R.y+=R.vy;
-    const target = Math.max(-.6,Math.min(.6,R.vy*.045));
-    R.angle += (target-R.angle)*.25; R.scaleX += (1-R.scaleX)*.15; R.scaleY += (1-R.scaleY)*.15;
-    const y=gy()-R.h; if(R.y>=y){ R.y=y; R.vy=0; if(!R.onGround){R.scaleX=.94; R.scaleY=1.06;} R.onGround=true; R.jumps=0; R.angle*=.6; }
-
-    spawn.t+=dt; if(spawn.t>=spawn.next){ spawn.t=0; spawn.next=rnd(900,1250); spawnObs(); }
-
-    for(let i=obs.length-1;i>=0;i--){ const o=obs[i]; o.x-=o.v; if(o.x+o.s<-30) obs.splice(i,1);
-      const hit = !(R.x+R.w < o.x-o.s/2 || R.x > o.x+o.s/2 || R.y+R.h < o.y-o.s || R.y > o.y);
-      if(hit){ running=false; best=Math.max(best,Math.floor(score)); }
+    function todayFormatted(lang){
+      const now = new Date();
+      const opts = { day:'2-digit', month:'2-digit', year:'numeric', timeZone:DUBAI_TZ };
+      return new Intl.DateTimeFormat(lang==='ar'?'ar-EG':'en-GB', opts).format(now);
     }
-    if(running){ score += dt*.01; const mile=Math.floor(score/100); if(mile>lastMile){ lastMile=mile; toast(`Well done! Mile ${mile}`);} }
-    scoreEl.textContent = `${Math.floor(score)}${best ? ' / Best '+best : ''}`;
-  }
 
-  function drawBG(){ ctx.fillStyle=C.bg; ctx.fillRect(0,0,vw,vh); ctx.strokeStyle=C.ground; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(0,gy()+.5); ctx.lineTo(vw,gy()+.5); ctx.stroke(); }
-  function drawRunner(){ ctx.save(); ctx.translate(R.x+R.w/2, R.y+R.h/2); ctx.rotate(R.angle); ctx.scale(R.scaleX,R.scaleY);
-    ctx.save(); ctx.translate(-R.w/2, -R.h/2); ctx.fillStyle=C.shadow; ctx.beginPath(); ctx.ellipse(R.w/2, R.h+6, R.w*.36, 6, 0, 0, Math.PI*2); ctx.fill();
-    const r=8,x=0,y=0,w=R.w,h=R.h; ctx.beginPath(); ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-    const g=ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,C.r1); g.addColorStop(1,C.r2); ctx.fillStyle=g; ctx.fill();
-    ctx.fillStyle='#fff'; ctx.font='bold 22px Inter, system-ui'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('R', w/2, h/2 - 1);
-    ctx.restore(); ctx.restore(); }
-  function drawObs(o){ const x=o.x, y=o.y; ctx.save(); ctx.fillStyle='rgba(0,171,154,0.08)'; ctx.strokeStyle='#cfe7e3'; ctx.lineWidth=1;
-    ctx.fillRect(x-o.s/2, y-o.s, o.s, o.s); ctx.strokeRect(x-o.s/2, y-o.s, o.s, o.s);
-    ctx.fillStyle=C.letter; ctx.font=`bold ${Math.floor(o.s*.8)}px Inter, system-ui`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(o.ch, x, y-o.s/2+2); ctx.restore(); }
-  function drawOver(){ if(running) return; ctx.save(); ctx.fillStyle='rgba(255,255,255,.85)'; ctx.fillRect(0,0,vw,vh);
-    ctx.fillStyle=C.letter; ctx.font='bold 22px Inter, system-ui'; ctx.textAlign='center'; ctx.fillText('Game Over — tap or press Space to restart', vw/2, vh/2); ctx.restore(); }
+    async function loadVacancies(){
+      try{
+        const res = await fetch('/vacancies.json?v='+Date.now());
+        if(!res.ok) throw 0;
+        const data = await res.json();
+        CONFIG.vacancies.items = Array.isArray(data.items) ? data.items : [];
+      }catch{ CONFIG.vacancies.items = []; }
+    }
 
-  function loop(ts){ const dt=Math.min(32, ts-(t0||ts)); t0=ts; if(inView){ update(dt); drawBG(); obs.forEach(drawObs); drawRunner(); drawOver(); } else { drawBG(); obs.forEach(drawObs); drawRunner(); } requestAnimationFrame(loop); }
-  requestAnimationFrame(loop);
+    function t(path){
+      const parts = path.split('.'); let curr = CONFIG.i18n[state.lang];
+      for(const k of parts){ if(!curr) break; curr = curr[k]; } return curr || path;
+    }
 
-  const io = new IntersectionObserver(es=>{ es.forEach(e=>{ inView=e.isIntersecting; }); },{threshold:.2});
-  io.observe(canvas);
-})();
-</script>
+    function render(){
+      document.documentElement.setAttribute('dir', state.lang==='ar'?'rtl':'ltr');
+      $('#year').textContent = new Date().getFullYear();
+      $('#welcomeText').textContent = t('welcome');
 
-</body>
+      const wrap = $('#links'); wrap.innerHTML = '';
+      CONFIG.links.forEach(l=>{
+        const a = document.createElement('a');
+        a.href = l.url || '#'; a.target = l.url && l.url.startsWith('http') ? '_blank' : '';
+        a.className = 'btn rounded-2xl p-4 block transition';
+        const label = t(`links.${l.key}.label`);
+        const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang==='ar'?'قريبًا':'Soon'}</span>`:'';
+        a.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon||'🔗'}</div>
+            <div class="flex-1">
+              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
+              <div class="text-base opacity-90">${l.info||''}</div>
+            </div>
+          </div>`;
+        if(l.soon){ a.classList.add('disabled'); a.removeAttribute('href'); }
+        wrap.appendChild(a);
+      });
+
+      $('#vacTitle').textContent = t('vacTitle');
+      $('#todayDate').textContent = todayFormatted(state.lang);
+
+      const list = $('#vacList'); list.innerHTML='';
+      if(CONFIG.vacancies.items?.length){
+        $('#vacEmpty').textContent = '';
+        CONFIG.vacancies.items.forEach(v=>{
+          const title = state.lang==='ar' ? (v.title_ar||v.title_en) : (v.title_en||v.title_ar);
+          const meta  = state.lang==='ar' ? (v.meta_ar||'')       : (v.meta_en||'');
+          list.insertAdjacentHTML('beforeend', `
+            <li><div class="flex items-center gap-2">
+              <span class="opacity-80">-</span>
+              <span class="text-base">${title}</span>
+              <span class="text-sm opacity-70 ml-auto">${meta}</span>
+            </div></li>`);
+        });
+      }else{
+        $('#vacEmpty').textContent = t('vacEmpty');
+      }
+    }
+
+    loadVacancies().then(render);
+
+    $('#langToggle').addEventListener('click', () => {
+      state.lang = (state.lang === 'en') ? 'ar' : 'en';
+      localStorage.setItem('rehaf_lang', state.lang);
+      render();
+      window.rehafFaqRender?.(); // refresh FAQ if open
+    });
+  </script>  <!-- ===== FAQ Bubble (static, no typing) ===== -->  <a class="rehaf-faq-launcher" id="faqBtn" href="#" aria-label="Open FAQ chat">
+    <span class="rehaf-faq-avatar"><img src="/assets/mascot.png" alt="Chat mascot"></span>
+    <span class="rehaf-faq-label">FAQ Chat</span>
+  </a>  <div class="rehaf-faq-panel" id="faqPanel" role="dialog" aria-modal="true" aria-label="REHAF Assistant — FAQ">
+    <div class="rehaf-faq-header">
+      <span id="faqTitle">REHAF Assistant — FAQ</span>
+      <button class="rehaf-faq-close" id="faqClose">✕</button>
+    </div>
+    <div class="rehaf-faq-body" id="faqBody"></div>
+  </div>  <script>
+    // --- FAQ content (EN / AR) ---
+    const FAQ = {
+      en: {
+        title: "REHAF Assistant — FAQ",
+        back: "Back to FAQ",
+        close: "Close",
+        list: [
+          ["What is REHAF?",
+`REHAF is a Business Solution Provider. We help with consultancy,
+recruitment, management, cost analysis, business plans, design, AI automation,
+and **customized solutions** for growth.`],
+          ["What services does REHAF provide?",
+`Our main service is **customizing solutions** for clients: hiring & recruitment,
+project setup/design, and AI automation/digital solutions.`],
+          ["How does pricing work?",
+`Pricing depends on service type and customization. Some services may be free.
+Start by filling the **Business Consultancy** form; we’ll contact you.`],
+          ["Where can I apply for a job?",
+`Fill the **Apply for a Job** form. Vacancies are shown at the bottom of the page.`],
+          ["What vacancies are available today?",
+`Vacancies (if any) are listed in **Vacancies open for today** on this page.`],
+          ["How can I request hiring for my business?",
+`Use the **Hiring Service Request** form; our team will contact you.`],
+          ["How can I request a business consultancy?",
+`Use the **Other Service Request (Consultant Service)** form and we’ll reach out.`],
+          ["How long does hiring take?",
+`It depends on applicants. Sometimes 5 minutes, up to 48 hours maximum.`],
+          ["How can I contact REHAF?",
+`Email: lilafutum@gmail.com. We’ll call after reviewing your request.`],
+        ]
+      },
+      ar: {
+        title: "مساعد REHAF — الأسئلة الشائعة",
+        back: "الرجوع إلى الأسئلة",
+        close: "إغلاق",
+        list: [
+          ["ما هي REHAF؟",
+`REHAF هي مزود حلول أعمال. نساعد في الاستشارات والتوظيف والإدارة
+وتحليل التكاليف وخطط الأعمال والتصميم وأتمتة الذكاء الاصطناعي
+وحلول **مخصصة** للنمو.`],
+          ["ما الخدمات التي تقدمها REHAF؟",
+`خدمتنا الأساسية هي **تخصيص الحلول** للعملاء: التوظيف،
+تأسيس/تصميم المشاريع، وحلول الأتمتة الرقمية.`],
+          ["كيف تعمل سياسة الأسعار؟",
+`الأسعار تعتمد على نوع الخدمة ومستوى التخصيص. بعض الخدمات قد تكون مجانية.
+ابدأ بتعبئة نموذج **الاستشارة** وسنتواصل معك.`],
+          ["أين يمكنني التقديم على وظيفة؟",
+`عبّئ نموذج **التقدم لوظيفة**. تُعرض الوظائف في أسفل الصفحة.`],
+          ["ما الوظائف المتاحة اليوم؟",
+`إن وُجدت وظائف فستظهر في قسم **الوظائف المتاحة اليوم** في هذه الصفحة.`],
+          ["كيف أطلب خدمة التوظيف لشركتي؟",
+`استخدم نموذج **طلب خدمة التوظيف** وسيتواصل الفريق معك.`],
+          ["كيف أطلب استشارة أعمال؟",
+`استخدم نموذج **طلب خدمة أخرى (استشارات)** وسنتواصل معك.`],
+          ["كم يستغرق التوظيف؟",
+`يعتمد على المتقدمين. أحيانًا 5 دقائق وحتى 48 ساعة كحد أقصى.`],
+          ["كيف أتواصل مع REHAF؟",
+`البريد: lilafutum@gmail.com — سنتصل بك بعد مراجعة طلبك.`],
+        ]
+      }
+    };
+
+    const faqPanel = document.getElementById('faqPanel');
+    const faqBody  = document.getElementById('faqBody');
+    const faqTitle = document.getElementById('faqTitle');
+    const faqBtn   = document.getElementById('faqBtn');
+    const faqClose = document.getElementById('faqClose');
+
+    const getLang = () => localStorage.getItem('rehaf_lang') || 'en';
+
+    function renderFaqList(){
+      const lang = getLang();
+      const dict = FAQ[lang];
+      faqTitle.textContent = dict.title;
+      faqBody.innerHTML = '';
+      dict.list.forEach(([q, _a], i) => {
+        const row = document.createElement('div');
+        row.className = 'q-item';
+        row.innerHTML = `<span class="q-dot"></span><span>${q}</span>`;
+        row.addEventListener('click', () => renderFaqAnswer(i));
+        faqBody.appendChild(row);
+      });
+    }
+
+    function renderFaqAnswer(idx){
+      const lang = getLang();
+      const dict = FAQ[lang];
+      const [q, a] = dict.list[idx];
+      faqTitle.textContent = dict.title;
+      faqBody.innerHTML = `
+        <div class="answer"><strong>${q}</strong>\n\n${a}</div>
+        <div class="faq-actions">
+          <button id="backFaq">${dict.back} ←</button>
+          <button id="closeFaq">${dict.close}</button>
+        </div>
+      `;
+      document.getElementById('backFaq').onclick  = renderFaqList;
+      document.getElementById('closeFaq').onclick = () => faqPanel.style.display='none';
+    }
+
+    function openFaq(e){ if(e) e.preventDefault(); faqPanel.style.display='flex'; renderFaqList(); }
+    function closeFaq(){ faqPanel.style.display='none'; }
+
+    faqBtn.addEventListener('click', openFaq, { passive:false });
+    faqClose.addEventListener('click', closeFaq);
+
+    // Expose re-render hook so main toggle can refresh questions text live
+    window.rehafFaqRender = () => {
+      if (faqPanel.style.display === 'flex') renderFaqList();
+    };
+  </script></body>
 </html>
