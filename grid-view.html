@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8" />
+<title>Floorplan Grid Viewer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<style>
+  body {
+    font-family: system-ui, Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 20px;
+  }
+  h1 { font-size: 18px; margin-bottom: 10px; }
+  #wrap {
+    position: relative;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  #floorplan {
+    max-width: 90vw;
+    height: auto;
+    display: block;
+  }
+  /* 5% grid */
+  #grid5, #grid10, #labels {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  #grid5 {
+    background-image:
+      repeating-linear-gradient(to right, rgba(0,0,0,.1) 0, rgba(0,0,0,.1) 1px, transparent 1px, transparent 5%),
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.1) 0, rgba(0,0,0,.1) 1px, transparent 1px, transparent 5%);
+  }
+  #grid10 {
+    background-image:
+      repeating-linear-gradient(to right, rgba(0,0,0,.25) 0, rgba(0,0,0,.25) 1px, transparent 1px, transparent 10%),
+      repeating-linear-gradient(to bottom, rgba(0,0,0,.25) 0, rgba(0,0,0,.25) 1px, transparent 1px, transparent 10%);
+  }
+  #labels { font: 12px/1.2 system-ui; color: #111; }
+  #labels .lbl {
+    position: absolute;
+    background: rgba(255,255,255,.75);
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 1px 4px;
+    transform: translate(-50%,-50%);
+  }
+  #labels .lbl.t { transform: translate(-50%, 2px); }
+  #labels .lbl.l { transform: translate(2px, -50%); }
+  #labels .lbl.tl { transform: translate(2px,2px); }
+</style>
+<body>
+  <h1>Floorplan Grid Viewer</h1>
+  <p>Origin is top-left (0,0). X increases →, Y increases ↓. Each square = 5%.</p>
+  <div id="wrap">
+    <!-- Replace src with your floorplan -->
+    <img id="floorplan" src="rehaf-automation/assets/floorplan.webp" alt="floorplan" />
+    <div id="grid5"></div>
+    <div id="grid10"></div>
+    <div id="labels"></div>
+  </div>
+
+<script>
+(function(){
+  const img = document.getElementById('floorplan');
+  const lbls = document.getElementById('labels');
+  const mk = (txt, left, top, cls) => {
+    const d = document.createElement('div');
+    d.className = 'lbl ' + (cls||'');
+    d.style.left = left + '%';
+    d.style.top  = top  + '%';
+    d.textContent = txt;
+    lbls.appendChild(d);
+  };
+  mk('(0,0)', 0, 0, 'tl');
+  for (let p = 10; p <= 100; p += 10) {
+    mk(`${p}%`, p, 0, 't');   // X axis top
+    mk(`${p}%`, 0, p, 'l');   // Y axis left
+  }
+
+  // Show clicked coords
+  img.addEventListener('click', e => {
+    const r = img.getBoundingClientRect();
+    const xPct = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const yPct = ((e.clientY - r.top)  / r.height* 100).toFixed(1);
+    alert(`x: ${xPct}%, y: ${yPct}%`);
+  });
+})();
+</script>
+</body>
+</html>
