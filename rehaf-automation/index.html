@@ -1,60 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>REHAF — AI Virtual Office</title>
   <meta name="theme-color" content="#00ab9a" />
 
-  <!-- v2 clean -->
-
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --teal:#00ab9a; --teal-dark:#00786c; --accent:#00453e;
-      --ink:#0f172a; --muted:#64748b; --bg:#f6fbfa; --line:#e5efee;
+    :root {
+      --teal: #00ab9a;
+      --teal-dark: #00786c;
+      --accent: #00453e;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --bg: #f6fbfa;
+      --line: #e5efee;
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--ink);background:#fff;overflow-x:hidden}
 
-    /* Header */
-    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-    .container{max-width:1120px;margin:0 auto;padding:0 20px}
-    .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
-    .logoMark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#38c7b9,#82e2d8)}
-    .brand{display:flex;gap:10px;align-items:center;text-decoration:none}
-    .brand span{font-weight:900;color:var(--accent);letter-spacing:.4px}
-    .cta{background:var(--teal);color:#fff;padding:10px 16px;border-radius:14px;font-weight:800;text-decoration:none}
-    .cta:hover{background:var(--teal-dark)}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-    /* Generic sections */
-    .section{padding:48px 0}
-    @media (min-width:1024px){.section{padding:64px 0}}
-    .section h2{font-size:28px;color:var(--accent)}
-    .section .sub{color:var(--muted);margin-top:6px}
+    html, body { height: 100% }
+    body {
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color: var(--ink);
+      background: #fff;
+      overflow-x: hidden;
+    }
 
-    /* Why / Testimony / CTA / Arabic (unchanged) */
-    .why{background:#f9fefe;padding:60px 20px;text-align:center}
-    .why h2{color:var(--accent);font-size:30px;margin-bottom:16px}
-    .why p{max-width:720px;margin:0 auto;color:#465667;line-height:1.6;font-size:17px}
-    .testimony{padding:50px 20px;text-align:center}
-    .testimony h3{color:var(--accent);margin-bottom:10px}
-    .testimony p{color:#465667;max-width:640px;margin:0 auto;font-style:italic}
-    .ctaBlock{padding:40px 0;text-align:center}
-    .btn{padding:12px 18px;border-radius:14px;font-weight:800;text-decoration:none}
-    .btn.primary{background:var(--teal);color:#fff;box-shadow:0 10px 20px rgba(0,171,154,.25)}
-    .btn.primary:hover{background:var(--teal-dark)}
-    .arabic{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#0d1217,#00332f);color:#e9fbf7}
-    .arabic .headline{font-family:"Tajawal",system-ui,sans-serif;font-weight:800;font-size:clamp(28px,5.6vw,52px);letter-spacing:.5px}
-    .arabic .sub{margin-top:8px;opacity:.9}
+    /* ===== Header ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, .75);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line)
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px }
+    .bar { height: 64px; display: flex; align-items: center; justify-content: space-between }
+    .logoMark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--teal), #38c7b9, #82e2d8)
+    }
+    .brand { display: flex; gap: 10px; align-items: center; text-decoration: none }
+    .brand span { font-weight: 900; color: var(--accent); letter-spacing: .4px }
+    .cta { background: var(--teal); color: #fff; padding: 10px 16px; border-radius: 14px; font-weight: 800; text-decoration: none }
+    .cta:hover { background: var(--teal-dark) }
+
+    /* ===== Sections ===== */
+    .section { padding: 48px 0 }
+    @media (min-width:1024px) { .section { padding: 64px 0 } }
+    .section h2 { font-size: 28px; color: var(--accent) }
+    .section .sub { color: var(--muted); margin-top: 6px }
+
+    /* ===== Why Automation ===== */
+    .why { background: #f9fefe; padding: 60px 20px; text-align: center }
+    .why h2 { color: var(--accent); font-size: 30px; margin-bottom: 16px }
+    .why p { max-width: 720px; margin: 0 auto; color: #465667; line-height: 1.6; font-size: 17px }
+
+    /* ===== Testimony ===== */
+    .testimony { padding: 50px 20px; text-align: center }
+    .testimony h3 { color: var(--accent); margin-bottom: 10px }
+    .testimony p { color: #465667; max-width: 640px; margin: 0 auto; font-style: italic }
+
+    /* ===== CTA ===== */
+    .ctaBlock { padding: 40px 0; text-align: center }
+    .btn { padding: 12px 18px; border-radius: 14px; font-weight: 800; text-decoration: none }
+    .btn.primary { background: var(--teal); color: #fff; box-shadow: 0 10px 20px rgba(0, 171, 154, .25) }
+    .btn.primary:hover { background: var(--teal-dark) }
+
+    /* ===== Arabic Close ===== */
+    .arabic { padding: 60px 20px; text-align: center; background: linear-gradient(135deg, #0d1217, #00332f); color: #e9fbf7 }
+    .arabic .headline { font-family: "Tajawal", system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 5.6vw, 52px); letter-spacing: .5px }
+    .arabic .sub { margin-top: 8px; opacity: .9 }
   </style>
 </head>
-<body>
 
-  <!-- Header -->
+<body>
   <header class="header">
     <div class="container bar">
       <a class="brand" href="#"><div class="logoMark"></div><span>REHAF</span></a>
@@ -62,63 +92,17 @@
     </div>
   </header>
 
-  <!-- Mount points for modules -->
-  <div id="hero"></div>
-  <div id="office"></div>
+  <!-- Section placeholders -->
+  <section id="rehaf-hero"></section>
+  <section id="rehaf-office" class="section container"></section>
+  <section id="rehaf-why" class="why"></section>
+  <section id="rehaf-testimony" class="testimony"></section>
+  <section id="rehaf-cta" class="ctaBlock container"></section>
+  <section id="rehaf-runner" class="section runner-wrap"></section>
+  <section id="rehaf-architecture" class="arch"></section>
+  <section id="rehaf-footer"></section>
 
-  <!-- Static sections kept in index for SEO/text -->
-  <section class="why">
-    <h2>Why Automation Matters</h2>
-    <p>Automation reduces repetitive work, lowers costs, and minimizes errors.
-       With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.</p>
-  </section>
-
-  <section class="testimony">
-    <h3>What People Say</h3>
-    <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
-  </section>
-
-  <section class="ctaBlock container">
-    <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
-    <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
-    <div style="display:flex;justify-content:center;margin-top:12px">
-      <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
-    </div>
-  </section>
-
-  <div id="runner"></div>
-  <div id="architecture"></div>
-  <div id="footer"></div>
-
-  <!-- Load page pieces via ES modules -->
-  <script type="module">
-    import { initRehafHero }        from './rehaf-hero.js';
-    import { initRehafOffice }      from './rehaf-office.js';
-    import { initRehafRunner }      from './rehaf-runner.js';
-    import { initRehafArchitecture }from './rehaf-architecture.js';
-    import { initRehafFooter }      from './rehaf-footer.js';
-
-    // HERO — uses your welcome mascot (update path if needed)
-    initRehafHero(document.getElementById('hero'), {
-      image: 'assets/moscot.webp',             // exact case & extension
-      title: 'Hi, I am REHAF',
-      subtitle: 'Welcome to our AI Virtual Office.',
-      hint: 'Scroll to enter the office ↓'
-    });
-
-    // OFFICE — reads hotspots from services.json (paths must match repo)
-    initRehafOffice(document.getElementById('office'), './services.json', {
-      floorplan: 'assets/floorplan.webp'       // exact case & extension
-    });
-
-    // RUNNER — mini-game
-    initRehafRunner(document.getElementById('runner'));
-
-    // ARCHITECTURE — your “How it works” section
-    initRehafArchitecture(document.getElementById('architecture'));
-
-    // FOOTER — Arabic close & future links
-    initRehafFooter(document.getElementById('footer'));
-  </script>
+  <!-- Boot script that calls all modules -->
+  <script type="module" src="./rehaf-boot.js" defer></script>
 </body>
 </html>
