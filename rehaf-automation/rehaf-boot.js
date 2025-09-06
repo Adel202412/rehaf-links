@@ -19,7 +19,7 @@
 
   // Mount in order; if a module is missing, skip gracefully
   heroMod.renderHero?.($('#hero'));
-  officeMod.renderOffice?.($('#office'), { servicesUrl: './services.json' });
+  officeMod.initRehafOffice?.($('#office'), { servicesUrl: './services.json' });
   runnerMod.renderRunner?.($('#runner'));
   archMod.renderArchitecture?.($('#architecture'));
   footerMod.renderFooter?.($('#footer'));
