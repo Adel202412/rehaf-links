@@ -18,11 +18,11 @@
   ]);
 
   // Mount in order; if a module is missing, skip gracefully
-  heroMod.renderHero?.($('#hero'));
+  heroMod.unitRehafHero?.($('#hero'));
   officeMod.initRehafOffice?.($('#office'), { servicesUrl: './services.json' });
   runnerMod.initRehafRunner?.($('#runner'));
-  archMod.renderArchitecture?.($('#architecture'));
-  footerMod.renderFooter?.($('#footer'));
+  archMod.initRehafArchitecture?.($('#architecture'));
+  footerMod.initRehafFooter?.($('#footer'));
 
   // Tiny debug helper if you add ?debug in URL
   if (new URLSearchParams(location.search).has('debug')) {
