@@ -1,992 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>REHAF — AI Virtual Office</title>
-    <meta name="theme-color" content="#00ab9a" />
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --teal: #00ab9a;
-            --teal-dark: #00786c;
-            --accent: #00453e;
-            --ink: #0f172a;
-            --muted: #64748b;
-            --bg: #f6fbfa;
-            --line: #e5efee;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-
-        html,
-        body {
-            height: 100%
-        }
-
-        body {
-            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-            color: var(--ink);
-            background: #fff;
-            overflow-x: hidden;
-        }
-
-        /* ===== Header ===== */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(255, 255, 255, .75);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--line)
-        }
-
-        .container {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 20px
-        }
-
-        .bar {
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between
-        }
-
-        .logoMark {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--teal), #38c7b9, #82e2d8)
-        }
-
-        .brand {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            text-decoration: none
-        }
-
-        .brand span {
-            font-weight: 900;
-            color: var(--accent);
-            letter-spacing: .4px
-        }
-
-        .cta {
-            background: var(--teal);
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 14px;
-            font-weight: 800;
-            text-decoration: none
-        }
-
-        .cta:hover {
-            background: var(--teal-dark)
-        }
-
-        /* ===== Hero ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
-        }
-
-        .mascotWelcome {
-            width: min(600px, 90vw);
-            height: auto;
-            display: block;
-            margin: 0 auto 20px;
-            filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .12));
-        }
-
-        .hero h1 {
-            font-size: clamp(34px, 6vw, 64px);
-            color: var(--accent);
-            font-weight: 900;
-            line-height: 1.04
-        }
-
-        .hero p {
-            margin-top: 10px;
-            color: #465667;
-            font-size: clamp(16px, 2.2vw, 18px)
-        }
-
-        .downHint {
-            margin-top: 14px;
-            color: var(--muted);
-            font-size: 14px
-        }
-
-        /* ===== Sections ===== */
-        .section {
-            padding: 48px 0
-        }
-
-        @media (min-width:1024px) {
-            .section {
-                padding: 64px 0
-            }
-        }
-
-        .section h2 {
-            font-size: 28px;
-            color: var(--accent)
-        }
-
-        .section .sub {
-            color: var(--muted);
-            margin-top: 6px
-        }
-
-        /* ===== Office (floorplan) ===== */
-        .officeWrap {
-            margin-top: 16px;
-            position: relative;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, .06)
-        }
-
-        #floorplan {
-            display: block;
-            width: 100%;
-            height: auto;
-            max-height: 560px;
-            object-fit: cover
-        }
-
-        .hotspot {
-            position: absolute;
-            transform: translate(-50%, -100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            outline: none;
-            border: 0;
-            background: transparent;
-            cursor: pointer;
-            z-index: 10;
-            touch-action: manipulation;
-        }
-
-        .hotspot img {
-            height: 86px;
-            width: auto;
-            display: block;
-            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .18))
-        }
-
-        .hotspot .lbl {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            padding: 4px 8px;
-            font-size: 12px;
-            color: var(--accent);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
-            opacity: 0;
-            transform: translateY(-6px);
-            transition: all .18s ease
-        }
-
-        .hotspot:hover .lbl,
-        .hotspot:focus-visible .lbl {
-            opacity: 1;
-            transform: translateY(0)
-        }
-
-        .pop {
-            position: absolute;
-            z-index: 30;
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 14px;
-            width: min(320px, 80vw);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, .16);
-            display: none
-        }
-
-        .pop.show {
-            display: block;
-            animation: pop .2s ease
-        }
-
-        @keyframes pop {
-            from {
-                opacity: 0;
-                transform: translateY(-6px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .pop h4 {
-            color: var(--accent);
-            font-size: 16px;
-            margin-bottom: 6px
-        }
-
-        .pop p {
-            color: #465667;
-            font-size: 13px;
-            margin-bottom: 8px
-        }
-
-        .pop ul {
-            list-style: none;
-            display: grid;
-            gap: 6px
-        }
-
-        .pop li {
-            font-size: 13px;
-            color: #334155;
-            padding-left: 16px;
-            position: relative
-        }
-
-        .pop li::before {
-            content: "•";
-            position: absolute;
-            left: 4px;
-            color: var(--teal)
-        }
-
-        /* ===== Why Automation Matters ===== */
-        .why {
-            background: #f9fefe;
-            padding: 60px 20px;
-            text-align: center
-        }
-
-        .why h2 {
-            color: var(--accent);
-            font-size: 30px;
-            margin-bottom: 16px
-        }
-
-        .why p {
-            max-width: 720px;
-            margin: 0 auto;
-            color: #465667;
-            line-height: 1.6;
-            font-size: 17px
-        }
-
-        /* ===== Testimony ===== */
-        .testimony {
-            padding: 50px 20px;
-            text-align: center
-        }
-
-        .testimony h3 {
-            color: var(--accent);
-            margin-bottom: 10px
-        }
-
-        .testimony p {
-            color: #465667;
-            max-width: 640px;
-            margin: 0 auto;
-            font-style: italic
-        }
-
-        /* ===== CTA ===== */
-        .ctaBlock {
-            padding: 40px 0;
-            text-align: center
-        }
-
-        .btn {
-            padding: 12px 18px;
-            border-radius: 14px;
-            font-weight: 800;
-            text-decoration: none
-        }
-
-        .btn.primary {
-            background: var(--teal);
-            color: #fff;
-            box-shadow: 0 10px 20px rgba(0, 171, 154, .25)
-        }
-
-        .btn.primary:hover {
-            background: var(--teal-dark)
-        }
-
-        /* ===== Runner ===== */
-        .runner-wrap {
-            display: flex;
-            justify-content: center
-        }
-
-        .runner-card {
-            width: min(92vw, 820px);
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            box-shadow: 0 8px 26px rgba(0, 0, 0, .08);
-            padding: 12px 12px 6px;
-            position: relative;
-            margin-top: 30px
-        }
-
-        .runner-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 6px 8px;
-            color: #475569;
-            font-size: 14px
-        }
-
-        .runner-head b {
-            color: var(--accent)
-        }
-
-        #rehafRunner {
-            width: 100%;
-            height: 240px;
-            display: block;
-            cursor: default
-        }
-
-        .runner-help {
-            text-align: center;
-            color: #64748b;
-            font-size: 12px;
-            padding: 6px 0 2px
-        }
-
-        .toast {
-            position: absolute;
-            left: 50%;
-            top: 34px;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 12px;
-            font-weight: 800;
-            box-shadow: 0 10px 18px rgba(0, 0, 0, .18);
-            animation: toastPop 1600ms ease forwards;
-            pointer-events: none;
-            white-space: nowrap
-        }
-
-        @keyframes toastPop {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -6px) scale(.95)
-            }
-
-            15% {
-                opacity: 1;
-                transform: translate(-50%, 0) scale(1)
-            }
-
-            70% {
-                opacity: 1
-            }
-
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -10px) scale(.96)
-            }
-        }
-
-        /* ===== Architecture ===== */
-        .arch {
-            padding: 44px 0;
-            background: linear-gradient(180deg, #f9fefe 0%, #f2fbf8 100%)
-        }
-
-        .arch .box {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 16px;
-            display: grid;
-            gap: 12px
-        }
-
-        .diagram {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px
-        }
-
-        @media (max-width:800px) {
-            .diagram {
-                grid-template-columns: 1fr
-            }
-        }
-
-        .card {
-            background: #f9fbfb;
-            border: 1px dashed #d7ece6;
-            border-radius: 12px;
-            padding: 12px;
-            color: #334155;
-            min-height: 80px
-        }
-
-        .card h4 {
-            color: var(--accent);
-            margin-bottom: 6px
-        }
-
-        /* ===== Arabic Close ===== */
-        .arabic {
-            padding: 60px 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #0d1217, #00332f);
-            color: #e9fbf7
-        }
-
-        .arabic .headline {
-            font-family: "Tajawal", system-ui, sans-serif;
-            font-weight: 800;
-            font-size: clamp(28px, 5.6vw, 52px);
-            letter-spacing: .5px;
-        }
-
-        .arabic .sub {
-            margin-top: 8px;
-            opacity: .9
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>REHAF — AI Virtual Office</title>
+  <meta name="theme-color" content="#00ab9a" />
+
+  <!-- v2 clean -->
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --teal:#00ab9a; --teal-dark:#00786c; --accent:#00453e;
+      --ink:#0f172a; --muted:#64748b; --bg:#f6fbfa; --line:#e5efee;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--ink);background:#fff;overflow-x:hidden}
+
+    /* Header */
+    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .container{max-width:1120px;margin:0 auto;padding:0 20px}
+    .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
+    .logoMark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#38c7b9,#82e2d8)}
+    .brand{display:flex;gap:10px;align-items:center;text-decoration:none}
+    .brand span{font-weight:900;color:var(--accent);letter-spacing:.4px}
+    .cta{background:var(--teal);color:#fff;padding:10px 16px;border-radius:14px;font-weight:800;text-decoration:none}
+    .cta:hover{background:var(--teal-dark)}
+
+    /* Generic sections */
+    .section{padding:48px 0}
+    @media (min-width:1024px){.section{padding:64px 0}}
+    .section h2{font-size:28px;color:var(--accent)}
+    .section .sub{color:var(--muted);margin-top:6px}
+
+    /* Why / Testimony / CTA / Arabic (unchanged) */
+    .why{background:#f9fefe;padding:60px 20px;text-align:center}
+    .why h2{color:var(--accent);font-size:30px;margin-bottom:16px}
+    .why p{max-width:720px;margin:0 auto;color:#465667;line-height:1.6;font-size:17px}
+    .testimony{padding:50px 20px;text-align:center}
+    .testimony h3{color:var(--accent);margin-bottom:10px}
+    .testimony p{color:#465667;max-width:640px;margin:0 auto;font-style:italic}
+    .ctaBlock{padding:40px 0;text-align:center}
+    .btn{padding:12px 18px;border-radius:14px;font-weight:800;text-decoration:none}
+    .btn.primary{background:var(--teal);color:#fff;box-shadow:0 10px 20px rgba(0,171,154,.25)}
+    .btn.primary:hover{background:var(--teal-dark)}
+    .arabic{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#0d1217,#00332f);color:#e9fbf7}
+    .arabic .headline{font-family:"Tajawal",system-ui,sans-serif;font-weight:800;font-size:clamp(28px,5.6vw,52px);letter-spacing:.5px}
+    .arabic .sub{margin-top:8px;opacity:.9}
+  </style>
 </head>
-
 <body>
-<div id="debug" style="position:fixed; top:10px; left:10px; background:red; color:white; padding:10px; font-size:12px; max-width:300px; z-index:1000;"></div>
 
-    <header class="header">
-        <div class="container bar">
-            <a class="brand" href="#">
-                <div class="logoMark"></div><span>REHAF</span>
-            </a>
-            <a class="cta" href="mailto:info@rehaf.ae">Contact</a>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="header">
+    <div class="container bar">
+      <a class="brand" href="#"><div class="logoMark"></div><span>REHAF</span></a>
+      <a class="cta" href="mailto:info@rehaf.ae">Contact</a>
+    </div>
+  </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <img class="mascotWelcome" src="assets/moscot.webp" alt="REHAF mascot waving" />
-        <h1>Hi, I am REHAF</h1>
-        <p>Welcome to our AI Virtual Office.</p>
-        <div class="downHint">Scroll to enter the office ↓</div>
-    </section>
+  <!-- Mount points for modules -->
+  <div id="hero"></div>
+  <div id="office"></div>
 
-    <!-- Office -->
-    <section id="office" class="section container">
-        <h2>REHAF Office</h2><br>
-        <div class="sub">“To know our services, move your mouse over the department officers.” (Tap on mobile)</div>
+  <!-- Static sections kept in index for SEO/text -->
+  <section class="why">
+    <h2>Why Automation Matters</h2>
+    <p>Automation reduces repetitive work, lowers costs, and minimizes errors.
+       With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.</p>
+  </section>
 
-        <div class="officeWrap" id="officeWrap">
-            <img id="floorplan" src="assets/floorplan.webp" alt="REHAF office floor plan" loading="eager" />
-            <div class="pop" id="pop"></div>
-        </div>
-    </section>
+  <section class="testimony">
+    <h3>What People Say</h3>
+    <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
+  </section>
 
-    <!-- Why Automation -->
-    <section class="why">
-        <h2>Why Automation Matters</h2>
-        <p>
-            Automation reduces repetitive work, lowers costs, and minimizes errors.
-            With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.
-        </p>
-    </section>
+  <section class="ctaBlock container">
+    <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
+    <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
+    <div style="display:flex;justify-content:center;margin-top:12px">
+      <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
+    </div>
+  </section>
 
-    <!-- Testimony -->
-    <section class="testimony">
-        <h3>What People Say</h3>
-        <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
-    </section>
+  <div id="runner"></div>
+  <div id="architecture"></div>
+  <div id="footer"></div>
 
-    <!-- CTA -->
-    <section class="ctaBlock container">
-        <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
-        <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
-        <div style="display:flex;justify-content:center;margin-top:12px">
-            <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
-        </div>
-    </section>
+  <!-- Load page pieces via ES modules -->
+  <script type="module">
+    import { initRehafHero }        from './rehaf-hero.js';
+    import { initRehafOffice }      from './rehaf-office.js';
+    import { initRehafRunner }      from './rehaf-runner.js';
+    import { initRehafArchitecture }from './rehaf-architecture.js';
+    import { initRehafFooter }      from './rehaf-footer.js';
 
-    <!-- Runner -->
-    <section id="runner" class="section runner-wrap">
-        <div class="runner-card" id="runnerCard">
-            <div class="runner-head">
-                <div>🎮 <b>REHAF Runner</b> — auto-starts here. Tap or press <b>Space/↑/W</b> (double jump)</div>
-                <div>Score: <span id="runnerScore">0</span></div>
-            </div>
-            <canvas id="rehafRunner" width="820" height="240"></canvas>
-            <div class="runner-help">Obstacles are E, H, A, F — slower, smoother physics.</div>
-        </div>
-    </section>
-
-    <!-- Architecture -->
-    <section class="arch">
-        <div class="container">
-            <div class="box">
-                <h2 style="color:var(--accent)">How it works</h2>
-                <div class="diagram">
-                    <div class="card">
-                        <h4>Inputs</h4>
-                        <p>Emails, forms, messages, invoices, schedules.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Automation Brain</h4>
-                        <p>AI assistants & workflows coordinate tasks, approvals, and data.</p>
-                    </div>
-                    <div class="card">
-                        <h4>Outputs</h4>
-                        <p>Reports, dashboards, messages, and actions — all on time.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Arabic Close -->
-    <section class="arabic">
-        <div class="container">
-            <div class="headline">كن الأوّل في السوق</div>
-            <div class="sub">مع REHAF، المستقبل يبدأ الآن.</div>
-        </div>
-    </section>
-
-    <!-- Scripts -->
-    
-    <script>
-     (async function() {
-         const debug = document.getElementById('debug');
-         try {
-             const res = await fetch('services.json', {
-                 cache: 'no-cache'
-             });
-             const data = await res.json();
-             const wrap = document.getElementById('officeWrap');
-             const pop = document.getElementById('pop');
-
-             debug.innerHTML += '<br>Starting hotspot creation...';
-
-             data.departments.forEach((d, index) => {
-                 debug.innerHTML += `<br>Processing ${d.title}...`;
-
-                 if (!d.position) {
-                     debug.innerHTML += ` - SKIP: No position`;
-                     return;
-                 }
-
-                 debug.innerHTML += ` - Creating button...`;
-
-                 const b = document.createElement('button');
-                 b.className = 'hotspot';
-                 b.style.left = d.position.x + '%';
-                 b.style.top = d.position.y + '%';
-                 b.dataset.key = d.key;
-                 b.innerHTML = `<img src="${d.img}" alt="${d.title} mascot"><div class="lbl">${d.title}</div>`;
-
-                 debug.innerHTML += ` - Adding to wrap...`;
-                 wrap.appendChild(b);
-
-                 debug.innerHTML += ` - DONE`;
-             });
-
-             const hotspots = document.querySelectorAll('.hotspot');
-             debug.innerHTML += `<br>Final count: ${hotspots.length} hotspots`;
-
-             // Rest of the original code for click handlers...
-             let openKey = null;
-
-             function openPop(d, anchor) {
-                 pop.innerHTML = `<h4>${d.title}</h4><p>${d.tagline}</p><ul>${d.services.map(s=>`<li>${s}</li>`).join('')}</ul>`;
-                 const W = wrap.getBoundingClientRect();
-                 const R = anchor.getBoundingClientRect();
-                 const popW = Math.min(320, W.width - 16);
-                 let left = R.left - W.left - popW / 2 + R.width / 2;
-                 left = Math.max(8, Math.min(left, W.width - popW - 8));
-                 const top = R.top - W.top - 8 + window.scrollY;
-                 pop.style.left = left + 'px';
-                 pop.style.top = top + 'px';
-                 pop.style.width = popW + 'px';
-                 pop.classList.add('show');
-             }
-
-             function closePop() {
-                 pop.classList.remove('show');
-                 openKey = null;
-             }
-
-             wrap.addEventListener('click', e => {
-                 const hit = e.target.closest('.hotspot');
-                 if (!hit) return;
-                 const key = hit.dataset.key;
-                 if (openKey === key) {
-                     closePop();
-                     return;
-                 }
-                 const d = data.departments.find(x => x.key === key);
-                 openKey = key;
-                 openPop(d, hit);
-             });
-
-             document.addEventListener('click', e => {
-                 if (!pop.classList.contains('show')) return;
-                 if (e.target.closest('.hotspot') || e.target.closest('#pop')) return;
-                 closePop();
-             });
-
-         } catch (err) {
-             debug.innerHTML += `<br>ERROR: ${err.message}`;
-             console.error('Failed to load services.json', err);
-         }
-     })();
- </script>
-
-    <script>
-        (function() {
-            const canvas = document.getElementById('rehafRunner');
-            const scoreEl = document.getElementById('runnerScore');
-            const card = document.getElementById('runnerCard');
-            const ctx = canvas.getContext('2d');
-
-            function fit() {
-                const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-                const w = canvas.clientWidth,
-                    h = canvas.clientHeight;
-                canvas.width = w * dpr;
-                canvas.height = h * dpr;
-                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                vw = w;
-                vh = h;
-            }
-            let vw = canvas.clientWidth,
-                vh = canvas.clientHeight;
-            fit();
-            window.addEventListener('resize', fit, {
-                passive: true
-            });
-
-            const C = {
-                bg: '#fff',
-                ground: '#e7f4f1',
-                r1: '#00ab9a',
-                r2: '#00786c',
-                letter: '#00453e',
-                shadow: 'rgba(0,0,0,.10)'
-            };
-            let inView = false,
-                running = true,
-                score = 0,
-                best = 0,
-                lastMile = 0,
-                t0 = 0;
-            const gy = () => Math.round(vh - 36);
-            const R = {
-                x: 80,
-                y: 0,
-                w: 34,
-                h: 40,
-                vy: 0,
-                gravity: .68,
-                jumpV: -10.6,
-                onGround: true,
-                angle: 0,
-                scaleX: 1,
-                scaleY: 1,
-                jumps: 0,
-                maxJumps: 2
-            };
-            const letters = ['E', 'H', 'A', 'F'],
-                obs = [],
-                spawn = {
-                    t: 0,
-                    next: 980
-                };
-
-            function reset() {
-                score = 0;
-                lastMile = 0;
-                running = true;
-                R.y = gy() - R.h;
-                R.vy = 0;
-                R.onGround = true;
-                R.jumps = 0;
-                R.angle = 0;
-                R.scaleX = 1;
-                R.scaleY = 1;
-                obs.length = 0;
-                spawn.t = 0;
-                spawn.next = 980;
-            }
-            reset();
-
-            function toast(txt) {
-                const d = document.createElement('div');
-                d.className = 'toast';
-                d.textContent = txt;
-                card.appendChild(d);
-                setTimeout(() => d.remove(), 1600);
-            }
-
-            function jump() {
-                if (!inView) return;
-                if (!running) {
-                    reset();
-                    return;
-                }
-                if (R.jumps < R.maxJumps) {
-                    R.vy = R.jumpV;
-                    R.onGround = false;
-                    R.jumps++;
-                    R.scaleX = 1.10;
-                    R.scaleY = .90;
-                    R.angle = -.20;
-                }
-            }
-            window.addEventListener('keydown', e => {
-                if ([' ', 'ArrowUp', 'w', 'W'].includes(e.key) || ['Space', 'ArrowUp', 'KeyW'].includes(e.code)) {
-                    e.preventDefault();
-                    jump();
-                }
-            });
-            canvas.addEventListener('pointerdown', jump, {
-                passive: true
-            });
-
-            function rnd(a, b) {
-                return Math.random() * (b - a) + a;
-            }
-
-            function spawnObs() {
-                const size = rnd(18, 28),
-                    speed = rnd(2.2, 2.9),
-                    right = obs.length ? obs[obs.length - 1].x : vw + 50;
-                obs.push({
-                    x: Math.max(vw + 20, right + rnd(300, 420)),
-                    y: gy(),
-                    s: size,
-                    v: speed,
-                    ch: letters[(Math.random() * letters.length) | 0]
-                });
-            }
-
-            function update(dt) {
-                R.vy += R.gravity;
-                R.y += R.vy;
-                const target = Math.max(-.6, Math.min(.6, R.vy * .045));
-                R.angle += (target - R.angle) * .25;
-                R.scaleX += (1 - R.scaleX) * .15;
-                R.scaleY += (1 - R.scaleY) * .15;
-                const y = gy() - R.h;
-                if (R.y >= y) {
-                    R.y = y;
-                    R.vy = 0;
-                    if (!R.onGround) {
-                        R.scaleX = .94;
-                        R.scaleY = 1.06;
-                    }
-                    R.onGround = true;
-                    R.jumps = 0;
-                    R.angle *= .6;
-                }
-
-                spawn.t += dt;
-                if (spawn.t >= spawn.next) {
-                    spawn.t = 0;
-                    spawn.next = rnd(900, 1250);
-                    spawnObs();
-                }
-
-                for (let i = obs.length - 1; i >= 0; i--) {
-                    const o = obs[i];
-                    o.x -= o.v;
-                    if (o.x + o.s < -30) obs.splice(i, 1);
-                    const hit = !(R.x + R.w < o.x - o.s / 2 || R.x > o.x + o.s / 2 || R.y + R.h < o.y - o.s || R.y > o.y);
-                    if (hit) {
-                        running = false;
-                        best = Math.max(best, Math.floor(score));
-                    }
-                }
-                if (running) {
-                    score += dt * .01;
-                    const mile = Math.floor(score / 100);
-                    if (mile > lastMile) {
-                        lastMile = mile;
-                        toast(`Well done! Mile ${mile}`);
-                    }
-                }
-                scoreEl.textContent = `${Math.floor(score)}${best ? ' / Best '+best : ''}`;
-            }
-
-            function drawBG() {
-                ctx.fillStyle = C.bg;
-                ctx.fillRect(0, 0, vw, vh);
-                ctx.strokeStyle = C.ground;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(0, gy() + .5);
-                ctx.lineTo(vw, gy() + .5);
-                ctx.stroke();
-            }
-
-            function drawRunner() {
-                ctx.save();
-                ctx.translate(R.x + R.w / 2, R.y + R.h / 2);
-                ctx.rotate(R.angle);
-                ctx.scale(R.scaleX, R.scaleY);
-                ctx.save();
-                ctx.translate(-R.w / 2, -R.h / 2);
-                ctx.fillStyle = C.shadow;
-                ctx.beginPath();
-                ctx.ellipse(R.w / 2, R.h + 6, R.w * .36, 6, 0, 0, Math.PI * 2);
-                ctx.fill();
-                const r = 8,
-                    x = 0,
-                    y = 0,
-                    w = R.w,
-                    h = R.h;
-                ctx.beginPath();
-                ctx.moveTo(x + r, y);
-                ctx.lineTo(x + w - r, y);
-                ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-                ctx.lineTo(x + w, y + h - r);
-                ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-                ctx.lineTo(x + r, y + h);
-                ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-                ctx.lineTo(x, y + r);
-                ctx.quadraticCurveTo(x, y, x + r, y);
-                const g = ctx.createLinearGradient(0, 0, 0, h);
-                g.addColorStop(0, C.r1);
-                g.addColorStop(1, C.r2);
-                ctx.fillStyle = g;
-                ctx.fill();
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 22px Inter, system-ui';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('R', w / 2, h / 2 - 1);
-                ctx.restore();
-                ctx.restore();
-            }
-
-            function drawObs(o) {
-                const x = o.x,
-                    y = o.y;
-                ctx.save();
-                ctx.fillStyle = 'rgba(0,171,154,0.08)';
-                ctx.strokeStyle = '#cfe7e3';
-                ctx.lineWidth = 1;
-                ctx.fillRect(x - o.s / 2, y - o.s, o.s, o.s);
-                ctx.strokeRect(x - o.s / 2, y - o.s, o.s, o.s);
-                ctx.fillStyle = C.letter;
-                ctx.font = `bold ${Math.floor(o.s*.8)}px Inter, system-ui`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(o.ch, x, y - o.s / 2 + 2);
-                ctx.restore();
-            }
-
-            function drawOver() {
-                if (running) return;
-                ctx.save();
-                ctx.fillStyle = 'rgba(255,255,255,.85)';
-                ctx.fillRect(0, 0, vw, vh);
-                ctx.fillStyle = C.letter;
-                ctx.font = 'bold 22px Inter, system-ui';
-                ctx.textAlign = 'center';
-                ctx.fillText('Game Over — tap or press Space to restart', vw / 2, vh / 2);
-                ctx.restore();
-            }
-
-            function loop(ts) {
-                const dt = Math.min(32, ts - (t0 || ts));
-                t0 = ts;
-                if (inView) {
-                    update(dt);
-                    drawBG();
-                    obs.forEach(drawObs);
-                    drawRunner();
-                    drawOver();
-                } else {
-                    drawBG();
-                    obs.forEach(drawObs);
-                    drawRunner();
-                }
-                requestAnimationFrame(loop);
-            }
-            requestAnimationFrame(loop);
-
-            const io = new IntersectionObserver(es => {
-                es.forEach(e => {
-                    inView = e.isIntersecting;
-                });
-            }, {
-                threshold: .2
-            });
-            io.observe(canvas);
-        })();
-    </script>
-<!-- Add this right after your existing scripts, before </body> -->
-
-<script>
-const debug = document.getElementById('debug');
-
-fetch('services.json')
-  .then(res => res.json())
-  .then(data => {
-    debug.innerHTML = `JSON loaded! Found ${data.departments.length} departments<br>`;
-    
-    // Check each department's position data
-    data.departments.forEach((d, i) => {
-      debug.innerHTML += `${i+1}. ${d.title}: pos(${d.position.x}, ${d.position.y})<br>`;
+    // HERO — uses your welcome mascot (update path if needed)
+    initRehafHero(document.getElementById('hero'), {
+      image: 'assets/moscot.webp',             // exact case & extension
+      title: 'Hi, I am REHAF',
+      subtitle: 'Welcome to our AI Virtual Office.',
+      hint: 'Scroll to enter the office ↓'
     });
-    
-    debug.style.background = 'green';
-    debug.style.fontSize = '10px';
-    
-    // Test hotspot creation after a delay
-    setTimeout(() => {
-      const wrap = document.getElementById('officeWrap');
-      const hotspots = document.querySelectorAll('.hotspot');
-      debug.innerHTML += `<br>OfficeWrap found: ${wrap ? 'YES' : 'NO'}`;
-      debug.innerHTML += `<br>Hotspots created: ${hotspots.length}`;
-      
-      if (hotspots.length === 0) {
-        debug.innerHTML += `<br>ERROR: No hotspots created!`;
-      }
-    }, 1000);
-  })
-  .catch(err => {
-    debug.innerHTML = `Error: ${err.message}`;
-  });
-</script>
 
+    // OFFICE — reads hotspots from services.json (paths must match repo)
+    initRehafOffice(document.getElementById('office'), './services.json', {
+      floorplan: 'assets/floorplan.webp'       // exact case & extension
+    });
+
+    // RUNNER — mini-game
+    initRehafRunner(document.getElementById('runner'));
+
+    // ARCHITECTURE — your “How it works” section
+    initRehafArchitecture(document.getElementById('architecture'));
+
+    // FOOTER — Arabic close & future links
+    initRehafFooter(document.getElementById('footer'));
+  </script>
 </body>
-
 </html>
