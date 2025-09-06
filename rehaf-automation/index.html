@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>REHAF — AI Virtual Office</title>
     <meta name="theme-color" content="#00ab9a" />
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 
     <style>
@@ -18,7 +16,7 @@
             --ink: #0f172a;
             --muted: #64748b;
             --bg: #f6fbfa;
-            --line: #e5efee;
+            --line: #e5efee
         }
 
         * {
@@ -36,10 +34,10 @@
             font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
             color: var(--ink);
             background: #fff;
-            overflow-x: hidden;
+            overflow-x: hidden
         }
 
-        /* ===== Header ===== */
+        /* Header */
         .header {
             position: sticky;
             top: 0;
@@ -95,7 +93,28 @@
             background: var(--teal-dark)
         }
 
-        /* ===== Hero ===== */
+        /* Sections */
+        .section {
+            padding: 48px 0
+        }
+
+        @media (min-width:1024px) {
+            .section {
+                padding: 64px 0
+            }
+        }
+
+        .section h2 {
+            font-size: 28px;
+            color: var(--accent)
+        }
+
+        .section .sub {
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -103,7 +122,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(180deg, #fff 0%, var(--bg) 100%);
+            background: linear-gradient(180deg, #fff 0%, var(--bg) 100%)
         }
 
         .mascotWelcome {
@@ -111,7 +130,7 @@
             height: auto;
             display: block;
             margin: 0 auto 20px;
-            filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .12));
+            filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .12))
         }
 
         .hero h1 {
@@ -133,28 +152,7 @@
             font-size: 14px
         }
 
-        /* ===== Sections ===== */
-        .section {
-            padding: 48px 0
-        }
-
-        @media (min-width:1024px) {
-            .section {
-                padding: 64px 0
-            }
-        }
-
-        .section h2 {
-            font-size: 28px;
-            color: var(--accent)
-        }
-
-        .section .sub {
-            color: var(--muted);
-            margin-top: 6px
-        }
-
-        /* ===== Office (floorplan) ===== */
+        /* Office / floorplan */
         .officeWrap {
             margin-top: 16px;
             position: relative;
@@ -180,12 +178,12 @@
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            outline: none;
+            outline: 0;
             border: 0;
             background: transparent;
             cursor: pointer;
             z-index: 10;
-            touch-action: manipulation;
+            touch-action: manipulation
         }
 
         .hotspot img {
@@ -275,7 +273,42 @@
             color: var(--teal)
         }
 
-        /* ===== Why Automation Matters ===== */
+        .qgrid {
+            margin-top: 18px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(3, minmax(0, 1fr))
+        }
+
+        @media (max-width:900px) {
+            .qgrid {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        @media (max-width:600px) {
+            .qgrid {
+                grid-template-columns: repeat(1, minmax(0, 1fr))
+            }
+        }
+
+        .qitem {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px
+        }
+
+        .qitem b {
+            color: var(--accent)
+        }
+
+        .qitem p {
+            color: #465667;
+            margin-top: 6px
+        }
+
+        /* Why/Testimony/CTA */
         .why {
             background: #f9fefe;
             padding: 60px 20px;
@@ -296,7 +329,6 @@
             font-size: 17px
         }
 
-        /* ===== Testimony ===== */
         .testimony {
             padding: 50px 20px;
             text-align: center
@@ -314,10 +346,9 @@
             font-style: italic
         }
 
-        /* ===== CTA ===== */
         .ctaBlock {
-            padding: 40px 0;
-            text-align: center
+            text-align: center;
+            padding: 40px 0
         }
 
         .btn {
@@ -337,7 +368,7 @@
             background: var(--teal-dark)
         }
 
-        /* ===== Runner ===== */
+        /* Runner */
         .runner-wrap {
             display: flex;
             justify-content: center
@@ -418,7 +449,7 @@
             }
         }
 
-        /* ===== Architecture ===== */
+        /* Architecture */
         .arch {
             padding: 44px 0;
             background: linear-gradient(180deg, #f9fefe 0%, #f2fbf8 100%)
@@ -459,7 +490,7 @@
             margin-bottom: 6px
         }
 
-        /* ===== Arabic Close ===== */
+        /* Arabic close / footer */
         .arabic {
             padding: 60px 20px;
             text-align: center;
@@ -471,17 +502,37 @@
             font-family: "Tajawal", system-ui, sans-serif;
             font-weight: 800;
             font-size: clamp(28px, 5.6vw, 52px);
-            letter-spacing: .5px;
+            letter-spacing: .5px
         }
 
         .arabic .sub {
             margin-top: 8px;
             opacity: .9
         }
+
+        /* Tiny debug badge */
+        #dbg {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            background: #0b1220;
+            color: #a8f3e6;
+            border: 1px solid #1f3a36;
+            border-radius: 10px;
+            padding: 8px 10px;
+            font: 12px/1.2 system-ui, Segoe UI, Arial;
+            z-index: 9999;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, .25)
+        }
+
+        #dbg b {
+            color: #e8fff9
+        }
     </style>
 </head>
 
 <body>
+
     <header class="header">
         <div class="container bar">
             <a class="brand" href="#">
@@ -491,470 +542,118 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="hero"></section>
+    <!-- HERO (hero module will render here) -->
+    <section id="hero" class="hero"></section>
 
-    <!-- Office Section -->
+    <!-- OFFICE (shell required for office module) -->
     <section id="office" class="section container">
         <h2>REHAF Office</h2><br>
-        <div class="sub">Move your mouse over the department officers to discover services.</div>
+        <div class="sub">Move your mouse over the department officers to discover services. (Tap on mobile)</div>
         <div class="officeWrap" id="officeWrap">
             <img id="floorplan" src="assets/floorplan.webp" alt="REHAF office floor plan" loading="eager" />
             <div class="pop" id="pop"></div>
         </div>
+        <!-- Optional quick summary grid; used by office module if present -->
+        <div class="qgrid" id="quickGrid"></div>
     </section>
 
-    <!-- Why Automation -->
+    <!-- WHY -->
     <section class="why">
         <h2>Why Automation Matters</h2>
-        <p>
-            Automation reduces repetitive work, lowers costs, and minimizes errors.
-            With REHAF's AI-driven systems, your team can focus on growth instead of routine tasks.
-        </p>
+        <p>Automation reduces repetitive work, lowers costs, and minimizes errors. With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.</p>
     </section>
 
-    <!-- Testimony -->
+    <!-- TESTIMONY -->
     <section class="testimony">
         <h3>What People Say</h3>
-        <p>"REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer."</p>
+        <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
     </section>
 
     <!-- CTA -->
     <section class="ctaBlock container">
-        <h2 style="color:var(--accent);text-align:center">Let's start your journey with us</h2>
-        <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We'll automate the path.</p>
+        <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
+        <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
         <div style="display:flex;justify-content:center;margin-top:12px">
             <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
         </div>
     </section>
 
-    <!-- Runner Section -->
-    <section id="runner" class="section runner-wrap"></section>
+    <!-- RUNNER (shell required for runner module) -->
+    <section id="runner" class="section runner-wrap">
+        <div class="runner-card" id="runnerCard">
+            <div class="runner-head">
+                <div>🎮 <b>REHAF Runner</b> — Tap or press <b>Space/↑/W</b> (double jump)</div>
+                <div>Score: <span id="runnerScore">0</span></div>
+            </div>
+            <canvas id="rehafRunner" width="820" height="240" aria-label="REHAF Runner game"></canvas>
+            <div class="runner-help">Obstacles are E, H, A, F — slower, smoother physics.</div>
+        </div>
+    </section>
 
-    <!-- Architecture Section -->
+    <!-- ARCHITECTURE (module will render into .container) -->
     <section id="architecture" class="arch">
         <div class="container"></div>
     </section>
 
-    <!-- Footer Section -->
+    <!-- FOOTER (module will render into .container) -->
     <section id="footer" class="arabic">
         <div class="container"></div>
     </section>
 
-    <!-- Boot Script - Loads all modules -->
-<script type="module">
-    import('./rehaf-boot.js');
-</script>
+    <!-- Boot loader (ES module) -->
+    <script type="module" src="./rehaf-boot.js"></script>
 
-  <!--  <script type="module">
-        // Import all modules
-        import { initRehafHero } from './rehaf-hero.js';
-        import { initRehafArchitecture } from './rehaf-architecture.js';
-        import { initRehafFooter } from './rehaf-footer.js';
-        import { renderRunner } from './rehaf-runner.js';
-        import { initRehafOffice } from './rehaf-office.js';
+    <!-- Minimal on-page debugger -->
+    <script>
+        (function() {
+            const el = document.createElement('div');
+            el.id = 'dbg';
+            el.innerHTML = '<b>REHAF v2 debugger</b><div id="dbgmsg">Loading…</div>';
+            document.body.appendChild(el);
+            const msg = (t) => {
+                document.getElementById('dbgmsg').textContent = t
+            };
 
-        // Initialize all modules when DOM is ready
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Initialize hero section
-                const heroContainer = document.getElementById('hero');
-                if (heroContainer) {
-                    initRehafHero(heroContainer);
-                }
-
-                // Initialize office hotspots
-                const officeContainer = document.getElementById('officeWrap');
-                if (officeContainer) {
-                    await initRehafOffice(officeContainer);
-                }
-
-                // Initialize runner game
-                const runnerContainer = document.getElementById('runner');
-                if (runnerContainer) {
-                    renderRunner(runnerContainer);
-                }
-
-                // Initialize architecture section
-                const archContainer = document.querySelector('#architecture .container');
-                if (archContainer) {
-                    initRehafArchitecture(archContainer);
-                }
-
-                // Initialize footer
-                const footerContainer = document.querySelector('#footer .container');
-                if (footerContainer) {
-                    initRehafFooter(footerContainer);
-                }
-
-            } catch (error) {
-                console.error('Failed to initialize REHAF modules:', error);
+            function qs(s) {
+                return document.querySelector(s)
             }
-        });
-    </script>-->
-<script>
-// REHAF Module Debug Script
-// Add this script tag to your HTML just before </body>
+            const checks = [
+                ['Modules boot tag', !!document.querySelector('script[type="module"][src="./rehaf-boot.js"]')],
+                ['Hero container', !!qs('#hero')],
+                ['Office wrap', !!qs('#officeWrap')],
+                ['Office pop', !!qs('#pop')],
+                ['Runner canvas', !!qs('#rehafRunner')],
+                ['Runner score', !!qs('#runnerScore')],
+                ['Runner card', !!qs('#runnerCard')],
+                ['Architecture container', !!qs('#architecture .container')],
+                ['Footer container', !!qs('#footer .container')],
+            ];
 
-(function() {
-    'use strict';
-    
-    // Debug panel styles
-    const debugStyles = `
-        #rehaf-debug {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            width: 400px;
-            max-height: 80vh;
-            background: rgba(0, 0, 0, 0.9);
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            padding: 15px;
-            border-radius: 8px;
-            z-index: 10000;
-            overflow-y: auto;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-        
-        #rehaf-debug h3 {
-            color: #00ffff;
-            margin: 0 0 10px 0;
-            font-size: 14px;
-            text-align: center;
-            border-bottom: 1px solid #00ffff;
-            padding-bottom: 5px;
-        }
-        
-        .debug-section {
-            margin-bottom: 15px;
-            padding: 8px;
-            background: rgba(0, 255, 0, 0.1);
-            border-left: 3px solid #00ff00;
-        }
-        
-        .debug-section h4 {
-            color: #ffff00;
-            margin: 0 0 8px 0;
-            font-size: 12px;
-        }
-        
-        .debug-item {
-            margin: 3px 0;
-            padding: 2px 0;
-        }
-        
-        .debug-success { color: #00ff00; }
-        .debug-error { color: #ff0000; }
-        .debug-warning { color: #ffaa00; }
-        .debug-info { color: #00aaff; }
-        
-        .debug-toggle {
-            position: fixed;
-            top: 10px;
-            right: 420px;
-            background: #00ff00;
-            color: #000;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 10001;
-            font-size: 11px;
-        }
-        
-        .debug-close {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background: #ff0000;
-            color: #fff;
-            border: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 12px;
-            line-height: 1;
-        }
-        
-        .timestamp {
-            color: #888;
-            font-size: 10px;
-        }
-    `;
-    
-    // Create debug panel
-    function createDebugPanel() {
-        // Add styles
-        const style = document.createElement('style');
-        style.textContent = debugStyles;
-        document.head.appendChild(style);
-        
-        // Create debug panel
-        const debugPanel = document.createElement('div');
-        debugPanel.id = 'rehaf-debug';
-        debugPanel.innerHTML = `
-            <button class="debug-close" onclick="this.parentElement.style.display='none'">×</button>
-            <h3>🔍 REHAF MODULE DEBUGGER</h3>
-            <div id="debug-content"></div>
-        `;
-        
-        // Create toggle button
-        const toggleBtn = document.createElement('button');
-        toggleBtn.className = 'debug-toggle';
-        toggleBtn.textContent = 'REHAF DEBUG';
-        toggleBtn.onclick = () => {
-            debugPanel.style.display = debugPanel.style.display === 'none' ? 'block' : 'none';
-        };
-        
-        document.body.appendChild(debugPanel);
-        document.body.appendChild(toggleBtn);
-        
-        return document.getElementById('debug-content');
-    }
-    
-    const debugContent = createDebugPanel();
-    let logEntries = [];
-    
-    // Logging functions
-    function log(message, type = 'info', section = 'General') {
-        const timestamp = new Date().toLocaleTimeString();
-        const entry = { timestamp, message, type, section };
-        logEntries.push(entry);
-        updateDebugPanel();
-        console.log(`[REHAF Debug ${section}]`, message);
-    }
-    
-    function updateDebugPanel() {
-        const sections = {};
-        logEntries.forEach(entry => {
-            if (!sections[entry.section]) sections[entry.section] = [];
-            sections[entry.section].push(entry);
-        });
-        
-        debugContent.innerHTML = Object.keys(sections).map(sectionName => `
-            <div class="debug-section">
-                <h4>${sectionName}</h4>
-                ${sections[sectionName].map(entry => `
-                    <div class="debug-item debug-${entry.type}">
-                        <span class="timestamp">${entry.timestamp}</span> ${entry.message}
-                    </div>
-                `).join('')}
-            </div>
-        `).join('');
-        
-        // Auto-scroll to bottom
-        debugContent.scrollTop = debugContent.scrollHeight;
-    }
-    
-    // Module detection
-    function detectModules() {
-        log('Starting module detection...', 'info', 'Module Detection');
-        
-        const expectedModules = [
-            'rehaf-boot.js',
-            'rehaf-hero.js', 
-            'rehaf-office.js',
-            'rehaf-runner.js',
-            'rehaf-architecture.js',
-            'rehaf-footer.js'
-        ];
-        
-        expectedModules.forEach(async (moduleName) => {
-            try {
-                const response = await fetch(moduleName, { method: 'HEAD' });
-                if (response.ok) {
-                    log(`✓ ${moduleName} - File exists`, 'success', 'Module Detection');
-                } else {
-                    log(`✗ ${moduleName} - File missing (${response.status})`, 'error', 'Module Detection');
-                }
-            } catch (error) {
-                log(`✗ ${moduleName} - Network error: ${error.message}`, 'error', 'Module Detection');
-            }
-        });
-    }
-    
-    // DOM monitoring
-    function monitorDOM() {
-        log('Setting up DOM monitoring...', 'info', 'DOM Monitor');
-        
-        const targetSelectors = [
-            '#hero',
-            '#office', 
-            '#runner',
-            '#architecture',
-            '#footer',
-            '.officeWrap',
-            '.hotspot',
-            '#rehafRunner'
-        ];
-        
-        function checkElements() {
-            targetSelectors.forEach(selector => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    const hasContent = element.innerHTML.trim().length > 0;
-                    const hasChildren = element.children.length > 0;
-                    log(`${selector} - Found: ${hasContent ? 'Has content' : 'Empty'} (${element.children.length} children)`, 
-                        hasContent ? 'success' : 'warning', 'DOM Monitor');
-                } else {
-                    log(`${selector} - Not found in DOM`, 'error', 'DOM Monitor');
-                }
-            });
-        }
-        
-        // Initial check
-        checkElements();
-        
-        // Monitor for changes
-        const observer = new MutationObserver(() => {
-            log('DOM changed, rechecking elements...', 'info', 'DOM Monitor');
-            checkElements();
-        });
-        
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['class', 'id', 'style']
-        });
-    }
-    
-    // Script monitoring
-    function monitorScripts() {
-        log('Monitoring script loading...', 'info', 'Script Monitor');
-        
-        const scripts = document.querySelectorAll('script');
-        scripts.forEach((script, index) => {
-            if (script.src) {
-                log(`Script ${index + 1}: ${script.src}`, 'info', 'Script Monitor');
-            } else if (script.type === 'module') {
-                log(`Inline module script found (${script.innerHTML.length} chars)`, 'info', 'Script Monitor');
+            const bad = checks.filter(([_, ok]) => !ok);
+            if (bad.length) {
+                msg('Missing: ' + bad.map(b => b[0]).join(', '));
             } else {
-                log(`Inline script found (${script.innerHTML.length} chars)`, 'info', 'Script Monitor');
+                msg('Shells OK. Waiting for modules…');
             }
-        });
-    }
-    
-    // Network monitoring
-    function monitorNetwork() {
-        log('Setting up network monitoring...', 'info', 'Network Monitor');
-        
-        // Override fetch to monitor module loading
-        const originalFetch = window.fetch;
-        window.fetch = function(...args) {
-            const url = args[0];
-            if (typeof url === 'string' && (url.includes('.js') || url.includes('services.json'))) {
-                log(`Fetching: ${url}`, 'info', 'Network Monitor');
-            }
-            
-            return originalFetch.apply(this, args)
-                .then(response => {
-                    if (typeof url === 'string' && (url.includes('.js') || url.includes('services.json'))) {
-                        log(`${url} - ${response.ok ? 'Success' : 'Failed'} (${response.status})`, 
-                            response.ok ? 'success' : 'error', 'Network Monitor');
-                    }
-                    return response;
-                })
-                .catch(error => {
-                    if (typeof url === 'string' && (url.includes('.js') || url.includes('services.json'))) {
-                        log(`${url} - Error: ${error.message}`, 'error', 'Network Monitor');
-                    }
-                    throw error;
-                });
-        };
-    }
-    
-    // Error monitoring
-    function monitorErrors() {
-        log('Setting up error monitoring...', 'info', 'Error Monitor');
-        
-        window.addEventListener('error', (event) => {
-            log(`JavaScript Error: ${event.error.message} at ${event.filename}:${event.lineno}`, 'error', 'Error Monitor');
-        });
-        
-        window.addEventListener('unhandledrejection', (event) => {
-            log(`Unhandled Promise Rejection: ${event.reason}`, 'error', 'Error Monitor');
-        });
-    }
-    
-    // Performance monitoring
-    function monitorPerformance() {
-        log('Setting up performance monitoring...', 'info', 'Performance Monitor');
-        
-        if (window.PerformanceObserver) {
-            const observer = new PerformanceObserver((list) => {
-                list.getEntries().forEach((entry) => {
-                    if (entry.name.includes('.js')) {
-                        log(`${entry.name} - Load time: ${entry.duration.toFixed(2)}ms`, 'info', 'Performance Monitor');
-                    }
-                });
+
+            // Network sanity for modules & JSON
+            const toCheck = ['rehaf-boot.js', 'rehaf-hero.js', 'rehaf-office.js', 'rehaf-runner.js', 'rehaf-architecture.js', 'rehaf-footer.js', 'services.json'];
+            toCheck.forEach(u => {
+                fetch(u, {
+                    method: 'HEAD'
+                }).then(r => {
+                    if (!r.ok) console.warn('[DBG] Missing/blocked:', u, r.status);
+                }).catch(e => console.warn('[DBG] Network error:', u, e.message));
             });
-            observer.observe({ entryTypes: ['resource'] });
-        }
-    }
-    
-    // Module export detection
-    function detectModuleExports() {
-        log('Checking for module exports in global scope...', 'info', 'Export Detection');
-        
-        const commonExports = [
-            'initRehafHero',
-            'initRehafOffice', 
-            'renderRunner',
-            'initRehafArchitecture',
-            'initRehafFooter'
-        ];
-        
-        commonExports.forEach(exportName => {
-            if (window[exportName]) {
-                log(`✓ ${exportName} found in global scope`, 'success', 'Export Detection');
-            } else {
-                log(`✗ ${exportName} not found in global scope`, 'warning', 'Export Detection');
-            }
-        });
-    }
-    
-    // Initialize all monitoring
-    function initDebugger() {
-        log('🚀 REHAF Module Debugger initialized', 'success', 'System');
-        log(`User Agent: ${navigator.userAgent}`, 'info', 'System');
-        log(`URL: ${window.location.href}`, 'info', 'System');
-        
-        detectModules();
-        monitorDOM();
-        monitorScripts();
-        monitorNetwork();
-        monitorErrors();
-        monitorPerformance();
-        detectModuleExports();
-        
-        // Check every 5 seconds for changes
-        setInterval(() => {
-            detectModuleExports();
-        }, 5000);
-    }
-    
-    // Wait for DOM to be ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDebugger);
-    } else {
-        initDebugger();
-    }
-    
-    // Expose debug functions globally for manual testing
-    window.rehafDebug = {
-        log,
-        detectModules,
-        monitorDOM,
-        detectModuleExports
-    };
-    
-})();
-</script>
+
+            window.addEventListener('error', e => {
+                msg('JS Error: ' + (e.message || 'see console'));
+            });
+            window.addEventListener('unhandledrejection', e => {
+                msg('Promise rejection: ' + (e.reason || 'see console'));
+            });
+        })();
+    </script>
 </body>
+
 </html>
