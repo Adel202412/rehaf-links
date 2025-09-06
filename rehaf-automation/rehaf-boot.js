@@ -18,7 +18,7 @@
   ]);
 
   // Mount in order; if a module is missing, skip gracefully
-  heroMod.unitRehafHero?.($('#hero'));
+  heroMod.initRehafHero?.($('#hero'));
   officeMod.initRehafOffice?.($('#office'), { servicesUrl: './services.json' });
   runnerMod.initRehafRunner?.($('#runner'));
   archMod.initRehafArchitecture?.($('#architecture'));
