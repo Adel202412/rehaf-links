@@ -542,7 +542,11 @@
     </section>
 
     <!-- Boot Script - Loads all modules -->
-    <script type="module">
+<script type="module">
+    import('./rehaf-boot.js');
+</script>
+
+  <!--  <script type="module">
         // Import all modules
         import { initRehafHero } from './rehaf-hero.js';
         import { initRehafArchitecture } from './rehaf-architecture.js';
@@ -587,7 +591,7 @@
                 console.error('Failed to initialize REHAF modules:', error);
             }
         });
-    </script>
+    </script>-->
 <script>
 // REHAF Module Debug Script
 // Add this script tag to your HTML just before </body>
