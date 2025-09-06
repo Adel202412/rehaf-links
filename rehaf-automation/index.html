@@ -1,90 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>REHAF — AI Virtual Office</title>
   <meta name="theme-color" content="#00ab9a" />
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --teal: #00ab9a;
-      --teal-dark: #00786c;
-      --accent: #00453e;
-      --ink: #0f172a;
-      --muted: #64748b;
-      --bg: #f6fbfa;
-      --line: #e5efee;
-    }
+    :root{--teal:#00ab9a;--teal-dark:#00786c;--accent:#00453e;--ink:#0f172a;--muted:#64748b;--bg:#f6fbfa;--line:#e5efee}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:var(--ink);background:#fff;overflow-x:hidden}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
+    .container{max-width:1120px;margin:0 auto;padding:0 20px}
+    .header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .bar{height:64px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center;text-decoration:none}
+    .logoMark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#38c7b9,#82e2d8)}
+    .brand span{font-weight:900;color:var(--accent);letter-spacing:.4px}
+    .cta{background:var(--teal);color:#fff;padding:10px 16px;border-radius:14px;font-weight:800;text-decoration:none}
+    .cta:hover{background:var(--teal-dark)}
 
-    html, body { height: 100% }
-    body {
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-      color: var(--ink);
-      background: #fff;
-      overflow-x: hidden;
-    }
+    /* Section shells (modules will fill them) */
+    section{padding:48px 0}
+    @media(min-width:1024px){section{padding:64px 0}}
+    .heroShell{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#fff 0%,var(--bg) 100%)}
+    .center{text-align:center}
 
-    /* ===== Header ===== */
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 255, 255, .75);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line)
-    }
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 20px }
-    .bar { height: 64px; display: flex; align-items: center; justify-content: space-between }
-    .logoMark {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--teal), #38c7b9, #82e2d8)
-    }
-    .brand { display: flex; gap: 10px; align-items: center; text-decoration: none }
-    .brand span { font-weight: 900; color: var(--accent); letter-spacing: .4px }
-    .cta { background: var(--teal); color: #fff; padding: 10px 16px; border-radius: 14px; font-weight: 800; text-decoration: none }
-    .cta:hover { background: var(--teal-dark) }
-
-    /* ===== Sections ===== */
-    .section { padding: 48px 0 }
-    @media (min-width:1024px) { .section { padding: 64px 0 } }
-    .section h2 { font-size: 28px; color: var(--accent) }
-    .section .sub { color: var(--muted); margin-top: 6px }
-
-    /* ===== Why Automation ===== */
-    .why { background: #f9fefe; padding: 60px 20px; text-align: center }
-    .why h2 { color: var(--accent); font-size: 30px; margin-bottom: 16px }
-    .why p { max-width: 720px; margin: 0 auto; color: #465667; line-height: 1.6; font-size: 17px }
-
-    /* ===== Testimony ===== */
-    .testimony { padding: 50px 20px; text-align: center }
-    .testimony h3 { color: var(--accent); margin-bottom: 10px }
-    .testimony p { color: #465667; max-width: 640px; margin: 0 auto; font-style: italic }
-
-    /* ===== CTA ===== */
-    .ctaBlock { padding: 40px 0; text-align: center }
-    .btn { padding: 12px 18px; border-radius: 14px; font-weight: 800; text-decoration: none }
-    .btn.primary { background: var(--teal); color: #fff; box-shadow: 0 10px 20px rgba(0, 171, 154, .25) }
-    .btn.primary:hover { background: var(--teal-dark) }
-
-    /* ===== Arabic Close ===== */
-    .arabic { padding: 60px 20px; text-align: center; background: linear-gradient(135deg, #0d1217, #00332f); color: #e9fbf7 }
-    .arabic .headline { font-family: "Tajawal", system-ui, sans-serif; font-weight: 800; font-size: clamp(28px, 5.6vw, 52px); letter-spacing: .5px }
-    .arabic .sub { margin-top: 8px; opacity: .9 }
+    /* Simple defaults in case modules fail to load (fallback only) */
+    #hero .fallback{max-width:740px;padding:40px 20px;text-align:center}
+    #hero .fallback img{width:min(600px,90vw);height:auto;display:block;margin:0 auto 16px}
+    h2{color:var(--accent);font-size:28px}
+    .why p,.testimony p{max-width:720px;margin:10px auto 0;color:#465667;line-height:1.6}
+    .ctaBlock .btn{display:inline-block;margin-top:12px;padding:12px 18px;border-radius:14px;font-weight:800;text-decoration:none;background:var(--teal);color:#fff}
+    .arabic{padding:60px 20px;text-align:center;background:linear-gradient(135deg,#0d1217,#00332f);color:#e9fbf7}
+    .arabic .headline{font-family:"Tajawal",system-ui,sans-serif;font-weight:800;font-size:clamp(28px,5.6vw,52px)}
+    .arabic .sub{opacity:.9;margin-top:8px}
   </style>
 </head>
-
 <body>
+
   <header class="header">
     <div class="container bar">
       <a class="brand" href="#"><div class="logoMark"></div><span>REHAF</span></a>
@@ -92,17 +47,54 @@
     </div>
   </header>
 
-  <!-- Section placeholders -->
-  <section id="rehaf-hero"></section>
-  <section id="rehaf-office" class="section container"></section>
-  <section id="rehaf-why" class="why"></section>
-  <section id="rehaf-testimony" class="testimony"></section>
-  <section id="rehaf-cta" class="ctaBlock container"></section>
-  <section id="rehaf-runner" class="section runner-wrap"></section>
-  <section id="rehaf-architecture" class="arch"></section>
-  <section id="rehaf-footer"></section>
+  <!-- HERO (module renders here; fallback below shows if modules fail) -->
+  <section id="hero" class="heroShell">
+    <div class="fallback">
+      <img src="assets/moscot.webp" alt="REHAF mascot" />
+      <h1 style="font-size:clamp(34px,6vw,64px);color:var(--accent);font-weight:900;line-height:1.04">Hi, I am REHAF</h1>
+      <p style="color:#465667;margin-top:10px">Welcome to our AI Virtual Office.</p>
+      <div style="color:var(--muted);margin-top:8px">Scroll to enter the office ↓</div>
+    </div>
+  </section>
 
-  <!-- Boot script that calls all modules -->
+  <!-- OFFICE (floor plan + hotspots) -->
+  <section id="office" class="container"></section>
+
+  <!-- WHY / TESTIMONY / CTA (keep lightweight; modules optional) -->
+  <section id="why" class="why center">
+    <h2>Why Automation Matters</h2>
+    <p>Automation reduces repetitive work, lowers costs, and minimizes errors. With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.</p>
+  </section>
+
+  <section id="testimony" class="testimony center">
+    <h3 style="color:var(--accent)">What People Say</h3>
+    <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
+  </section>
+
+  <section id="cta" class="ctaBlock center">
+    <h2 style="color:var(--accent)">Let’s start your journey with us</h2>
+    <p style="color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
+    <a class="btn" href="mailto:info@rehaf.ae">Contact Us</a>
+  </section>
+
+  <!-- RUNNER (module) -->
+  <section id="runner" class="container"></section>
+
+  <!-- ARCHITECTURE (module) -->
+  <section id="architecture" class="container"></section>
+
+  <!-- ARABIC CLOSE -->
+  <section class="arabic">
+    <div class="container">
+      <div class="headline">كن الأوّل في السوق</div>
+      <div class="sub">مع REHAF، المستقبل يبدأ الآن.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER (module) -->
+  <footer id="footer"></footer>
+
+  <!-- BOOT MODULE -->
   <script type="module" src="./rehaf-boot.js" defer></script>
 </body>
 </html>
