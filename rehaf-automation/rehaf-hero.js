@@ -1,7 +1,7 @@
 // in rehaf-hero.js
 export function initRehafHero(container) {
   if (!container) return;
-  container.classList.add('split');
+  container.classList.add("split");
   container.innerHTML = `
     <div class="hero-inner">
       <div class="copy">
@@ -12,7 +12,7 @@ export function initRehafHero(container) {
         </h1>
         <p class="sub">All my employees are AI Employees, and they are extremely clever and 24 hours working for me.</p>
         <div class="btn-row">
-          <a class="btnx primary" href="mailto:lilafutum@gmail.com">You can contact me to rent you my employee</a>
+          <a class="btnx primary" href="mailto:lilafutum@gmail.com">contact me to rent my employees 😁</a>
         </div>
       </div>
       <div class="visual">
@@ -23,6 +23,5 @@ export function initRehafHero(container) {
         </div>
       </div>
     </div>
-     <div class="downHint">Scroll to enter the office !</div>
   `;
 }
