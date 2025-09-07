@@ -116,45 +116,140 @@
         }
 
         /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: #fff;
-            /*border-radius: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15);
-        */}
+/* ===== Legacy centered hero (kept, but scoped) ===== */
+.hero:not(.split) {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  /* border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.15); */
+}
 
-        .mascotWelcome {
-            width: min(600px, 90vw);
-            height: auto;
-            display: block;
-            margin: 0 auto 20px;
-         /*   filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .12))*/
-        }
+.hero:not(.split) .mascotWelcome {
+  width: min(600px, 90vw);
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  /* filter: drop-shadow(0 12px 22px rgba(0, 0, 0, .12)) */
+}
 
-        .hero h1 {
-            font-size: clamp(34px, 6vw, 64px);
-            color: var(--accent);
-            font-weight: 900;
-            line-height: 1.04
-        }
+.hero:not(.split) h1 {
+  font-size: clamp(34px, 6vw, 64px);
+  color: var(--accent);
+  font-weight: 900;
+  line-height: 1.04;
+}
 
-        .hero p {
-            margin-top: 10px;
-            color: #465667;
-            font-size: clamp(16px, 2.2vw, 18px)
-        }
+.hero:not(.split) p {
+  margin-top: 10px;
+  color: #465667;
+  font-size: clamp(16px, 2.2vw, 18px);
+}
 
-        .downHint {
-            margin-top: 14px;
-            color: var(--muted);
-            font-size: 14px
-        }
+/* ===== Split hero (text left • video right) ===== */
+.hero.split {
+  min-height: 88vh;        /* slightly shorter to reveal separation under header */
+  text-align: left;        /* override the legacy center */
+  background: #fff;
+  display: block;          /* grid lives inside */
+  padding: clamp(24px, 5vw, 56px) 0;
+}
 
+.hero.split .hero-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;  /* text | visual */
+  gap: clamp(16px, 3vw, 36px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .hero.split .hero-inner { grid-template-columns: 1fr; }
+}
+
+.hero.split .kicker {
+  display: inline-block;
+  font-weight: 800;
+  color: var(--teal-dark);
+  background: rgba(0,171,154,.08);
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: .3px;
+  margin-bottom: 10px;
+}
+
+.hero.split h1 {
+  font-size: clamp(34px, 5.4vw, 58px);
+  color: var(--accent);
+  font-weight: 900;
+  line-height: 1.06;
+  letter-spacing: -.2px;
+}
+
+.hero.split h1 .ai { color: #7c3aed; }       /* purple highlight */
+.hero.split h1 .brand { color: var(--teal-dark); }
+
+.hero.split p.sub {
+  margin-top: 12px;
+  color: #465667;
+  font-size: clamp(16px, 2.1vw, 18px);
+  max-width: 56ch;
+}
+
+/* CTA buttons */
+.hero.split .btn-row {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;
+}
+.hero.split .btnx {
+  appearance: none; border: 0; cursor: pointer; user-select: none;
+  font-weight: 800; border-radius: 14px; padding: 12px 16px;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+  font-size: 16px;
+}
+.hero.split .btnx.primary {
+  color: #fff;
+  background: linear-gradient(135deg, #7c3aed, #6366f1);
+  box-shadow: 0 10px 22px rgba(124,58,237,.25);
+}
+.hero.split .btnx.primary:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(124,58,237,.32); }
+.hero.split .btnx.ghost {
+  background: #f3f6f6;
+  color: var(--accent);
+  border: 1px solid var(--line);
+}
+.hero.split .btnx.ghost:hover { background: #e9f2f0; }
+
+/* Right video card */
+.hero.split .visual { justify-self: end; width: min(520px, 100%); }
+.hero.split .card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.07);
+}
+.hero.split .mascotWelcome {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+/* shared */
+.downHint {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+}
         /* Office / floorplan */
         .officeWrap {
             margin-top: 16px;
@@ -472,7 +567,7 @@
         /* Architecture */
         .arch {
             padding: 44px 0;
-            background: linear-gradient(180deg, #f9fefe 0%, #f2fbf8 100%)
+            background: linear-gradient(180deg, #f9fefe 0%, #f2fbf8 100%);
             box-shadow: inset 0 -20px 40px -10px rgba(1, 77m 78, 0.7);
                     /*        ↑  ↑    ↑     ↑         ↑
                       inset, x, y, blur, spread,  teal color with opacity */
