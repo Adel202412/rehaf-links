@@ -547,54 +547,83 @@
             #quickGrid {
             display: none !important;
             }*/
+                                                /* Hide only the injected services list under the floorplan */
+                                    #quickGrid { 
+                                    display: none !important; 
+                                    }
 
-                    /* Hover cues for mascots */
-                    .hotspot { cursor: pointer; }
-                    .hotspot img { transition: transform .16s ease; }
-                    .hotspot:hover img { transform: scale(1.06); }
-                    .hotspot:active img { transform: scale(0.98); }
+                                    /* Tighten spacing under the floorplan now that the list is gone */
+                                    #servicePanel { 
+                                    margin-top: 12px; 
+                                    }
 
-                    /* Hide the static list grid under the floorplan */
-                    #quickGrid { display: none !important; }
+                 /* Make mascots feel clickable */
+.hotspot { cursor: pointer; }
 
-                    /* Accordion panel under the floorplan */
-                    #servicePanel {
-                    margin-top: 12px;
-                    }
-                    .accordion {
-                    background: #fff;
-                    border: 1px solid var(--line);
-                    border-radius: 14px;
-                    box-shadow: 0 10px 26px rgba(0,0,0,.08);
-                    overflow: hidden;
-                    }
-                    .acc-head {
-                    background: var(--accent);
-                    color: #fff;
-                    padding: 12px 14px;
-                    font-weight: 800;
-                    text-align: center;
-                    font-size: 16px;
-                    }
-                    .acc-body {
-                    background: #f7fbfa;
-                    padding: 12px 14px;
-                    display: grid;
-                    gap: 6px;
-                    }
-                    .acc-chip {
-                    background: #fff;
-                    border: 1px solid var(--line);
-                    color: var(--accent);
-                    border-radius: 10px;
-                    padding: 6px 10px;
-                    font-size: 13px;
-                    text-align: center;
-                    }
+.hotspot img {
+  transition: transform .16s ease;
+}
 
-                    /* smooth open/close */
-                    .accordion { transition: opacity .18s ease, transform .18s ease; }
-                    .accordion.hide { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+.hotspot:hover img {
+  transform: scale(1.1);
+}
+
+/* small press feedback */
+.hotspot:active img {
+  transform: scale(0.98);
+}
+
+/* accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hotspot img { transition: none; }
+}
+
+/* Accordion panel under the floorplan */
+#servicePanel { margin-top: 12px; }
+
+#servicePanel .accordion {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.08);
+  overflow: hidden;
+  transition: opacity .18s ease, transform .18s ease;
+}
+#servicePanel .accordion.hide { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+
+#servicePanel .acc-head {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 14px;
+  font-weight: 800;
+  text-align: center;
+  font-size: 16px;
+}
+
+#servicePanel .acc-body {
+  background: #f7fbfa;
+  padding: 12px 14px;
+  display: grid;
+  gap: 8px;
+}
+
+#servicePanel .acc-chip {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Mobile polish */
+@media (max-width: 900px) {
+  #servicePanel .acc-head { font-size: 15px; padding: 10px 12px; }
+  #servicePanel .acc-chip { font-size: 12px; padding: 7px 10px; }
+}
+
+
 
     </style>
 </head>
@@ -754,77 +783,85 @@
 </script>
 <script>
 (function(){
-  // cache services.json once
+  // Cache services once; read from top-level "departments"
   let servicesData = null;
   async function getServices(){
     if (servicesData) return servicesData;
-    const r = await fetch('services.json'); 
-    servicesData = await r.json();
+    const r = await fetch('services.json');
+    const raw = await r.json();
+    servicesData = Array.isArray(raw) ? raw : (raw.departments || []);
     return servicesData;
   }
 
-  // helper: derive key from <img src="assets/mascots/<key>.webp">
-  function keyFromImgSrc(src){
-    const m = src.match(/assets\/mascots\/([^\/]+)\.(webp|png|jpg|jpeg)$/i);
-    return m ? m[1].toLowerCase() : null;
+  // Helpers: get "sales.webp" from a src, and find matching department by img path (case-insensitive)
+  function imgBase(src){
+    return (src || '').split('/').pop().toLowerCase(); // e.g., "sales.webp"
+  }
+  function findByImgBase(list, base){
+    return list.find(d => {
+      const p = (d.img || '').toLowerCase();
+      return p.endsWith('/' + base) || p.endsWith(base);
+    });
   }
 
+  // Render the accordion panel
   function renderPanel(item){
     const wrap = document.getElementById('servicePanel');
     if (!wrap) return;
 
-    // build accordion content
-    const chips = (item.services || []).map(s=>`<div class="acc-chip">${s}</div>`).join('');
+    const chips = (item.services || []).map(s => `<div class="acc-chip">${s}</div>`).join('');
+    const tagline = item.tagline ? `<div class="acc-chip" style="font-weight:600">${item.tagline}</div>` : '';
+
     wrap.innerHTML = `
-      <div class="accordion">
-        <div class="acc-head">${item.title || item.name || 'Services'}</div>
-        <div class="acc-body">${chips || '<div class="acc-chip">No services listed</div>'}</div>
+      <div class="accordion hide">
+        <div class="acc-head">${item.title || 'Services'}</div>
+        <div class="acc-body">
+          ${tagline}
+          ${chips || '<div class="acc-chip">No services listed</div>'}
+        </div>
       </div>
     `;
+
+    // small reveal
+    requestAnimationFrame(()=>{
+      const acc = wrap.querySelector('.accordion');
+      if (acc) acc.classList.remove('hide');
+    });
   }
 
-  // find all hotspots once DOM is ready (office module places them into #officeWrap)
+  // Attach click handlers once hotspots exist
   function attach(){
     const spots = document.querySelectorAll('.hotspot');
-    if (!spots.length) return; // try again later (modules may load async)
+    if (!spots.length) { setTimeout(attach, 300); return; }
 
     spots.forEach(spot=>{
       spot.addEventListener('click', async (e)=>{
         e.preventDefault();
         const img = spot.querySelector('img');
-        const key = img ? keyFromImgSrc(img.getAttribute('src')||'') : null;
-        const data = await getServices();
+        const base = imgBase(img?.getAttribute('src') || '');
+        const list = await getServices();
 
-        // match by key (icon filename), fallback by title text (label below mascot)
-        let item = null;
-        if (key && Array.isArray(data)) {
-          item = data.find(x => (x.icon||'').toLowerCase().includes(key));
-        }
+        // 1) match by image filename
+        let item = findByImgBase(list, base);
+
+        // 2) fallback: match by visible label text or key
         if (!item) {
           const lbl = spot.querySelector('.lbl')?.textContent?.trim()?.toLowerCase();
-          item = Array.isArray(data) ? data.find(x => (x.title||'').toLowerCase() === lbl) : null;
+          item = list.find(d => (d.title||'').toLowerCase() === lbl)
+              || list.find(d => (d.key||'').toLowerCase() === lbl);
         }
-        if (!item) {
-          item = { title: 'Services', services: ['Details coming soon.'] };
-        }
+
+        if (!item) item = { title: 'Services', services: ['Details coming soon.'] };
         renderPanel(item);
-        // small reveal effect
-        requestAnimationFrame(()=>{
-          const acc = document.querySelector('#servicePanel .accordion');
-          if (acc) { acc.classList.add('hide'); requestAnimationFrame(()=>acc.classList.remove('hide')); }
-        });
-      }, { passive:true });
+      }, { passive: true });
     });
   }
 
-  // try now, and also after modules likely render
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', attach);
   } else {
     attach();
   }
-  // re-attach once after a moment (module boot)
-  setTimeout(attach, 500);
 })();
 </script>
 </body>
