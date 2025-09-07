@@ -7,13 +7,12 @@ export function initRehafHero(container) {
       <div class="copy">
         <div class="kicker">AI Virtual Office</div>
         <h1>
-          Create Hundreds of <span class="ai">AI Employees</span><br>
-          Inside <span class="brand">REHAF's</span> Work Platform
+          Hi, I am <span class="ai">REHAF</span><br>
+          I own a <span class="brand">Virtual Office</span>
         </h1>
-        <p class="sub">Manage all Human Work and AI Work in a single platform with seamless handoff.</p>
+        <p class="sub">All my employees are AI Employees, and they are extremely clever and 24 hours working for me.</p>
         <div class="btn-row">
-          <a class="btnx primary" href="mailto:lilafutum@gmail.com">Try REHAF for Free</a>
-          <a class="btnx ghost" href="mailto:lilafutum@gmail.com?subject=REHAF%20Sales">Contact Sales</a>
+          <a class="btnx primary" href="mailto:lilafutum@gmail.com">You can contact me to rent you my employee</a>
         </div>
       </div>
       <div class="visual">
@@ -24,6 +23,6 @@ export function initRehafHero(container) {
         </div>
       </div>
     </div>
-    <div class="downHint">Scroll to enter the office !</div>
+    /* <div class="downHint">Scroll to enter the office !</div>*/
   `;
 }
