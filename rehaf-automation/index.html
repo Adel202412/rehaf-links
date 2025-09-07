@@ -205,6 +205,7 @@
                 height: 48px;
                 width: auto;
             }
+        }
 
         .hotspot .lbl {
             background: #fff;
@@ -667,6 +668,33 @@
             });
         })();
     </script>
+
+<script>
+(function(){
+  function fixScale(){
+    const vv = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+    const lw = document.documentElement.clientWidth;
+    const ratio = vv / lw;
+    const root = document.documentElement;
+
+    // reset
+    root.style.transform = "";
+    root.style.transformOrigin = "";
+
+    // if page looks "mini" (desktop-site mode), gently scale up
+    if(ratio < 0.8){
+      const scale = 1/ratio;
+      root.style.transform = `scale(${scale})`;
+      root.style.transformOrigin = "top left";
+    }
+  }
+
+  window.addEventListener("resize", fixScale);
+  window.addEventListener("orientationchange", fixScale);
+  fixScale();
+})();
+</script>
+
 </body>
 
 </html>
