@@ -12,10 +12,10 @@
         :root {
             --teal: #00ab9a;
             --teal-dark: #00786c;
-            --accent: #00453e;
+            --accent: #ffffff;
             --ink: #0f172a;
             --muted: #64748b;
-            --bg: #f6fbfa;
+            --bg: #f2fffc;
             --line: #e5efee
         }
 
@@ -33,7 +33,7 @@
         body {
             font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
             color: var(--ink);
-            background: #fff;
+            background: #d7fff6;
             overflow-x: hidden
         }
 
@@ -42,7 +42,7 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(255, 255, 255, .75);
+            background: #00453e;
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--line)
         }
@@ -61,10 +61,11 @@
         }
 
         .logoMark {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, var(--teal), #38c7b9, #82e2d8)
+            width: 48px;       /* or any size you want */
+            height: 48px;
+            object-fit: contain;
+            display: block;
+            border-radius: 10px;  /* slightly rounded (default you had) */
         }
 
         .brand {
@@ -550,7 +551,10 @@
     <header class="header">
         <div class="container bar">
             <a class="brand" href="#">
-                <div class="logoMark"></div><span>REHAF</span>
+               <!-- <div class="logoMark"></div><span>REHAF</span> -->
+                <img class="logoMark" src="assets/pavicorn.png" alt="REHAF logo">
+                <span>REHAF</span>
+                    
             </a>
             <a class="cta" href="mailto:info@rehaf.ae">Contact</a>
         </div>
@@ -568,7 +572,7 @@
             <div class="pop" id="pop"></div>
         </div>
         <!-- Optional quick summary grid; used by office module if present -->
-        <div class="qgrid" id="quickGrid"></div>
+       <!-- <div class="qgrid" id="quickGrid"></div> -->
     </section>
 
     <!-- WHY -->
