@@ -297,11 +297,11 @@
         .officeWrap {
             margin-top: 16px;
             position: relative;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, .06)
+            border: none;
+            border-radius: 0;
+            border-radius:visible;
+            background: transparent;
+            box-shadow: none;
         }
 
         #floorplan {
@@ -309,7 +309,7 @@
             width: 100%;
             height: auto;
             max-height: 560px;
-            object-fit: cover
+            object-fit: cover;
         }
 
         .hotspot {
@@ -324,7 +324,7 @@
             background: transparent;
             cursor: pointer;
             z-index: 10;
-            touch-action: manipulation
+            touch-action: manipulation;
         }
 
         .hotspot img {
