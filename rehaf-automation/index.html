@@ -565,7 +565,7 @@
 }
 
 .hotspot:hover img {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 /* small press feedback */
@@ -597,7 +597,7 @@
   padding: 12px 14px;
   font-weight: 800;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 #servicePanel .acc-body {
@@ -613,7 +613,7 @@
   color: var(--accent);
   border-radius: 10px;
   padding: 8px 10px;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
 }
 
@@ -853,6 +853,11 @@
 
         if (!item) item = { title: 'Services', services: ['Details coming soon.'] };
         renderPanel(item);
+
+                        // Auto-scroll the panel into view
+const panel = document.getElementById('servicePanel');
+if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
       }, { passive: true });
     });
   }
