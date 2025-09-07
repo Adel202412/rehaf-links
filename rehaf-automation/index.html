@@ -543,6 +543,10 @@
         #dbg b {
             color: #e8fff9
         }
+        /* Hide the services list under the floorplan */
+            #quickGrid {
+            display: none !important;
+            }
     </style>
 </head>
 
@@ -572,7 +576,7 @@
             <div class="pop" id="pop"></div>
         </div>
         <!-- Optional quick summary grid; used by office module if present -->
-       <!-- <div class="qgrid" id="quickGrid"></div> -->
+       <div class="qgrid" id="quickGrid"></div>
     </section>
 
     <!-- WHY -->
