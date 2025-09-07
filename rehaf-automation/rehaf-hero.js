@@ -23,6 +23,6 @@ export function initRehafHero(container) {
         </div>
       </div>
     </div>
-    /* <div class="downHint">Scroll to enter the office !</div>*/
+     <div class="downHint">Scroll to enter the office !</div>
   `;
 }
