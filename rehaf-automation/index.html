@@ -828,7 +828,36 @@
       if (acc) acc.classList.remove('hide');
     });
   }
+function scrollServicesBodyIntoView() {
+  const panel = document.getElementById('servicePanel');
+  const acc   = panel?.querySelector('.accordion');
+  const body  = panel?.querySelector('.acc-body');
+  if (!panel || !acc || !body) return;
 
+  // Sticky header allowance
+  const header = document.querySelector('.header');
+  const headerH = header ? header.getBoundingClientRect().height : 0;
+
+  const bodyRect = body.getBoundingClientRect();
+  const pad = 8; // small comfort padding
+
+  // Visible viewport band (excluding sticky header)
+  const vpTop    = 0 + headerH + pad;
+  const vpBottom = window.innerHeight - pad;
+
+  let delta = 0;
+  if (bodyRect.top < vpTop) {
+    // Body top is hidden above view → scroll up just enough
+    delta = bodyRect.top - vpTop;
+  } else if (bodyRect.bottom > vpBottom) {
+    // Body bottom is cut off → scroll down just enough
+    delta = bodyRect.bottom - vpBottom;
+  }
+
+  if (delta !== 0) {
+    window.scrollBy({ top: delta, left: 0, behavior: 'smooth' });
+  }
+}
   // Attach click handlers once hotspots exist
   function attach(){
     const spots = document.querySelectorAll('.hotspot');
@@ -854,9 +883,11 @@
         if (!item) item = { title: 'Services', services: ['Details coming soon.'] };
         renderPanel(item);
 
-                        // Auto-scroll the panel into view
-const panel = document.getElementById('servicePanel');
-if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // After rendering, scroll only as needed to reveal services
+requestAnimationFrame(() => {
+  // wait one more frame to ensure layout is settled
+  requestAnimationFrame(scrollServicesBodyIntoView);
+});
 
       }, { passive: true });
     });
