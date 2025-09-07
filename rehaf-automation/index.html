@@ -547,6 +547,55 @@
             #quickGrid {
             display: none !important;
             }*/
+
+                    /* Hover cues for mascots */
+                    .hotspot { cursor: pointer; }
+                    .hotspot img { transition: transform .16s ease; }
+                    .hotspot:hover img { transform: scale(1.06); }
+                    .hotspot:active img { transform: scale(0.98); }
+
+                    /* Hide the static list grid under the floorplan */
+                    #quickGrid { display: none !important; }
+
+                    /* Accordion panel under the floorplan */
+                    #servicePanel {
+                    margin-top: 12px;
+                    }
+                    .accordion {
+                    background: #fff;
+                    border: 1px solid var(--line);
+                    border-radius: 14px;
+                    box-shadow: 0 10px 26px rgba(0,0,0,.08);
+                    overflow: hidden;
+                    }
+                    .acc-head {
+                    background: var(--accent);
+                    color: #fff;
+                    padding: 12px 14px;
+                    font-weight: 800;
+                    text-align: center;
+                    font-size: 16px;
+                    }
+                    .acc-body {
+                    background: #f7fbfa;
+                    padding: 12px 14px;
+                    display: grid;
+                    gap: 6px;
+                    }
+                    .acc-chip {
+                    background: #fff;
+                    border: 1px solid var(--line);
+                    color: var(--accent);
+                    border-radius: 10px;
+                    padding: 6px 10px;
+                    font-size: 13px;
+                    text-align: center;
+                    }
+
+                    /* smooth open/close */
+                    .accordion { transition: opacity .18s ease, transform .18s ease; }
+                    .accordion.hide { opacity: 0; transform: translateY(-6px); pointer-events: none; }
+
     </style>
 </head>
 
@@ -575,6 +624,7 @@
             <img id="floorplan" src="assets/floorplan.webp" alt="REHAF office floor plan" loading="eager" />
             <div class="pop" id="pop"></div>
         </div>
+        <div id="servicePanel" aria-live="polite"></div>
         <!-- Optional quick summary grid; used by office module if present -->
        <div class="qgrid" id="quickGrid"></div>
     </section>
@@ -702,7 +752,81 @@
   fixScale();
 })();
 </script>
+<script>
+(function(){
+  // cache services.json once
+  let servicesData = null;
+  async function getServices(){
+    if (servicesData) return servicesData;
+    const r = await fetch('services.json'); 
+    servicesData = await r.json();
+    return servicesData;
+  }
 
+  // helper: derive key from <img src="assets/mascots/<key>.webp">
+  function keyFromImgSrc(src){
+    const m = src.match(/assets\/mascots\/([^\/]+)\.(webp|png|jpg|jpeg)$/i);
+    return m ? m[1].toLowerCase() : null;
+  }
+
+  function renderPanel(item){
+    const wrap = document.getElementById('servicePanel');
+    if (!wrap) return;
+
+    // build accordion content
+    const chips = (item.services || []).map(s=>`<div class="acc-chip">${s}</div>`).join('');
+    wrap.innerHTML = `
+      <div class="accordion">
+        <div class="acc-head">${item.title || item.name || 'Services'}</div>
+        <div class="acc-body">${chips || '<div class="acc-chip">No services listed</div>'}</div>
+      </div>
+    `;
+  }
+
+  // find all hotspots once DOM is ready (office module places them into #officeWrap)
+  function attach(){
+    const spots = document.querySelectorAll('.hotspot');
+    if (!spots.length) return; // try again later (modules may load async)
+
+    spots.forEach(spot=>{
+      spot.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        const img = spot.querySelector('img');
+        const key = img ? keyFromImgSrc(img.getAttribute('src')||'') : null;
+        const data = await getServices();
+
+        // match by key (icon filename), fallback by title text (label below mascot)
+        let item = null;
+        if (key && Array.isArray(data)) {
+          item = data.find(x => (x.icon||'').toLowerCase().includes(key));
+        }
+        if (!item) {
+          const lbl = spot.querySelector('.lbl')?.textContent?.trim()?.toLowerCase();
+          item = Array.isArray(data) ? data.find(x => (x.title||'').toLowerCase() === lbl) : null;
+        }
+        if (!item) {
+          item = { title: 'Services', services: ['Details coming soon.'] };
+        }
+        renderPanel(item);
+        // small reveal effect
+        requestAnimationFrame(()=>{
+          const acc = document.querySelector('#servicePanel .accordion');
+          if (acc) { acc.classList.add('hide'); requestAnimationFrame(()=>acc.classList.remove('hide')); }
+        });
+      }, { passive:true });
+    });
+  }
+
+  // try now, and also after modules likely render
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attach);
+  } else {
+    attach();
+  }
+  // re-attach once after a moment (module boot)
+  setTimeout(attach, 500);
+})();
+</script>
 </body>
 
 </html>
