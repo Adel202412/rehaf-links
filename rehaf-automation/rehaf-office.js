@@ -7,7 +7,6 @@ export function initRehafOffice(container, {
 
   // Build the required markup inside the container
   container.innerHTML = `
-    <h2>Welcome to THE OFFICE</h2>
       <div class="officeWrap" id="officeWrap">
       <img id="floorplan" src="${floorplanSrc}" alt="REHAF office floor plan" loading="eager" />
       <div class="pop" id="pop"></div>
