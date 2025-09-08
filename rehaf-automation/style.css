@@ -285,67 +285,64 @@
 }*/
      /* new section editetd*/
 
-/* Office / floorplan base */
-/* === Office header + background === */
+/* === Office section background === */
 #office {
   background: linear-gradient(180deg, #0d1217 0%, #00332f 100%);
-  padding: 40px 20px;
+  padding: 60px 20px;      /* extra breathing space */
   border-radius: 20px;
-  overflow: hidden;   /* ensures children respect radius */
-}
-
-#office h2 {
-  font-size: 36px;
-  font-weight: 600;
   color: #e9fbf7;
 }
 
+/* Office title */
+#office h2 {
+  font-size: 38px;
+  font-weight: 600;
+  color: #e9fbf7;
+  text-align: center;      /* keep it centered */
+}
+
+/* Office subtitle */
 #office .sub {
   font-size: 18px;
   color: #cde9e4;
-  margin-top: 10px;
+  margin-top: 12px;
+  text-align: center;
 }
 
-/* === Floorplan wrapper with glow === */
+/* Floorplan wrapper */
 .officeWrap {
-  margin-top: 20px;
+  margin-top: 30px;
   position: relative;
   background: transparent;
   border: none;
-  border-radius: 16px;   /* match office corners */
-  overflow: hidden;      /* crop inside */
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, .06),
-    0 0 0 0 rgba(0,171,154,0.18);
+  border-radius: 16px;
+  overflow: visible;       /* let mascots pop outside */
   animation: tealGlow 3.2s ease-in-out infinite;
+  display: flex;
+  justify-content: center; /* center floorplan */
 }
 
-/* Floorplan image */
+/* Floorplan image — make it larger */
 #floorplan {
   display: block;
-  width: 100%;
+  width: 95%;              /* bigger (previously 100% of container, now almost full width of section) */
+  max-width: 1080px;       /* allow it to grow more on desktop */
   height: auto;
-  max-height: 560px;
-  object-fit: cover;
-  border-radius: 16px;   /* round edges of the image */
+  max-height: none;        /* remove artificial limit */
+  object-fit: contain;     /* show whole plan without cropping */
+  border-radius: 12px;
 }
 
-/* === Animated teal glow === */
+/* Glow stays, subtle */
 @keyframes tealGlow {
   0%, 100% {
     box-shadow:
-      0 10px 28px rgba(0, 0, 0, .06),
       0 0 0 0 rgba(0,171,154,0.18);
   }
   50% {
     box-shadow:
-      0 14px 34px rgba(0, 0, 0, .10),
-      0 0 42px 10px rgba(0,171,154,0.45);
+      0 0 42px 12px rgba(0,171,154,0.35);
   }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .officeWrap { animation: none; }
 }
 /*to here*/
 
