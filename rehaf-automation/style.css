@@ -543,7 +543,7 @@
             padding: 60px 20px;
             text-align: center;
 
-            border-radius: 24px;
+            border-radius: 0px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
         }
 
@@ -733,7 +733,7 @@
 
   /* instead of "inset" (inside), make it external */
   box-shadow: 0 0 40px rgba(0, 255, 220, 0.6);  
-  border-radius: 20px; /* optional: match the style of other sections */
+  border-radius: 0px; /* optional: match the style of other sections */
 }
 
 .arabic .headline {
