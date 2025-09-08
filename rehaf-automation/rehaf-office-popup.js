@@ -35,30 +35,35 @@
     });
   }
 
-  function showPop(spotEl, item){
-    if(!wrap || !pop || !spotEl) return;
+function showPop(spotEl, item) {
+  const pop = document.getElementById('pop');
+  if (!spotEl || !pop) return;
 
-    const list = (item.services||[]).map(s=>`<li>${s}</li>`).join('');
-    pop.innerHTML = `
-      <h4>${item.title || 'Services'}</h4>
-      ${item.tagline ? `<p>${item.tagline}</p>` : ''}
-      <ul style="margin:6px 0 0; padding:0 0 0 14px; color:#334155; font-size:13px; line-height:1.45;">
-        ${list}
-      </ul>`;
+  // Fill popup
+  const list = (item.services || []).map(s => `<li>${s}</li>`).join('');
+  pop.innerHTML = `
+    <h4>${item.title || 'Services'}</h4>
+    ${item.tagline ? `<p>${item.tagline}</p>` : ''}
+    <ul style="margin:6px 0 0; padding:0 0 0 14px; color:#334155; font-size:13px; line-height:1.45;">
+      ${list}
+    </ul>`;
 
-    const wrapRect = wrap.getBoundingClientRect();
-    const spotRect = spotEl.getBoundingClientRect();
-    let cx = spotRect.left + spotRect.width/2 - wrapRect.left;
-    let cy = spotRect.top  + spotRect.height/2 - wrapRect.top;
+  // --- Position relative to mascot, in viewport ---
+  const rect = spotEl.getBoundingClientRect();
+  let cx = rect.left + rect.width / 2;
+  let cy = rect.top - 12; // just above mascot
 
-    const pad = 12;
-    cx = Math.max(pad, Math.min(cx, wrap.clientWidth  - pad));
-    cy = Math.max(pad, Math.min(cy, wrap.clientHeight - pad));
+  // Clamp inside viewport
+  const pad = 8;
+  cx = Math.max(pad, Math.min(cx, window.innerWidth - pad));
+  cy = Math.max(pad, Math.min(cy, window.innerHeight - pad));
 
-    pop.style.left = cx + 'px';
-    pop.style.top  = cy + 'px';
-    pop.classList.add('show');
-  }
+  // Place popup
+  pop.style.position = 'fixed';
+  pop.style.left = cx + 'px';
+  pop.style.top = cy + 'px';
+  pop.classList.add('show');
+}
 
   function hidePop(){ pop?.classList.remove('show'); }
 
