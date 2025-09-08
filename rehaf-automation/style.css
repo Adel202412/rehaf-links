@@ -657,7 +657,6 @@
   gap: 14px;
   align-items: stretch;
 }
-
 @media (max-width: 900px){
   #servicePanel .panel { grid-template-columns: 1fr; }
 }
@@ -672,7 +671,6 @@
   display: flex;
   flex-direction: column;
 }
-
 #servicePanel .acc-head{
   background: var(--accent);
   color: #fff;
@@ -681,7 +679,6 @@
   text-align: center;
   font-size: 18px;
 }
-
 #servicePanel .acc-body{
   background: #f7fbfa;
   padding: 12px 14px;
@@ -689,7 +686,6 @@
   gap: 8px;
   justify-items: start;
 }
-
 #servicePanel .acc-chip{
   background: #fff;
   border: 1px solid var(--line);
@@ -712,17 +708,38 @@
   gap: 10px;
   align-content: start;
 }
-
-#servicePanel .card-mascot .title{ font-weight: 800; color: var(--accent); font-size: 16px; }
-#servicePanel .card-mascot .tagline{ color: #465667; font-size: 13px; }
-
+#servicePanel .card-mascot .title{
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 16px;
+}
+#servicePanel .card-mascot .tagline{
+  color: #465667;
+  font-size: 13px;
+}
 #servicePanel .card-mascot .preview{
-  display: flex; align-items: center; justify-content: center;
-  background: #f7fbfa; border: 1px dashed #d7ece6;
-  border-radius: 12px; padding: 10px; min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fbfa;
+  border: 1px dashed #d7ece6;
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 160px;     /* final height */
+}
+#servicePanel .card-mascot .preview img{
+  max-width: 65%;        /* smaller image */
+  max-height: 140px;     /* cap height */
+  height: auto;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.12));
 }
 
-#servicePanel .card-mascot .preview img{
-  max-width: 100%; height: auto; display: block;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,.12));
+/* Kill legacy UI the boot script may inject */
+#quickGrid, .qgrid { display: none !important; }
+#pop, .pop {
+  display: none !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
 }
