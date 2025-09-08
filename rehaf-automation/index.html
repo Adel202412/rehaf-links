@@ -90,31 +90,6 @@
    
     <script>
         (function() {
-            function fixScale() {
-                const vv = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-                const lw = document.documentElement.clientWidth;
-                const ratio = vv / lw;
-                const root = document.documentElement;
-
-                // reset
-                root.style.transform = "";
-                root.style.transformOrigin = "";
-
-                // if page looks "mini" (desktop-site mode), gently scale up
-                if (ratio < 0.8) {
-                    const scale = 1 / ratio;
-                    root.style.transform = `scale(${scale})`;
-                    root.style.transformOrigin = "top left";
-                }
-            }
-
-            window.addEventListener("resize", fixScale);
-            window.addEventListener("orientationchange", fixScale);
-            fixScale();
-        })();
-    </script>
-    <script>
-        (function() {
             // Cache services once; read from top-level "departments"
             let servicesData = null;
             async function getServices() {
@@ -246,7 +221,7 @@
             }
         })();
     </script>
-
+<script src="scale-fix.js"></script>
 <script src="debug.js"></script>
 </body>
 
