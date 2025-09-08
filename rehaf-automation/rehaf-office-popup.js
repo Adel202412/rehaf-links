@@ -1,9 +1,11 @@
-(function(){
+// rehaf-office-popup.js — popup only (no cards)
+(function () {
   const wrap = document.getElementById('officeWrap');
   const pop  = document.getElementById('pop');
   let servicesCache = null;
 
-  async function getServices(){
+  // Load services once
+  async function getServices() {
     if (servicesCache) return servicesCache;
     const r = await fetch('services.json');
     const raw = await r.json();
@@ -11,113 +13,81 @@
     return servicesCache;
   }
 
-  const imgBase = src => (src||"").split('/').pop().toLowerCase();
-  const findByImgBase = (list, base) => list.find(d=>{
-    const p=(d.img||'').toLowerCase();
-    return p.endsWith('/'+base) || p.endsWith(base);
-  });
-
-  function renderPanel(item){
-    const wrapPanel = document.getElementById('servicePanel');
-    if(!wrapPanel) return;
-    const chips = (item.services||[]).map(s=>`<div class="acc-chip">${s}</div>`).join('');
-    const tagline = item.tagline ? `<div class="acc-chip" style="font-weight:600">${item.tagline}</div>` : '';
-    wrapPanel.innerHTML = `
-      <div class="accordion hide">
-        <div class="acc-head">${item.title || 'Services'}</div>
-        <div class="acc-body">
-          ${tagline}
-          ${chips || '<div class="acc-chip">No services listed</div>'}
-        </div>
-      </div>`;
-    requestAnimationFrame(()=>{
-      wrapPanel.querySelector('.accordion')?.classList.remove('hide');
+  // Helpers
+  const imgBase = (src) => (src || "").split("/").pop().toLowerCase();
+  const findByImgBase = (list, base) =>
+    list.find((d) => {
+      const p = (d.img || "").toLowerCase();
+      return p.endsWith("/" + base) || p.endsWith(base);
     });
-  }
 
-function showPop(spotEl, item) {
-  const pop = document.getElementById('pop');
-  if (!spotEl || !pop) return;
+  // Show popup near mascot, clamped to viewport
+  function showPop(spotEl, item) {
+    if (!spotEl || !pop) return;
 
-  // Fill popup
-  const list = (item.services || []).map(s => `<li>${s}</li>`).join('');
-  pop.innerHTML = `
-    <h4>${item.title || 'Services'}</h4>
-    ${item.tagline ? `<p>${item.tagline}</p>` : ''}
-    <ul style="margin:6px 0 0; padding:0 0 0 14px; color:#334155; font-size:13px; line-height:1.45;">
-      ${list}
-    </ul>`;
+    const list = (item.services || []).map((s) => `<li>${s}</li>`).join("");
+    pop.innerHTML = `
+      <h4>${item.title || "Services"}</h4>
+      ${item.tagline ? `<p>${item.tagline}</p>` : ""}
+      <ul>${list}</ul>
+    `;
 
-  // --- Position relative to mascot, in viewport ---
- const rect = spotEl.getBoundingClientRect();
-let cx = rect.left + rect.width / 2;
-let cy = rect.top + rect.height / 2; // center of mascot
+    const rect = spotEl.getBoundingClientRect();
+    let cx = rect.left + rect.width / 2;
+    let cy = rect.top  + rect.height / 2;
 
-  // Clamp inside viewport
-  const pad = 8;
-  cx = Math.max(pad, Math.min(cx, window.innerWidth - pad));
-  cy = Math.max(pad, Math.min(cy, window.innerHeight - pad));
-
-  // Place popup
-  pop.style.position = 'fixed';
-  pop.style.left = cx + 'px';
-  pop.style.top = cy + 'px';
-  pop.classList.add('show');
-}
-
-  function hidePop(){ pop?.classList.remove('show'); }
-
-  function scrollServicesBodyIntoView(){
-    const panel = document.getElementById('servicePanel');
-    const acc = panel?.querySelector('.accordion');
-    const body = panel?.querySelector('.acc-body');
-    if(!panel || !acc || !body) return;
-    const header = document.querySelector('.header');
-    const headerH = header ? header.getBoundingClientRect().height : 0;
-    const bodyRect = body.getBoundingClientRect();
     const pad = 8;
-    const vpTop = headerH + pad;
-    const vpBottom = window.innerHeight - pad;
-    let delta = 0;
-    if (bodyRect.top < vpTop) delta = bodyRect.top - vpTop;
-    else if (bodyRect.bottom > vpBottom) delta = bodyRect.bottom - vpBottom;
-    if (delta !== 0) window.scrollBy({ top: delta, behavior: 'smooth' });
+    cx = Math.max(pad, Math.min(cx, window.innerWidth  - pad));
+    cy = Math.max(pad, Math.min(cy, window.innerHeight - pad));
+
+    pop.style.position = "fixed";
+    pop.style.left = cx + "px";
+    pop.style.top  = cy + "px";
+    pop.classList.add("show");
   }
 
-  function attach(){
-    const spots = document.querySelectorAll('.hotspot');
-    if(!spots.length){ setTimeout(attach,300); return; }
+  function hidePop() {
+    if (pop) pop.classList.remove("show");
+  }
 
-    window.addEventListener('scroll', hidePop, {passive:true});
-    window.addEventListener('resize', hidePop);
-    wrap.addEventListener('mouseleave', hidePop);
-    document.addEventListener('click', (e)=>{
-      if(!wrap.contains(e.target)) hidePop();
+  function attach() {
+    const spots = document.querySelectorAll(".hotspot");
+    if (!spots.length) { setTimeout(attach, 300); return; }
+
+    // Hide popup on scroll/resize/click outside
+    window.addEventListener("scroll", hidePop, { passive: true });
+    window.addEventListener("resize", hidePop);
+    document.addEventListener("click", (e) => {
+      if (wrap && !wrap.contains(e.target)) hidePop();
     });
 
-    spots.forEach(spot=>{
-      spot.addEventListener('click', async (e)=>{
+    spots.forEach((spot) => {
+      spot.addEventListener("click", async (e) => {
         e.preventDefault();
-        const img = spot.querySelector('img');
-        const base = imgBase(img?.getAttribute('src') || '');
+        const img = spot.querySelector("img");
+        const base = imgBase(img?.getAttribute("src") || "");
         const list = await getServices();
 
-        let item = findByImgBase(list, base);
-        if(!item){
-          const lbl = spot.querySelector('.lbl')?.textContent?.trim()?.toLowerCase();
-          item = list.find(d=>(d.title||'').toLowerCase()===lbl) ||
-                 list.find(d=>(d.key||'').toLowerCase()===lbl);
-        }
-        if(!item) item = { title:'Services', services:['Details coming soon.'] };
+        // Try filename → then label/key → fallback
+        let item =
+          findByImgBase(list, base) ||
+          (function () {
+            const lbl = spot.querySelector(".lbl")?.textContent?.trim()?.toLowerCase();
+            return (
+              list.find((d) => (d.title || "").toLowerCase() === lbl) ||
+              list.find((d) => (d.key || "").toLowerCase() === lbl)
+            );
+          })() ||
+          { title: "Services", services: ["Details coming soon."] };
 
-        renderPanel(item);
-        showPop(spot, item);
-
-        requestAnimationFrame(()=>requestAnimationFrame(scrollServicesBodyIntoView));
-      }, {passive:true});
+        showPop(spot, item);   // only popup, no cards
+      }, { passive: true });
     });
   }
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', attach);
-  else attach();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", attach);
+  } else {
+    attach();
+  }
 })();

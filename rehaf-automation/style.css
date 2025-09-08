@@ -319,7 +319,8 @@
   display: flex;
   justify-content: center;
 }
-
+/* Hide the services panel under the floorplan */
+#servicePanel { display: none !important; }
 /* Floorplan image — bigger and glowing */
 #floorplan {
   display: block;
@@ -412,7 +413,7 @@
       /* Popup anchored to hotspot center */
 /* Popup (viewport-anchored by JS) */
 .pop{
-  position: fixed;                     /* match JS */
+  position: fixed;
   z-index: 40;
   background: #fff;
   border: 1px solid var(--line);
@@ -422,32 +423,13 @@
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
   display: none;
   pointer-events: none;
-
-  /* We set left/top to the mascot center in JS,
-     then lift above using transform (no extra -12 in JS). */
   transform: translate(-50%, -100%);
 }
-
-/* fade-in only; don't animate transform */
-.pop.show{
-  display: block;
-  animation: popFade .18s ease;
-}
-
-@keyframes popFade{
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-/* Little arrow */
+.pop.show{ display:block; animation: popFade .18s ease; }
+@keyframes popFade{ from{opacity:0} to{opacity:1} }
 .pop::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:-8px;
-  border-width:8px 8px 0 8px;
-  border-style:solid;
+  content:""; position:absolute; left:50%; transform:translateX(-50%);
+  bottom:-8px; border-width:8px 8px 0 8px; border-style:solid;
   border-color:#fff transparent transparent transparent;
   filter: drop-shadow(0 -1px 0 var(--line));
 }
