@@ -414,7 +414,7 @@
         /* Why/Testimony/CTA */
         .why {
             background: #f9fefe;
-            /*padding: 60px 20px;*/
+            padding: 60px 20px;
             text-align: center;
 
             border-radius: 0px;
@@ -729,7 +729,7 @@
 }
 #servicePanel .card-mascot .preview img{
   max-width: 65%;        /* smaller image */
-  max-height: 140px;     /* cap height */
+  max-height: 220px;     /* cap height */
   height: auto;
   object-fit: contain;
   display: block;
