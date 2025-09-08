@@ -87,58 +87,7 @@
     <!-- Boot loader (ES module) -->
     <script type="module" src="./rehaf-boot.js"></script>
 
-    <!-- Minimal on-page debugger -->
-    <script>
-        (function() {
-            const el = document.createElement('div');
-            el.id = 'dbg';
-            el.innerHTML = '<b>REHAF v2 debugger</b><div id="dbgmsg">Loading…</div>';
-            document.body.appendChild(el);
-            const msg = (t) => {
-                document.getElementById('dbgmsg').textContent = t
-            };
-
-            function qs(s) {
-                return document.querySelector(s)
-            }
-            const checks = [
-                ['Modules boot tag', !!document.querySelector('script[type="module"][src="./rehaf-boot.js"]')],
-                ['Hero container', !!qs('#hero')],
-                ['Office wrap', !!qs('#officeWrap')],
-                ['Office pop', !!qs('#pop')],
-                ['Runner canvas', !!qs('#rehafRunner')],
-                ['Runner score', !!qs('#runnerScore')],
-                ['Runner card', !!qs('#runnerCard')],
-                ['Architecture container', !!qs('#architecture .container')],
-                ['Footer container', !!qs('#footer .container')],
-            ];
-
-            const bad = checks.filter(([_, ok]) => !ok);
-            if (bad.length) {
-                msg('Missing: ' + bad.map(b => b[0]).join(', '));
-            } else {
-                msg('Shells OK. Waiting for modules…');
-            }
-
-            // Network sanity for modules & JSON
-            const toCheck = ['rehaf-boot.js', 'rehaf-hero.js', 'rehaf-office.js', 'rehaf-runner.js', 'rehaf-architecture.js', 'rehaf-footer.js', 'services.json'];
-            toCheck.forEach(u => {
-                fetch(u, {
-                    method: 'HEAD'
-                }).then(r => {
-                    if (!r.ok) console.warn('[DBG] Missing/blocked:', u, r.status);
-                }).catch(e => console.warn('[DBG] Network error:', u, e.message));
-            });
-
-            window.addEventListener('error', e => {
-                msg('JS Error: ' + (e.message || 'see console'));
-            });
-            window.addEventListener('unhandledrejection', e => {
-                msg('Promise rejection: ' + (e.reason || 'see console'));
-            });
-        })();
-    </script>
-
+   
     <script>
         (function() {
             function fixScale() {
@@ -297,6 +246,8 @@
             }
         })();
     </script>
+
+<script src="debug.js"></script>
 </body>
 
 </html>
