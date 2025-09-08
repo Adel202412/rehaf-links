@@ -49,9 +49,9 @@ function showPop(spotEl, item) {
     </ul>`;
 
   // --- Position relative to mascot, in viewport ---
-  const rect = spotEl.getBoundingClientRect();
-  let cx = rect.left + rect.width / 2;
-  let cy = rect.top - 12; // just above mascot
+ const rect = spotEl.getBoundingClientRect();
+let cx = rect.left + rect.width / 2;
+let cy = rect.top + rect.height / 2; // center of mascot
 
   // Clamp inside viewport
   const pad = 8;

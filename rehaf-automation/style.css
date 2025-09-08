@@ -410,8 +410,9 @@
         }
 
       /* Popup anchored to hotspot center */
+/* Popup (viewport-anchored by JS) */
 .pop{
-  position: absolute;           /* anchored inside #officeWrap */
+  position: fixed;                     /* match JS */
   z-index: 40;
   background: #fff;
   border: 1px solid var(--line);
@@ -420,13 +421,25 @@
   width: min(320px, 90vw);
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
   display: none;
-  pointer-events: none;         /* avoids stealing hover/click */
-  transform: translate(-50%, calc(-100% - 12px)); /* center X, above Y */
+  pointer-events: none;
+
+  /* We set left/top to the mascot center in JS,
+     then lift above using transform (no extra -12 in JS). */
+  transform: translate(-50%, -100%);
 }
 
-   .pop.show{ display:block; }
+/* fade-in only; don't animate transform */
+.pop.show{
+  display: block;
+  animation: popFade .18s ease;
+}
 
-/* small arrow (optional) */
+@keyframes popFade{
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Little arrow */
 .pop::after{
   content:"";
   position:absolute;
@@ -438,18 +451,6 @@
   border-color:#fff transparent transparent transparent;
   filter: drop-shadow(0 -1px 0 var(--line));
 }
-
-        @keyframes pop {
-            from {
-                opacity: 0;
-                transform: translateY(-6px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
 
         .pop h4 {
             color: var(--accent);
