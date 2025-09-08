@@ -411,10 +411,10 @@
         }
 
       /* Popup anchored to hotspot center */
-/* Popup (viewport-anchored by JS) */
+      /* Popup (viewport-anchored by JS) */
 .pop{
-  position: fixed;
-  z-index: 40;
+  position: fixed;              /* above sticky header */
+  z-index: 9999;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -423,15 +423,34 @@
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
   display: none;
   pointer-events: none;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -100%);   /* default: above target */
 }
 .pop.show{ display:block; animation: popFade .18s ease; }
 @keyframes popFade{ from{opacity:0} to{opacity:1} }
+
+/* Arrow (default: bubble above) */
 .pop::after{
-  content:""; position:absolute; left:50%; transform:translateX(-50%);
-  bottom:-8px; border-width:8px 8px 0 8px; border-style:solid;
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-8px;
+  border-width:8px 8px 0 8px;
+  border-style:solid;
   border-color:#fff transparent transparent transparent;
   filter: drop-shadow(0 -1px 0 var(--line));
+}
+
+/* When we flip bubble below the mascot */
+.pop.dir-below{
+  transform: translate(-50%, 0);
+}
+.pop.dir-below::after{
+  bottom:auto;
+  top:-8px;
+  border-width:0 8px 8px 8px;
+  border-color:transparent transparent #fff transparent;
+  filter: drop-shadow(0 1px 0 var(--line));
 }
 
         .pop h4 {

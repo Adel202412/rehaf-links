@@ -1,4 +1,4 @@
-// rehaf-office-popup.js — popup only (no cards)
+// rehaf-office-popup.js — popup only, smart positioning (no cards)
 (function () {
   const wrap = document.getElementById('officeWrap');
   const pop  = document.getElementById('pop');
@@ -21,7 +21,54 @@
       return p.endsWith("/" + base) || p.endsWith(base);
     });
 
-  // Show popup near mascot, clamped to viewport
+  function headerH() {
+    const h = document.querySelector('.header');
+    return h ? h.getBoundingClientRect().height : 0;
+  }
+
+  // Place popup near mascot, auto-flip if needed, clamp to viewport
+  function placePopupNear(spotEl) {
+    const rect = spotEl.getBoundingClientRect();
+    const topGuard = headerH() + 10;  // keep clear of sticky header
+    const pad = 10;
+
+    // Start from mascot center
+    let cx = rect.left + rect.width / 2;
+    let cy = rect.top  + rect.height / 2;
+
+    // Clamp X inside viewport
+    cx = Math.max(pad, Math.min(cx, window.innerWidth - pad));
+
+    // Default ABOVE (CSS lifts -100%)
+    pop.classList.remove('dir-below');
+    pop.style.left = cx + 'px';
+    pop.style.top  = cy + 'px';
+
+    // Measure bubble and decide flip
+    const pr = pop.getBoundingClientRect();
+    const bubbleTopIfAbove = pr.top - pr.height; // due to transform
+    if (bubbleTopIfAbove < topGuard) {
+      // Flip below target
+      pop.classList.add('dir-below');
+      pop.style.left = cx + 'px';
+      pop.style.top  = (rect.bottom) + 'px';
+    }
+
+    // Re-clamp horizontally after flip
+    const after = pop.getBoundingClientRect();
+    if (after.left < pad) {
+      pop.style.left = (pad + after.width / 2) + 'px';
+    } else if (after.right > window.innerWidth - pad) {
+      pop.style.left = (window.innerWidth - pad - after.width / 2) + 'px';
+    }
+
+    // Vertical nudge if still touching header
+    const finalR = pop.getBoundingClientRect();
+    if (finalR.top < topGuard) {
+      pop.style.top = (parseFloat(pop.style.top) + (topGuard - finalR.top)) + 'px';
+    }
+  }
+
   function showPop(spotEl, item) {
     if (!spotEl || !pop) return;
 
@@ -32,29 +79,20 @@
       <ul>${list}</ul>
     `;
 
-    const rect = spotEl.getBoundingClientRect();
-    let cx = rect.left + rect.width / 2;
-    let cy = rect.top  + rect.height / 2;
-
-    const pad = 8;
-    cx = Math.max(pad, Math.min(cx, window.innerWidth  - pad));
-    cy = Math.max(pad, Math.min(cy, window.innerHeight - pad));
-
+    // Make visible before measuring/placing
     pop.style.position = "fixed";
-    pop.style.left = cx + "px";
-    pop.style.top  = cy + "px";
     pop.classList.add("show");
+
+    placePopupNear(spotEl);
   }
 
-  function hidePop() {
-    if (pop) pop.classList.remove("show");
-  }
+  function hidePop() { pop?.classList.remove("show"); }
 
   function attach() {
     const spots = document.querySelectorAll(".hotspot");
     if (!spots.length) { setTimeout(attach, 300); return; }
 
-    // Hide popup on scroll/resize/click outside
+    // Hide on scroll/resize or clicking outside the office area
     window.addEventListener("scroll", hidePop, { passive: true });
     window.addEventListener("resize", hidePop);
     document.addEventListener("click", (e) => {
@@ -64,11 +102,12 @@
     spots.forEach((spot) => {
       spot.addEventListener("click", async (e) => {
         e.preventDefault();
-        const img = spot.querySelector("img");
+
+        const img  = spot.querySelector("img");
         const base = imgBase(img?.getAttribute("src") || "");
         const list = await getServices();
 
-        // Try filename → then label/key → fallback
+        // Match by file → then label/key → fallback
         let item =
           findByImgBase(list, base) ||
           (function () {
@@ -80,14 +119,11 @@
           })() ||
           { title: "Services", services: ["Details coming soon."] };
 
-        showPop(spot, item);   // only popup, no cards
+        showPop(spot, item);
       }, { passive: true });
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", attach);
-  } else {
-    attach();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", attach);
+  else attach();
 })();
