@@ -374,52 +374,20 @@
 
         /* Step 1 — enlarge knowledge, integration, sales on desktop */
         @media (min-width: 901px) {
-      
-            .hotspot img[src*="assets/mascots/marketing.webp"] {
-                height: 86px;
-            }      
-      
-            .hotspot img[src*="assets/mascots/management.webp"] {
-                height: 120px;
-            }
-
-            .hotspot img[src*="assets/mascots/knowledge.webp"] {
-                height: 160px;
-            }
-
-            .hotspot img[src*="assets/mascots/integrations.webp"] {
-                height: 160px;
-            }
-
-            .hotspot img[src*="assets/mascots/Sales.webp"] {
-                height: 160px;
-            }
+            .hotspot img[src*="assets/mascots/marketing.webp"]    {height: 86px;}      
+            .hotspot img[src*="assets/mascots/management.webp"]   {height: 120px;}
+            .hotspot img[src*="assets/mascots/knowledge.webp"]    {height: 160px;}
+            .hotspot img[src*="assets/mascots/integrations.webp"] {height: 160px;}
+            .hotspot img[src*="assets/mascots/Sales.webp"]        {height: 160px;}
         }
 
         @media (max-width: 900px) {
-            .hotspot img {
-                height: 48px;
-                width: auto;
-            }
-                        .hotspot img[src*="assets/mascots/marketing.webp"] {
-                height: 40px;
-            }      
-      
-            .hotspot img[src*="assets/mascots/management.webp"] {
-                height: 54px;
-            }
-
-            .hotspot img[src*="assets/mascots/knowledge.webp"] {
-                height: 60px;
-            }
-
-            .hotspot img[src*="assets/mascots/integrations.webp"] {
-                height: 60px;
-            }
-
-            .hotspot img[src*="assets/mascots/Sales.webp"] {
-                height: 60px;
-            }
+            .hotspot img {height: 48px; width: auto; }
+            .hotspot img[src*="assets/mascots/marketing.webp"]      {height: 40px;}      
+            .hotspot img[src*="assets/mascots/management.webp"]     {height: 54px;}
+            .hotspot img[src*="assets/mascots/knowledge.webp"]      {height: 60px;}
+            .hotspot img[src*="assets/mascots/integrations.webp"]   {height: 60px;}
+            .hotspot img[src*="assets/mascots/Sales.webp"]          {height: 60px;}
         }
 
         .hotspot .lbl {
@@ -441,22 +409,35 @@
             transform: translateY(0)
         }
 
-        .pop {
-            position: absolute;
-            z-index: 30;
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 14px;
-            width: min(320px, 80vw);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, .16);
-            display: none
-        }
+      /* Popup anchored to hotspot center */
+.pop{
+  position: absolute;           /* anchored inside #officeWrap */
+  z-index: 40;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px;
+  width: min(320px, 90vw);
+  box-shadow: 0 16px 36px rgba(0,0,0,.16);
+  display: none;
+  pointer-events: none;         /* avoids stealing hover/click */
+  transform: translate(-50%, calc(-100% - 12px)); /* center X, above Y */
+}
 
-        .pop.show {
-            display: block;
-            animation: pop .2s ease
-        }
+   .pop.show{ display:block; }
+
+/* small arrow (optional) */
+.pop::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-8px;
+  border-width:8px 8px 0 8px;
+  border-style:solid;
+  border-color:#fff transparent transparent transparent;
+  filter: drop-shadow(0 -1px 0 var(--line));
+}
 
         @keyframes pop {
             from {
@@ -540,7 +521,7 @@
         /* Why/Testimony/CTA */
         .why {
             background: #f9fefe;
-            padding: 60px 20px;
+            /*padding: 60px 20px;*/
             text-align: center;
 
             border-radius: 0px;
@@ -732,7 +713,7 @@
   color: #e9fbf7;
 
   /* instead of "inset" (inside), make it external */
-  box-shadow: 0 0 40px rgba(0, 255, 220, 0.6);  
+  /*box-shadow: 0 0 40px rgba(0, 255, 220, 0.6);  */
   border-radius: 0px; /* optional: match the style of other sections */
 }
 
