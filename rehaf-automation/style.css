@@ -655,8 +655,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;  /* equal split */
   gap: 14px;
-  align-items: stretch;
-  max-width:800px;
+  align-items:center;
+  max: width 900px;
   margin:0 auto;
 }
 @media (max-width: 900px){
