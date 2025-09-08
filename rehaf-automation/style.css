@@ -410,115 +410,7 @@
             transform: translateY(0)
         }
 
-      /* Popup anchored to hotspot center */
-      /* Popup (viewport-anchored by JS) */
-.pop{
-  position: fixed;              /* above sticky header */
-  z-index: 9999;
-  background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px;
-  width: min(320px, 90vw);
-  box-shadow: 0 16px 36px rgba(0,0,0,.16);
-  display: none;
-  pointer-events: none;
-  transform: translate(-50%, -100%);   /* default: above target */
-}
-.pop.show{ display:block; animation: popFade .18s ease; }
-@keyframes popFade{ from{opacity:0} to{opacity:1} }
-
-/* Arrow (default: bubble above) */
-.pop::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:-8px;
-  border-width:8px 8px 0 8px;
-  border-style:solid;
-  border-color:#fff transparent transparent transparent;
-  filter: drop-shadow(0 -1px 0 var(--line));
-}
-
-/* When we flip bubble below the mascot */
-.pop.dir-below{
-  transform: translate(-50%, 0);
-}
-.pop.dir-below::after{
-  bottom:auto;
-  top:-8px;
-  border-width:0 8px 8px 8px;
-  border-color:transparent transparent #fff transparent;
-  filter: drop-shadow(0 1px 0 var(--line));
-}
-
-        .pop h4 {
-            color: var(--accent);
-            font-size: 16px;
-            margin-bottom: 6px
-        }
-
-        .pop p {
-            color: #465667;
-            font-size: 13px;
-            margin-bottom: 8px
-        }
-
-        .pop ul {
-            list-style: none;
-            display: grid;
-            gap: 6px
-        }
-
-        .pop li {
-            font-size: 13px;
-            color: #334155;
-            padding-left: 16px;
-            position: relative
-        }
-
-        .pop li::before {
-            content: "•";
-            position: absolute;
-            left: 4px;
-            color: var(--teal)
-        }
-
-        .qgrid {
-            margin-top: 18px;
-            display: grid;
-            gap: 10px;
-            grid-template-columns: repeat(3, minmax(0, 1fr))
-        }
-
-        @media (max-width:900px) {
-            .qgrid {
-                grid-template-columns: repeat(2, minmax(0, 1fr))
-            }
-        }
-
-        @media (max-width:600px) {
-            .qgrid {
-                grid-template-columns: repeat(1, minmax(0, 1fr))
-            }
-        }
-
-        .qitem {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 12px
-        }
-
-        .qitem b {
-            color: var(--accent)
-        }
-
-        .qitem p {
-            color: #465667;
-            margin-top: 6px
-        }
+  
 
         /* Why/Testimony/CTA */
         .why {
@@ -834,3 +726,101 @@
                 padding: 7px 10px;
             }
         }
+        /* === Service Panel: two-card layout === */
+#servicePanel {
+  margin-top: 14px;
+}
+
+#servicePanel .panel {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr; /* left = services, right = mascot */
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* Stack on smaller screens */
+@media (max-width: 900px) {
+  #servicePanel .panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Left: Services card --- */
+#servicePanel .card-services {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#servicePanel .acc-head {
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 14px;
+  font-weight: 800;
+  text-align: center;
+  font-size: 18px;
+}
+
+#servicePanel .acc-body {
+  background: #f7fbfa;
+  padding: 12px 14px;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+#servicePanel .acc-chip {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 14px;
+  text-align: left;
+  width: 100%;
+}
+
+/* --- Right: Mascot preview card --- */
+#servicePanel .card-mascot {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .08);
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+#servicePanel .card-mascot .title {
+  font-weight: 800;
+  color: var(--accent);
+  font-size: 16px;
+}
+
+#servicePanel .card-mascot .tagline {
+  color: #465667;
+  font-size: 13px;
+}
+
+#servicePanel .card-mascot .preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fbfa;
+  border: 1px dashed #d7ece6;
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 140px;
+}
+
+#servicePanel .card-mascot .preview img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .12));
+}

@@ -34,18 +34,14 @@
   <div class="container">
     <h2>REHAF Office</h2>
     <div class="sub">
-      “Want to know what I’m doing and what I’m capable of? Move across the floorplan and click a mascot — I’ll show you.”
+      “Want to know what I’m doing and what I’m capable of? 🤔 Move across the floorplan and click a Position — I’ll show you.”
     </div>
-
     <div class="officeWrap" id="officeWrap">
       <img id="floorplan" src="assets/floorplan.webp" alt="REHAF office floor plan" loading="eager" />
-      <div class="pop" id="pop"></div>
+      <div class="pop" id="pop"></div> <!-- keep ID (even if unused now) -->
     </div>
-
-    <div id="servicePanel" aria-live="polite"></div>
-    <!-- Optional quick summary grid; used by office module if present -->
-    <div class="qgrid" id="quickGrid"></div>
-  </div>
+      <div id="servicePanel" aria-live="polite"></div>
+      </div>
 </section>
 
     <!-- WHY -->
@@ -95,7 +91,7 @@
 <!-- Boot loader (ES module) -->
 <script type="module" src="./rehaf-boot.js"></script>
 <script src="scale-fix.js"></script>
-<script src="rehaf-office-popup.js"></script>
+<script src="rehaf-office-cards.js"></script>
 <!--        <script src="debug.js"></script>           -->
 </body>
 
