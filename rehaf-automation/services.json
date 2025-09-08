@@ -30,7 +30,7 @@
       "img": "assets/mascots/marketing.webp",
       "tagline": "Grow your audience.",
       "services": ["Content Engine", "Campaigns", "Lead Nurture"],
-      "position": { "x": 83.5, "y": 57 }
+      "position": { "x": 83.5, "y":60 }
     },
     {
       "key": "sales",
@@ -38,7 +38,7 @@
       "img": "assets/mascots/Sales.webp",
       "tagline": "Close more deals faster.",
       "services": ["Lead Capture", "CRM Updates", "Follow-ups"],
-      "position": { "x": 10, "y": 95 }
+      "position": { "x": 10, "y": 98 }
     },
     {
       "key": "support",
@@ -46,7 +46,7 @@
       "img": "assets/mascots/support.webp",
       "tagline": "Support customers with AI.",
       "services": ["Ticket Triage", "Auto Replies", "Knowledge Base"],
-      "position": { "x": 52, "y": 68 }
+      "position": { "x": 52, "y": 76 }
     },
     {
       "key": "admin",
@@ -54,7 +54,7 @@
       "img": "assets/mascots/admin.webp",
       "tagline": "Daily help for your team.",
       "services": ["Daily Tasks", "Meetings", "Notes"],
-      "position": { "x": 34, "y": 67 }
+      "position": { "x": 34, "y": 74 }
     },
     {
       "key": "knowledge",

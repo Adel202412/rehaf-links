@@ -283,24 +283,76 @@
   color: var(--muted);
   font-size: 14px;
 }*/
-        /* Office / floorplan */
-        .officeWrap {
-            margin-top: 16px;
-            position: relative;
-            border: none;
-            border-radius: 0;
-            overflow:visible;
-            background: transparent;
-            box-shadow: none;
-        }
+     /* new section editetd*/
 
-        #floorplan {
-            display: block;
-            width: 100%;
-            height: auto;
-            max-height: 560px;
-            object-fit: cover;
-        }
+/* Office / floorplan base */
+.officeWrap {
+  margin-top: 16px;
+  position: relative;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;   /* baseline, will be overridden by animation */
+}
+#floorplan {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: cover;
+}
+
+/* === Office header + animated glow override === */
+#office {
+  background: linear-gradient(180deg, #0d1217 0%, #00332f 100%);
+  padding: 40px 20px;
+  border-radius: 20px;
+}
+
+#office h2 {
+  font-size: 36px;
+  font-weight: 600;
+  color: #e9fbf7;
+}
+#office .sub {
+  font-size: 18px;
+  color: #cde9e4;
+  margin-top: 10px;
+}
+
+/* Animated teal glow */
+.officeWrap {
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, .06),
+    0 0 0 0 rgba(0,171,154,0.18);
+  animation: tealGlow 3.2s ease-in-out infinite;
+}
+
+@keyframes tealGlow {
+  0%, 100% {
+    box-shadow:
+      0 10px 28px rgba(0, 0, 0, .06),
+      0 0 0 0 rgba(0,171,154,0.18);
+  }
+  50% {
+    box-shadow:
+      0 14px 34px rgba(0, 0, 0, .10),
+      0 0 42px 10px rgba(0,171,154,0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .officeWrap { animation: none; }
+}
+
+
+
+
+
+
+
+     /*to here*/
 
         .hotspot {
             position: absolute;
@@ -323,19 +375,19 @@
             display: block;
             filter: drop-shadow(0 8px 16px rgba(0, 0, 0, .18));
 
-            border: 1px solid #ff0000;
-            /* blue frame */
+            /*border: 1px solid #ff0000;
+            /* red frame */
         }
 
         /* Step 1 — enlarge knowledge, integration, sales on desktop */
         @media (min-width: 901px) {
       
             .hotspot img[src*="assets/mascots/marketing.webp"] {
-                height: 54px;
+                height: 86px;
             }      
       
             .hotspot img[src*="assets/mascots/management.webp"] {
-                height: 160px;
+                height: 120px;
             }
 
             .hotspot img[src*="assets/mascots/knowledge.webp"] {
@@ -357,7 +409,7 @@
                 width: auto;
             }
                         .hotspot img[src*="assets/mascots/marketing.webp"] {
-                height: 36px;
+                height: 40px;
             }      
       
             .hotspot img[src*="assets/mascots/management.webp"] {
@@ -365,15 +417,15 @@
             }
 
             .hotspot img[src*="assets/mascots/knowledge.webp"] {
-                height: 54px;
+                height: 60px;
             }
 
             .hotspot img[src*="assets/mascots/integrations.webp"] {
-                height: 54px;
+                height: 60px;
             }
 
             .hotspot img[src*="assets/mascots/Sales.webp"] {
-                height: 54px;
+                height: 60px;
             }
         }
 
