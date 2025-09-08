@@ -6,7 +6,7 @@
       "img": "assets/mascots/management.webp",
       "tagline": "Plan, lead, and deliver projects.",
       "services": ["Project Planner", "Smart Timelines", "Workflow Bots"],
-      "position": { "x": 40, "y": 30.5 }
+      "position": { "x": 42, "y": 30.5 }
     },
     {
       "key": "hr",
@@ -38,7 +38,7 @@
       "img": "assets/mascots/Sales.webp",
       "tagline": "Close more deals faster.",
       "services": ["Lead Capture", "CRM Updates", "Follow-ups"],
-      "position": { "x": 10, "y": 98 }
+      "position": { "x": 10, "y": 99 }
     },
     {
       "key": "support",
@@ -46,7 +46,7 @@
       "img": "assets/mascots/support.webp",
       "tagline": "Support customers with AI.",
       "services": ["Ticket Triage", "Auto Replies", "Knowledge Base"],
-      "position": { "x": 52, "y": 76 }
+      "position": { "x": 52, "y": 78 }
     },
     {
       "key": "admin",
@@ -54,7 +54,7 @@
       "img": "assets/mascots/admin.webp",
       "tagline": "Daily help for your team.",
       "services": ["Daily Tasks", "Meetings", "Notes"],
-      "position": { "x": 34, "y": 74 }
+      "position": { "x": 34, "y": 76 }
     },
     {
       "key": "knowledge",
@@ -62,7 +62,7 @@
       "img": "assets/mascots/knowledge.webp",
       "tagline": "Insights at your fingertips.",
       "services": ["AI Notes", "Dashboards", "Docs Assistant"],
-      "position": { "x": 90, "y": 36.5 }
+      "position": { "x": 90, "y": 38 }
     },
     {
       "key": "integrations",
@@ -70,7 +70,7 @@
       "img": "assets/mascots/integrations.webp",
       "tagline": "Connect everything together.",
       "services": ["Unified Messaging", "Tool Sync", "Local Solutions"],
-      "position": { "x": 9, "y": 29 }
+      "position": { "x": 9, "y": 30 }
     }
   ]
 }
