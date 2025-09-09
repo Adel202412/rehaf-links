@@ -3,13 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>Content Manager</title>
-
-    <!-- Netlify Identity widget (needed for Git Gateway auth on some browsers) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
-    <!-- Load Decap CMS (new name for Netlify CMS).
-         The "v" query busts any old cache. -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js?v=2"></script>
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js?v=3"></script>
+
+    <script>
+      CMS.init({
+        config: {
+          backend: { name: "git-gateway", branch: "main" },
+          media_folder: "assets/uploads",
+          public_folder: "/assets/uploads",
+          collections: [
+            {
+              name: "test",
+              label: "Test",
+              files: [
+                {
+                  file: "index.html",
+                  label: "Homepage",
+                  name: "home",
+                  fields: [{ label: "Title", name: "title", widget: "string" }],
+                },
+              ],
+            },
+          ],
+        },
+      });
+    </script>
   </head>
   <body></body>
 </html>
