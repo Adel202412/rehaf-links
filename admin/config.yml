@@ -6,19 +6,19 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
-  - name: "pages"        # unique collection name (not "test")
+  - name: "pages"
     label: "Pages"
     files:
       - file: "index.html"
         label: "Home"
-        name: "home"     # unique file entry name
+        name: "home"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body",  name: "body",  widget: "markdown" }
 
       - file: "Setup_business.html"
         label: "Setup Business"
-        name: "setup_business"   # unique file entry name
+        name: "setup_business"
         fields:
           - { label: "Title", name: "title", widget: "string" }
           - { label: "Body",  name: "body",  widget: "markdown" }
