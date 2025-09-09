@@ -6,19 +6,18 @@ media_folder: "assets/uploads"
 public_folder: "/assets/uploads"
 
 collections:
-  - name: "pages"
-    label: "Pages"
+  - name: pages
+    label: Pages
     files:
       - file: "index.html"
-        label: "Home"
-        name: "home"
+        label: Home
+        name: home
         fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body",  name: "body",  widget: "markdown" }
-
+          - { label: Title, name: title, widget: string }
+          - { label: Body,  name: body,  widget: markdown }
       - file: "Setup_business.html"
-        label: "Setup Business"
-        name: "setup_business"
+        label: Setup Business
+        name: setup_business
         fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body",  name: "body",  widget: "markdown" }
+          - { label: Title, name: title, widget: string }
+          - { label: Body,  name: body,  widget: markdown }
