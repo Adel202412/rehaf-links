@@ -21,15 +21,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // OFFICE
-    const officeWrap = document.getElementById('officeWrap');
-    const pop = document.getElementById('pop');
-    const qgrid = document.getElementById('quickGrid');
-    if (officeWrap && pop) {
-      await initRehafOffice(officeWrap, pop, qgrid, 'src/data/services.json');
-      console.log('[BOOT] Office initialized');
-    } else {
-      console.warn('[BOOT] Office shell missing');
-    }
+    // OFFICE
+const officeMount = document.getElementById('officeMount');
+if (officeMount) {
+  await initRehafOffice(officeMount, {
+    jsonPath: 'src/data/services.json',
+    floorplanSrc: 'src/assets/floorplan.webp'
+  });
+  console.log('[BOOT] Office initialized');
+} else {
+  console.warn('[BOOT] Office mount not found');
+}
 
     // RUNNER
     const canvas = document.getElementById('rehafRunner');
