@@ -18,7 +18,7 @@ export function initRehafHero(container) {
       <div class="visual">
         <div class="card">
           <video class="mascotWelcome" autoplay loop muted playsinline>
-            <source src="assets/mascotvideo.webm" type="video/webm">
+            <source src="src/assets/mascotvideo.webm" type="video/webm">
           </video>
         </div>
       </div>

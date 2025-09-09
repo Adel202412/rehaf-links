@@ -7,7 +7,7 @@
   async function getServices() {
     if (servicesCache) return servicesCache;
     try {
-      const r = await fetch('services.json', { cache: 'no-store' });
+      const r = await fetch('src/data/services.json', { cache: 'no-store' });
       const raw = await r.json();
       servicesCache = Array.isArray(raw) ? raw : (raw.departments || []);
     } catch (e) {

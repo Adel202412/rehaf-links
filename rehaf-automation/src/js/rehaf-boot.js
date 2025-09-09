@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const pop = document.getElementById('pop');
     const qgrid = document.getElementById('quickGrid');
     if (officeWrap && pop) {
-      await initRehafOffice(officeWrap, pop, qgrid, './services.json');
+      await initRehafOffice(officeWrap, pop, qgrid, 'src/data/services.json');
       console.log('[BOOT] Office initialized');
     } else {
       console.warn('[BOOT] Office shell missing');

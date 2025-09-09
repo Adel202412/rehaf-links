@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>REHAF — AI Virtual Office</title>
+    <meta name="theme-color" content="#00ab9a" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container bar">
+            <a class="brand" href="#">
+                <!-- <div class="logoMark"></div><span>REHAF</span> -->
+                <img class="logoMark" src="assets/pavicorn.png" alt="REHAF logo">
+                <span>REHAF</span>
+
+            </a>
+            <a class="cta" href="mailto:info@rehaf.ae">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO (hero module will render here) -->
+    <section id="hero" class="hero"></section>
+
+    <!-- OFFICE (shell required for office module) -->
+   <!-- OFFICE (full-width dark block) -->
+<section id="office" class="section office">
+  <div class="container">
+    <h2>REHAF Office</h2>
+    <div class="sub">
+      “Want to know what I’m doing and what I’m capable of? 🤔 Move across the floorplan and click a Position — I’ll show you.”
+    </div>
+    <div class="officeWrap" id="officeWrap">
+      <img id="floorplan" src="assets/floorplan.webp" alt="REHAF office floor plan" loading="eager" />
+      <div class="pop" id="pop"></div> <!-- keep ID (even if unused now) -->
+    </div>
+      <div id="servicePanel" aria-live="polite"></div>
+      </div>
+</section>
+
+    <!-- WHY -->
+    <section class="why">
+        <h2>Why Automation Matters</h2>
+        <p>Automation reduces repetitive work, lowers costs, and minimizes errors. With REHAF’s AI-driven systems, your team can focus on growth instead of routine tasks.</p>
+    </section>
+
+    <!-- TESTIMONY -->
+    <section class="testimony">
+        <h3>What People Say</h3>
+        <p>“REHAF helped us streamline operations and save countless hours. The virtual office is a game-changer.”</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="ctaBlock container">
+        <h2 style="color:var(--accent);text-align:center">Let’s start your journey with us</h2>
+        <p style="text-align:center;color:#475569;margin-top:6px">Tell us your goal. We’ll automate the path.</p>
+        <div style="display:flex;justify-content:center;margin-top:12px">
+            <a class="btn primary" href="mailto:info@rehaf.ae">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- RUNNER (shell required for runner module) -->
+  <section id="runner" class="section runner">
+  <div class="container">
+    <div class="runner-card" id="runnerCard">
+      <div class="runner-head">
+        <div>🎮 <b>REHAF Runner</b> — Tap or press <b>Space/↑/W</b> (double jump)</div>
+        <div>Score: <span id="runnerScore">0</span></div>
+      </div>
+      <canvas id="rehafRunner" width="820" height="240" aria-label="REHAF Runner game"></canvas>
+      <div class="runner-help">Obstacles are E, H, A, F — slower, smoother physics.</div>
+    </div>
+  </div>
+</section>
+    <!-- ARCHITECTURE (module will render into .container) -->
+    <section id="architecture" class="arch">
+        <div class="container"></div>
+    </section>
+
+    <!-- FOOTER (module will render into .container) -->
+    <section id="footer" class="arabic">
+        <div class="container"></div>
+    </section>
+
+<!-- Boot loader (ES module) -->
+<script type="module" src="./rehaf-boot.js"></script>
+<script src="scale-fix.js"></script>
+<script src="rehaf-office-cards.js"></script>
+<!--        <script src="debug.js"></script>           -->
+</body>
+
+</html>
