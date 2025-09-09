@@ -3,7 +3,7 @@
     {
       "key": "management",
       "title": "Management",
-      "img": "src/assets/mascots/management.webp",
+      "img": "assets/mascots/management.webp",
       "tagline": "Plan, lead, and deliver projects.",
       "services": ["Project Planner", "Smart Timelines", "Workflow Bots"],
       "position": { "x": 42, "y": 30.5 }
@@ -11,7 +11,7 @@
     {
       "key": "hr",
       "title": "HR",
-      "img": "src/assets/mascots/hr.webp",
+      "img": "assets/mascots/hr.webp",
       "tagline": "Manage people with ease.",
       "services": ["AI Recruiter", "Resume Manager", "Attendance"],
       "position": { "x": 65, "y": 55 }
@@ -19,7 +19,7 @@
     {
       "key": "accounting",
       "title": "Accounting",
-      "img": "src/assets/mascots/accounting.webp",
+      "img": "assets/mascots/accounting.webp",
       "tagline": "Keep your finances in order.",
       "services": ["Expense Tracker", "Invoicing", "Inventory Alerts"],
       "position": { "x": 28, "y": 47 }
@@ -27,7 +27,7 @@
     {
       "key": "marketing",
       "title": "Marketing",
-      "img": "src/assets/mascots/marketing.webp",
+      "img": "assets/mascots/marketing.webp",
       "tagline": "Grow your audience.",
       "services": ["Content Engine", "Campaigns", "Lead Nurture"],
       "position": { "x": 83.5, "y":60 }
@@ -35,7 +35,7 @@
     {
       "key": "sales",
       "title": "Sales",
-      "img": "src/assets/mascots/sales.webp",
+      "img": "assets/mascots/sales.webp",
       "tagline": "Close more deals faster.",
       "services": ["Lead Capture", "CRM Updates", "Follow-ups"],
       "position": { "x": 10, "y": 99 }
@@ -43,7 +43,7 @@
     {
       "key": "support",
       "title": "Customer Support",
-      "img": "src/assets/mascots/support.webp",
+      "img": "assets/mascots/support.webp",
       "tagline": "Support customers with AI.",
       "services": ["Ticket Triage", "Auto Replies", "Knowledge Base"],
       "position": { "x": 52, "y": 78 }
@@ -51,7 +51,7 @@
     {
       "key": "admin",
       "title": "Secretaries / Admin",
-      "img": "src/assets/mascots/admin.webp",
+      "img": "assets/mascots/admin.webp",
       "tagline": "Daily help for your team.",
       "services": ["Daily Tasks", "Meetings", "Notes"],
       "position": { "x": 34, "y": 76 }
@@ -59,7 +59,7 @@
     {
       "key": "knowledge",
       "title": "Knowledge & Reporting",
-      "img": "src/assets/mascots/knowledge.webp",
+      "img": "assets/mascots/knowledge.webp",
       "tagline": "Insights at your fingertips.",
       "services": ["AI Notes", "Dashboards", "Docs Assistant"],
       "position": { "x": 90, "y": 38 }
@@ -67,7 +67,7 @@
     {
       "key": "integrations",
       "title": "Integrations Hub",
-      "img": "src/assets/mascots/integrations.webp",
+      "img": "assets/mascots/integrations.webp",
       "tagline": "Connect everything together.",
       "services": ["Unified Messaging", "Tool Sync", "Local Solutions"],
       "position": { "x": 9, "y": 30 }
