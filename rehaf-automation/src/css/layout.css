@@ -14,11 +14,16 @@
   justify-content: space-between;
 }
 .logoMark {
-  width: 36px;
-  height: 36px;
+  height: 40px;       /* good visibility on desktop */
+  width: auto;        /* keeps aspect ratio */
   object-fit: contain;
   display: block;
-  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .logoMark {
+    height: 32px;     /* smaller for mobile */
+  }
 }
 .brand {
   display: flex;
@@ -43,7 +48,7 @@
   background: #fff;
 }
 .hero:not(.split) .mascotWelcome {
-  width: min(600px, 90vw);
+  width: min(5200px, 90vw);
   margin: 0 auto 20px;
 }
 .hero:not(.split) h1 {
