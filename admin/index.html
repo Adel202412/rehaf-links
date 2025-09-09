@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <title>Content Manager</title>
-    <!-- Correct Netlify CMS script -->
-    <script src="https://unpkg.com/netlify-cms-app/dist/netlify-cms-app.js"></script>
+
+    <!-- Netlify Identity widget (needed for Git Gateway auth on some browsers) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+    <!-- Load Decap CMS (new name for Netlify CMS).
+         The "v" query busts any old cache. -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js?v=2"></script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
