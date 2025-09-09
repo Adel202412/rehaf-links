@@ -45,7 +45,43 @@
   gap:6px;
   background:transparent;
   border:0;
+
+  /* Hotspot mascot sizing by class (instead of src*) */
+@media(min-width:901px){
+  .hotspot .mascot.marketing   {height:86px;}
+  .hotspot .mascot.management  {height:120px;}
+  .hotspot .mascot.knowledge   {height:160px;}
+  .hotspot .mascot.integrations{height:160px;}
+  .hotspot .mascot.sales       {height:160px;}
 }
+@media(max-width:900px){
+  .hotspot .mascot             {height:48px;}
+  .hotspot .mascot.marketing   {height:40px;}
+  .hotspot .mascot.management  {height:54px;}
+  .hotspot .mascot.knowledge   {height:60px;}
+  .hotspot .mascot.integrations{height:60px;}
+  .hotspot .mascot.sales       {height:60px;}
+}
+
+}
+
+/* Hotspot mascot sizing by class (instead of src*) */
+@media(min-width:901px){
+  .hotspot .mascot.marketing   {height:86px;}
+  .hotspot .mascot.management  {height:120px;}
+  .hotspot .mascot.knowledge   {height:160px;}
+  .hotspot .mascot.integrations{height:160px;}
+  .hotspot .mascot.sales       {height:160px;}
+}
+@media(max-width:900px){
+  .hotspot .mascot             {height:48px;}
+  .hotspot .mascot.marketing   {height:40px;}
+  .hotspot .mascot.management  {height:54px;}
+  .hotspot .mascot.knowledge   {height:60px;}
+  .hotspot .mascot.integrations{height:60px;}
+  .hotspot .mascot.sales       {height:60px;}
+}
+
 .hotspot img {
   height:96px;
   filter: drop-shadow(0 8px 16px rgba(0,0,0,.18));
@@ -68,22 +104,7 @@
   transform:translateY(0);
 }
 
-/* Hotspot mascot sizing by class (instead of src*) */
-@media(min-width:901px){
-  .hotspot .mascot.marketing   {height:86px;}
-  .hotspot .mascot.management  {height:120px;}
-  .hotspot .mascot.knowledge   {height:160px;}
-  .hotspot .mascot.integrations{height:160px;}
-  .hotspot .mascot.sales       {height:160px;}
-}
-@media(max-width:900px){
-  .hotspot .mascot             {height:48px;}
-  .hotspot .mascot.marketing   {height:40px;}
-  .hotspot .mascot.management  {height:54px;}
-  .hotspot .mascot.knowledge   {height:60px;}
-  .hotspot .mascot.integrations{height:60px;}
-  .hotspot .mascot.sales       {height:60px;}
-}
+
 
 /* Service Panel */
 #servicePanel { margin-top:14px; }
@@ -111,7 +132,7 @@
   color:#fff;
   padding:12px 14px;
   font-weight:800;
-  text-align:center;
+  text-align:stretch;
   font-size:18px;
 }
 #servicePanel .acc-body {
