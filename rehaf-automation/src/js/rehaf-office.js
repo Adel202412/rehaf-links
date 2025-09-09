@@ -1,6 +1,6 @@
 // rehaf-office.js
 export function initRehafOffice(container, {
-  jsonPath = 'services.json',
+  jsonPath = 'src/data/services.json',
   floorplanSrc = 'src/assets/floorplan.webp'
 } = {}) {
   if (!container) return;

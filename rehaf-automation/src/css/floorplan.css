@@ -72,17 +72,17 @@
 @media(min-width:901px){
   .hotspot .mascot.marketing   {height:86px;}
   .hotspot .mascot.management  {height:120px;}
-  .hotspot .mascot.knowledge,
-  .hotspot .mascot.integrations,
+  .hotspot .mascot.knowledge   {height:160px;}
+  .hotspot .mascot.integrations{height:160px;}
   .hotspot .mascot.sales       {height:160px;}
 }
 @media(max-width:900px){
-  .hotspot .mascot            {height:48px;}
-  .hotspot .mascot.marketing  {height:40px;}
-  .hotspot .mascot.management {height:54px;}
-  .hotspot .mascot.knowledge,
-  .hotspot .mascot.integrations,
-  .hotspot .mascot.sales      {height:60px;}
+  .hotspot .mascot             {height:48px;}
+  .hotspot .mascot.marketing   {height:40px;}
+  .hotspot .mascot.management  {height:54px;}
+  .hotspot .mascot.knowledge   {height:60px;}
+  .hotspot .mascot.integrations{height:60px;}
+  .hotspot .mascot.sales       {height:60px;}
 }
 
 /* Service Panel */
