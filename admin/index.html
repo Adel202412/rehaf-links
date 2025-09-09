@@ -2,72 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Content Manager (Diag)</title>
-
-    <!-- Identity widget (needed for Git Gateway auth) -->
+    <title>Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-    <style>
-      body { font-family: system-ui, Arial, sans-serif; padding: 16px; }
-      #log { white-space: pre-wrap; font-size: 14px; border: 1px solid #ccc; padding: 12px; border-radius: 8px; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/decap-cms@^3/dist/decap-cms.js"></script>
   </head>
-  <body>
-    <h3>Decap CMS Diagnostic</h3>
-    <div id="log">Loading…</div>
-
-    <script>
-      const log = (m)=>document.getElementById('log').textContent += (document.getElementById('log').textContent?'\n':'') + m;
-      window.addEventListener('error', e => log('JS Error: ' + (e.message || e)));
-      window.addEventListener('unhandledrejection', e => log('Promise Rejection: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)));
-
-      log('1) Injecting decap-cms.js…');
-    </script>
-
-    <!-- Load Decap CMS from two CDNs (first that succeeds wins) -->
-    <script>
-      (function loadCMS(){
-        const urls = [
-          "https://cdn.jsdelivr.net/npm/decap-cms@^3/dist/decap-cms.js",
-          "https://unpkg.com/decap-cms@^3/dist/decap-cms.js"
-        ];
-        (function next(i){
-          if(i>=urls.length){ log('Failed to load decap-cms.js from all CDNs.'); return; }
-          const s = document.createElement('script'); s.src = urls[i]; s.onload = ()=>{ log('2) decap-cms.js loaded from: ' + urls[i]); afterLoad(); };
-          s.onerror = ()=>{ log('CDN failed: ' + urls[i]); next(i+1); };
-          document.head.appendChild(s);
-        })(0);
-      })();
-
-      function afterLoad(){
-        if(!window.CMS){ log('CMS global not found after load.'); return; }
-        log('3) CMS global detected. Doing MANUAL INIT…');
-
-        // Manual init bypasses fetching /admin/config.yml
-        window.CMS.init({
-          config: {
-            backend: { name: "git-gateway", branch: "main" },
-            media_folder: "assets/uploads",
-            public_folder: "/assets/uploads",
-            collections: [
-              {
-                name: "test",
-                label: "Test",
-                files: [
-                  {
-                    file: "index.html",
-                    label: "Homepage",
-                    name: "home",
-                    fields: [{ label: "Title", name: "title", widget: "string" }]
-                  }
-                ]
-              }
-            ]
-          }
-        });
-
-        log('4) CMS.init called. If the UI does not appear, cookies/pop-ups may be blocked.');
-      }
-    </script>
-  </body>
+  <body></body>
 </html>
