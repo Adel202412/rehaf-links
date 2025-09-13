@@ -142,6 +142,46 @@
   .hero.split .visual { justify-self: start; max-width: 520px; }
 }
 
+/* initial hidden state */
+.hero.split .visual .card.revealable {
+  opacity: 0;
+  transform: translateY(12px) scale(.98);
+  transition: opacity .6s ease, transform .6s ease;
+  transition-delay: .35s; /* entrance delay */
+}
+
+/* animated underline via pseudo-element (easier than animating border-image) */
+.hero.split .visual .card.revealable::after {
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -1px; transform: translateX(-50%) scaleX(0);
+  width: 100%; height: 2px;
+  background: linear-gradient(to right, transparent, #00453e 30%, #00453e 70%, transparent);
+  transform-origin: center;
+  transition: transform .6s ease .55s; /* starts after the card fades in */
+}
+
+/* final state */
+.hero.split .visual .card.revealable.is-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.hero.split .visual .card.revealable.is-in::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* accessibility: no animation for reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .hero.split .visual .card.revealable,
+  .hero.split .visual .card.revealable.is-in {
+    opacity: 1; transform: none; transition: none;
+  }
+  .hero.split .visual .card.revealable::after,
+  .hero.split .visual .card.revealable.is-in::after {
+    transform: translateX(-50%) scaleX(1); transition: none;
+  }
+}
+
 .hero.split .card {
   position: relative;
   display: inline-block;

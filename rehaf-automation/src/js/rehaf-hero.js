@@ -45,4 +45,12 @@ export function initRehafHero(container) {
       v.replaceWith(img);
     }
   }
+// after rendering the hero DOM:
+const card = container.querySelector('.visual .card.revealable');
+if (card) {
+  const io = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) { card.classList.add('is-in'); io.disconnect(); }
+  }, { threshold: 0.25 });
+  io.observe(card);
+}
 }
