@@ -1,4 +1,4 @@
-/* Header 
+/* Header*/ 
 .header {
   position: sticky;
   top: 0;
@@ -19,12 +19,12 @@
   object-fit: contain;
   display: block;
 }
-/*
+
 @media (max-width: 600px) {
   .logoMark {
     height: 32px;     /* smaller for mobile */
   }
-}/*
+}
 .brand {
   display: flex;
   gap: 10px;
@@ -36,7 +36,6 @@
   color: var(--accent);
   letter-spacing: .4px;
 }
-*/
 /* === Header: upgraded look (glass + scroll condense) === */
 :root{
   --hdr-bg: rgba(252, 255, 255, 0.75);
