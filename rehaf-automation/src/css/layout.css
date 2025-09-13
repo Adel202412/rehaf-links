@@ -136,7 +136,14 @@
   color: #465667;
   font-size: clamp(16px, 2.2vw, 18px);
 }
-
+.brand span{
+  color: var(--hdr-ink);
+  letter-spacing: .35px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.header.scrolled .brand span{
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
 /* === HERO (clean 50/50 split) === */
 .hero.split {
   min-height: 88vh;
