@@ -124,11 +124,14 @@
 }
 .hero.split .btnx.primary {
   color:#fff;
+  border: 1px solid #001a18;
   background: linear-gradient(135deg,#00ab9a,#00786c);
   box-shadow: 0 12px 28px rgba(0,126,108,.35);
 }
 .hero.split .btnx.ghost {
-  background:#f3f6f6; color:var(--accent); border:1px solid var(--line);
+  background:#f3f6f6;
+  color:var(--accent);
+  border:1px solid var(--line);
 }
 .hero.split .btnx:hover { transform: translateY(-1px); }
 
