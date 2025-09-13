@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log('[BOOT] Starting REHAF modules…');
 
   try {
+    // Header scroll condense / elevate
+const header = document.querySelector('.header');
+if (header){
+  const onScroll = () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    header.classList.toggle('scrolled', y > 10);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
     // HERO
     const heroContainer = document.getElementById('hero');
     if (heroContainer) {

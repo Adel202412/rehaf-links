@@ -1,4 +1,4 @@
-// js/scale-fix.js
+// js/rehaf-scale.js
 // -------------------------------------------------------------
 // Fix mobile/desktop-site scaling quirks.
 // If a phone browser is forcing "desktop site" and content looks tiny,
