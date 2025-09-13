@@ -116,9 +116,11 @@
   font-weight:800;
   text-align:stretch;
   font-size:18px;
+  border-radius: 14px;
 }
 #servicePanel .acc-body {
   background:#f7fbfa;
+  border-radius: 14px;
   padding:12px 14px;
   display:grid;
   gap:8px;
@@ -135,6 +137,7 @@
 }
 #servicePanel .card-mascot {
   background:#fff;
+  border-radius: 14px;
   border:1px solid var(--line);
   border-radius:14px;
   box-shadow:0 10px 26px rgba(0,0,0,.08);
