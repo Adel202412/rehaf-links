@@ -124,7 +124,7 @@
 }
 .hero.split .btnx.primary {
   color:#fff;
-  border: 2px linear-gradient(to right,#001a18,#00453e);
+  border: 2px solid #00453e;
   background: linear-gradient(135deg,#00ab9a,#00786c);
   box-shadow: 0 4px 4px rgba(0,126,108,.35);
 }
