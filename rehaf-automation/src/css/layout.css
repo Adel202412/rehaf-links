@@ -133,40 +133,48 @@
 .hero.split .btnx:hover { transform: translateY(-1px); }
 
 /* Visual */
+.hero.split .visual {
+  width: 100%;
+  max-width: 640px;
+  justify-self: end;
+}
+@media (max-width: 900px) {
+  .hero.split .visual { justify-self: start; max-width: 520px; }
+}
+
 .hero.split .card {
   position: relative;
   display: inline-block;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+
+  /* bottom line that fades left/right and touches the video */
   border-bottom: 2px solid transparent;
-  border-image: linear-gradient(
-    to right,
-    transparent,
-    #00453e 30%,
-    #00453e 70%,
-    transparent
-  ) 1;
+  border-image: linear-gradient(to right, transparent, #00453e 30%, #00453e 70%, transparent) 1;
 }
 
 .hero.split .mascotWelcome {
+  width: 100%;
+  height: auto;
   display: block;
-  margin: 0;           /* remove extra gap */
+  margin: 0;
   padding: 0;
+  max-height: 560px;
+  object-fit: contain;
 }
-.hero.split .visual { width: 100%; max-width: 640px; justify-self: end; }
-@media (max-width: 900px){ .hero.split .visual { justify-self: start; max-width: 520px; } }
-.hero.split .card { background: transparent; border: none; box-shadow: none; padding: 0; position: relative; }
-
-.hero.split .mascotWelcome {
-  display: block;
-  margin: 0;           /* remove extra gap */
-  padding: 0;
+@media (max-width: 900px) {
+  .hero.split .mascotWelcome { max-height: 420px; }
 }
-@media (max-width: 900px){ 
-.hero.split .mascotWelcome {
-  display: block;
-  margin: 0;           /* remove extra gap */
-  padding: 0;
-} }
 
+/* gentle float animation */
+@media (prefers-reduced-motion: no-preference){
+  .hero.split .mascotWelcome { animation: heroBob 6s ease-in-out infinite; }
+  @keyframes heroBob {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-6px); }
+  }
+}
 /* gentle float animation */
 @media (prefers-reduced-motion: no-preference){
   .hero.split .mascotWelcome{ animation: heroBob 6s ease-in-out infinite; }
