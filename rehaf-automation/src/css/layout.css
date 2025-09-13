@@ -144,6 +144,8 @@
 
 /* initial hidden state */
 .hero.split .visual .card.revealable {
+  position: relative;
+  display: inline-block;
   opacity: 0;
   transform: translateY(12px) scale(.98);
   transition: opacity .6s ease, transform .6s ease;

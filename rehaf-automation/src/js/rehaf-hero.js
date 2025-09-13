@@ -22,18 +22,16 @@ export function initRehafHero(container) {
       </div>
 
       <div class="visual" aria-hidden="true">
-        <div class="card">
+        <div class="card revealable">
           <video class="mascotWelcome" autoplay loop muted playsinline preload="metadata"
                  poster="src/assets/mascots/logo.webp">
             <source src="src/assets/mascotvideo.webm" type="video/webm">
           </video>
-          <div class="mascotGround"></div>
         </div>
       </div>
     </div>
   `;
 
-  // Respect reduced motion: swap video for a static image
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) {
     const v = container.querySelector('.mascotWelcome');
@@ -45,12 +43,20 @@ export function initRehafHero(container) {
       v.replaceWith(img);
     }
   }
-// after rendering the hero DOM:
-const card = container.querySelector('.visual .card.revealable');
-if (card) {
-  const io = new IntersectionObserver(([e]) => {
-    if (e.isIntersecting) { card.classList.add('is-in'); io.disconnect(); }
-  }, { threshold: 0.25 });
-  io.observe(card);
-}
+
+  // Reveal animation hook
+  const card = container.querySelector('.visual .card.revealable');
+  if (card) {
+    if (prefersReduced) {
+      card.classList.add('is-in');
+    } else if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) { card.classList.add('is-in'); io.disconnect(); }
+      }, { threshold: 0.25 });
+      io.observe(card);
+    } else {
+      // very old browsers: just reveal
+      card.classList.add('is-in');
+    }
+  }
 }
