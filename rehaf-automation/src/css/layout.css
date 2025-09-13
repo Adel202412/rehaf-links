@@ -137,16 +137,9 @@
 @media (max-width: 900px){ .hero.split .visual { justify-self: start; max-width: 520px; } }
 .hero.split .card { background: transparent; border: none; box-shadow: none; padding: 0; position: relative; }
 .hero.split .mascotWelcome {
-  width: 100%; height: auto; display: block; max-height: 560px; object-fit: contain;
+  width: 100%; height: auto; display: block; max-height: 560px; object-fit: contain;border-bottom: 2px solid transparent;border-image: linear-gradient(to right,transparent,#004532 30%,#004532 70%,transparent)1;
 }
 @media (max-width: 900px){ .hero.split .mascotWelcome { max-height: 420px; } }
-
-/* subtle base shadow under mascot */
-.hero.split .mascotGround{
-  content:""; position:absolute; left:50%; bottom:-6px; transform:translateX(-50%);
-  width:42%; height:12px; border-radius:999px; filter: blur(2px);
-  background: radial-gradient(closest-side, rgba(0,0,0,.20), transparent 70%);
-}
 
 /* gentle float animation */
 @media (prefers-reduced-motion: no-preference){
