@@ -46,14 +46,17 @@
   background:transparent;
   border:0;
 }
-
+.hotspot img {
+  height:96px;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.18));
+}
 /* Hotspot mascot sizing by class (instead of src*) */
 @media(min-width:901px){
-  .hotspot .mascot.marketing   {height:86px;}
-  .hotspot .mascot.management  {height:120px;}
-  .hotspot .mascot.knowledge   {height:160px;}
-  .hotspot .mascot.integrations{height:160px;}
-  .hotspot .mascot.sales       {height:160px;}
+  .hotspot img.mascot.marketing   {height:86px;}
+  .hotspot img.mascot.management  {height:120px;}
+  .hotspot img.mascot.knowledge   {height:160px;}
+  .hotspot img.mascot.integrations{height:160px;}
+  .hotspot img.mascot.sales       {height:160px;}
 }
 @media(max-width:900px){
   .hotspot .mascot             {height:48px;}
@@ -64,10 +67,6 @@
   .hotspot .mascot.sales       {height:60px;}
 }
 
-.hotspot img {
-  height:96px;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,.18));
-}
 .hotspot .lbl {
   background:#fff;
   border:1px solid var(--line);
