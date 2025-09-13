@@ -133,6 +133,24 @@
 .hero.split .btnx:hover { transform: translateY(-1px); }
 
 /* Visual */
+.hero.split .card {
+  position: relative;
+  display: inline-block;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(
+    to right,
+    transparent,
+    #00453e 30%,
+    #00453e 70%,
+    transparent
+  ) 1;
+}
+
+.hero.split .mascotWelcome {
+  display: block;
+  margin: 0;           /* remove extra gap */
+  padding: 0;
+}
 .hero.split .visual { width: 100%; max-width: 640px; justify-self: end; }
 @media (max-width: 900px){ .hero.split .visual { justify-self: start; max-width: 520px; } }
 .hero.split .card { background: transparent; border: none; box-shadow: none; padding: 0; position: relative; }
