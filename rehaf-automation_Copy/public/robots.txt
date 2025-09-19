@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rehaf.netlify.app/sitemap.xml
