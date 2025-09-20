@@ -434,11 +434,74 @@ body {
 }
 
 /* ---------- PROCESS (5 steps) ---------- */
-#process .steps { margin-top: 16px; }
-#process .step .num { color: var(--accent); font-weight: 900; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
-#process .step h4 { margin-top: 6px; font-weight: 900; }
-#process .step p { color: var(--muted); font-size: 14px; }
+/* ---------- PROCESS (Timeline Cycle) ---------- */
+#process { background: transparent; }
 
+#process .proc-title{
+  text-align:center; font-size:28px; font-weight:900; color:var(--text); margin-bottom:18px;
+}
+
+/* row timeline with arrows */
+#process .proc-cycle{
+  list-style:none; display:flex; align-items:stretch; justify-content:center; gap:14px;
+  flex-wrap:wrap; margin: 12px 0 16px; padding:0;
+}
+#process .proc-step{
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:14px 16px; width: 220px; text-align:center;
+  box-shadow: 0 6px 16px rgba(0,0,0,.10);
+}
+#process .proc-step h4{
+  color:#00ab9a; font-weight:900; margin:6px 0 4px;
+}
+#process .proc-step p{
+  color: var(--muted); font-size:14px; line-height:1.4;
+}
+
+/* placeholder “logos” (replace later with your visuals) */
+#process .proc-icon{
+  width:56px; height:56px; border-radius:50%;
+  margin:0 auto 8px; display:grid; place-items:center; font-weight:900;
+  background:#fff; color:#00453e; border:2px solid #dbece9;
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+}
+
+/* arrows between steps */
+#process .proc-arrow{
+  display:flex; align-items:center; justify-content:center; color:#7ad8cd;
+  opacity:.9; font-size:22px; padding:0 4px;
+}
+
+/* loop note */
+#process .proc-loop-note{ display:flex; justify-content:center; margin:8px 0 4px; }
+#process .loop-pill{
+  display:inline-block; padding:8px 12px; border-radius:999px;
+  background: rgba(0,171,154,.12); color:#8fe0d6; border:1px solid var(--line); font-weight:800;
+}
+
+/* CTA center */
+#process .proc-cta{ display:flex; justify-content:center; margin-top:12px; }
+
+/* mobile stacking */
+@media (max-width: 860px){
+  #process .proc-cycle{ gap:10px; }
+  #process .proc-step{ width: 46%; }
+}
+@media (max-width: 560px){
+  #process .proc-step{ width:100%; }
+  #process .proc-arrow{ transform: rotate(90deg); }
+}
+
+/* optional: circular hint ring (decorative) */
+#process .proc-cycle::before{
+  content:""; position:absolute; left:50%; transform:translateX(-50%);
+  width:min(760px, 86vw); height:0; border-top:1px dashed rgba(255,255,255,.14);
+  margin-top:-10px; /* subtle line behind items */
+}
 /* ---------- PRICING & FAQ ---------- */
 #pricing .plans { margin-top: 16px; }
 #pricing .plan .price { font-size: 22px; font-weight: 900; margin-top: 6px; }
