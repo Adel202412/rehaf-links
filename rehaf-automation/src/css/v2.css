@@ -330,7 +330,102 @@ body {
 /* ---------- TESTIMONIALS ---------- */
 #testimonials .wrap { margin-top: 16px; }
 #testimonials blockquote { color: var(--text); line-height: 1.5; }
-#testimonials .who { margin-top: 8px; color: var(--muted); font-size: 13px; }
+#testimoni
+
+/* ---------- STORIES (Testimonials + Case Studies) ---------- */
+/* Whole section uses a white background like the hero */
+#stories {
+  background: #ffffff;
+  color: #0f172a;
+  border-top: 1px solid var(--line);
+}
+#stories .stories-title {
+  text-align: left;
+  font-size: 28px;
+  font-weight: 900;
+  color: #00453e; /* dark teal heading */
+  margin: 8px 0 16px;
+}
+
+/* Testimonials row (two glass cards) */
+#stories .testimonials-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 16px 0 32px;
+}
+@media (max-width: 800px){
+  #stories .testimonials-row { grid-template-columns: 1fr; }
+}
+
+#stories .t-card.glass {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid #e8eff0;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.06);
+}
+#stories .t-card blockquote {
+  color: #0f172a;
+  line-height: 1.55;
+}
+#stories .t-card .who {
+  margin-top: 10px;
+  color: #475569;
+  font-size: 14px;
+}
+
+/* Case study bands (dark split sections) */
+#stories .case-band {
+  background: linear-gradient(135deg, #0d1217, #00332f);
+  color: #e9fbf7;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  margin: 18px 0 24px;
+  overflow: hidden;
+}
+#stories .case-band .band-inner {
+  display: grid;
+  grid-template-columns: 220px 1fr; /* mascot left, text right */
+  gap: 24px;
+  align-items: center;
+  padding: 20px;
+}
+@media (max-width: 800px){
+  #stories .case-band .band-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+
+#stories .case-band .band-visual img {
+  width: 160px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter:
+    drop-shadow(1px 0 0 #fff)
+    drop-shadow(-1px 0 0 #fff)
+    drop-shadow(0 1px 0 #fff)
+    drop-shadow(0 -1px 0 #fff)
+    drop-shadow(1px 1px 0 #fff)
+    drop-shadow(-1px 1px 0 #fff)
+    drop-shadow(1px -1px 0 #fff)
+    drop-shadow(-1px -1px 0 #fff);
+}
+
+#stories .case-band .band-copy h3 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #00ab9a; /* bright teal title */
+  margin-bottom: 8px;
+}
+#stories .case-band .band-copy p {
+  color: #cfe8e2;
+  line-height: 1.6;
+}
 
 /* ---------- PROCESS (5 steps) ---------- */
 #process .steps { margin-top: 16px; }
