@@ -503,12 +503,67 @@ body {
   margin-top:-10px; /* subtle line behind items */
 }
 /* ---------- PRICING & FAQ ---------- */
-#pricing .plans { margin-top: 16px; }
-#pricing .plan .price { font-size: 22px; font-weight: 900; margin-top: 6px; }
-#pricing .plan .desc { color: var(--muted); margin-top: 6px; }
-#pricing .faq { margin-top: 24px; }
-#pricing .faq .q { font-weight: 900; }
-#pricing .faq .a { color: var(--muted); margin-top: 6px; }
+/* ---------- PRICING (No numbers) + FAQ ---------- */
+#pricing { background: transparent; }
+
+#pricing .pricing-title{
+  text-align:center; font-size:28px; font-weight:900; color:var(--text);
+}
+#pricing .pricing-sub{
+  text-align:center; color:var(--muted); margin-top:6px;
+}
+
+#pricing .pricing-factors{
+  margin-top:20px; display:grid; grid-template-columns: 1fr; gap:20px;
+}
+
+#pricing .factor.card-v2{
+  background: rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border:1px solid var(--line);
+  padding:20px;
+}
+#pricing .factor h3{ color: var(--accent); font-weight:900; margin-bottom:10px; }
+#pricing .factor ul{
+  margin: 8px 0 12px 18px; color: var(--text);
+}
+#pricing .factor li{ margin: 6px 0; color: var(--text); }
+
+#pricing .pricing-cta{ display:flex; gap:10px; flex-wrap:wrap; }
+
+#pricing .guarantees{
+  display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;
+}
+
+/* FAQ */
+#pricing .faq{ margin-top:28px; }
+#pricing .faq-title{ font-size:22px; font-weight:900; color: var(--text); margin-bottom:8px; }
+#pricing .faq-item{
+  background: rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  border-radius:12px; padding:10px 14px; margin:10px 0;
+}
+#pricing .faq-item .q{
+  font-weight:900; color: var(--text);
+}
+#pricing .faq-item .a{
+  color: var(--muted); margin-top:8px;
+}
+
+/* Light-mode variant (if you ever switch #pricing to white) */
+#pricing.light {
+  background: #fff;
+  color: #0f172a;
+  border-top: 1px solid var(--line);
+}
+#pricing.light .factor.card-v2{
+  background: rgba(255,255,255,.65);
+  border:1px solid #e8eff0;
+}
+#pricing.light .faq-item{
+  background:#fff; border-color:#e8eff0;
+}
 
 /* ---------- CONTACT ---------- */
 #contact .grid { margin-top: 16px; }
