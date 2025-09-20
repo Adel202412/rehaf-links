@@ -197,7 +197,7 @@ body {
 /* Keyboard focus (all buttons/links) */
 :focus-visible { outline: 3px solid rgba(0,171,154,.6); outline-offset: 2px; }
 /* ---------- SOLUTIONS (7 cards) ---------- */
-#solutions .cards { margin-top: 16px; }
+#solutions .cards { margin-top: 16px; align-items:flex-start;}
 #solutions .card-v2 h3 { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: #00453e; }
 #solutions .card-v2 p { color: var(--muted); font-size: 14px; }
 #solutions .card-v2 a { display:inline-block; margin-top: 10px; color: var(--accent); font-weight: 800; text-decoration: none; }
@@ -230,17 +230,18 @@ body {
 #solutions .solution-icon {
   width: 120px;
   height: auto;
+  object-fit:contain;
+  display:block;
   margin: 0 auto 16px;
-  display: block;
   filter:
-  drop-shadow(2px 0 0 #fff)
-  drop-shadow(-2px 0 0 #fff)
-  drop-shadow(0 2px 0 #fff)
-  drop-shadow(0 -2px 0 #fff)
-  drop-shadow(2px 2px 0 #fff)
-  drop-shadow(-2px 2px 0 #fff)
-  drop-shadow(2px -2px 0 #fff)
-  drop-shadow(-2px -2px 0 #fff);
+  drop-shadow(1px 0 0 #fff)
+  drop-shadow(-1px 0 0 #fff)
+  drop-shadow(0 1px 0 #fff)
+  drop-shadow(0 -1px 0 #fff)
+  drop-shadow(1px 1px 0 #fff)
+  drop-shadow(-1px 1px 0 #fff)
+  drop-shadow(1px -1px 0 #fff)
+  drop-shadow(-1px -1px 0 #fff);
 }
 
 /* text block with blur */
