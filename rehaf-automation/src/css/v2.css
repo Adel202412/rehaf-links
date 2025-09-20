@@ -334,10 +334,13 @@ body {
 
 /* ---------- STORIES (Testimonials + Case Studies) ---------- */
 /* Whole section uses a white background like the hero */
+/* Force white background for Testimonials & Case Studies */
 #stories {
-  background: #ffffff;
-  color:#fff;/* #0f172a;*/
+  background: #ffffff !important;
+  color: #0f172a;
   border-top: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
 }
 #stories .stories-title {
   text-align: left;
