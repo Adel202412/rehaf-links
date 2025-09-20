@@ -336,7 +336,7 @@ body {
 /* Whole section uses a white background like the hero */
 #stories {
   background: #ffffff;
-  color: #0f172a;
+  color:#fff;/* #0f172a;*/
   border-top: 1px solid var(--line);
 }
 #stories .stories-title {
