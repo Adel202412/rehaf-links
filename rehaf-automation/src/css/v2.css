@@ -16,7 +16,7 @@
 
   /* Light-only (hero) */
   --hero-bg: #f9fefe;
-  --hero-text: #0f172a;
+  --hero-text:  #0d2b2b;
   --hero-muted: #475569;
   --hero-line: #e5efee;
 }
@@ -60,7 +60,7 @@ body {
 }
 .btn-v2.primary:hover { transform: translateY(-1px); background: linear-gradient(135deg,#00b8a5,#008373); }
 .btn-v2.ghost {
-  color:var(--accent); background: #f3f6f6; border:1px solid #465667 ;box-shadow: none;
+  color:var(--accent); background: #f3f6f6; border:1px solid #00b8a5 ;box-shadow: none;
 }
 .btn-v2.ghost:hover { background: #eaeaea; }
 
@@ -202,6 +202,47 @@ body {
 #solutions .card-v2 p { color: var(--muted); font-size: 14px; }
 #solutions .card-v2 a { display:inline-block; margin-top: 10px; color: var(--accent); font-weight: 800; text-decoration: none; }
 #solutions .card-v2 a:hover { text-decoration: underline; }
+
+/* ---------- SOLUTIONS (7 cards grid) ---------- */
+#solutions .cards {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+#solutions .card-v2 {
+  text-align: left;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+#solutions .card-v2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(0,0,0,.15);
+}
+
+#solutions .solution-icon {
+  width: 56px;
+  height: auto;
+  margin-bottom: 12px;
+  display: block;
+}
+
+#solutions .card-v2 h3 {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+#solutions .card-v2 p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
 
 /* ---------- OFFICE (kept as-is, just theming) ---------- */
 #office { background: transparent; }
