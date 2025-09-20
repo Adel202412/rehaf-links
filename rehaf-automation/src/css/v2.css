@@ -245,13 +245,11 @@ body {
 
 /* text block with blur */
 #solutions .card-v2 .text-block {
-  background:#fff;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgb(255, 255, 255);
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 6px 18px #00b8a5;
+  background:transparent;
+  border:none;
+  box-shadow: none;
+  padding: none;
+  border-radius: none;
 }
 
 #solutions .card-v2 h3 {
