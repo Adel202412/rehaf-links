@@ -203,45 +203,60 @@ body {
 #solutions .card-v2 a { display:inline-block; margin-top: 10px; color: var(--accent); font-weight: 800; text-decoration: none; }
 #solutions .card-v2 a:hover { text-decoration: underline; }
 
-/* ---------- SOLUTIONS (7 cards grid) ---------- */
+/* ---------- SOLUTIONS GRID ---------- */
 #solutions .cards {
   margin-top: 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
 
+/* card style */
 #solutions .card-v2 {
-  text-align: left;
-  padding: 20px;
+  background: #fff;
+  color: #0f172a;
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: var(--card);
-  transition: transform .16s ease, box-shadow .16s ease;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 #solutions .card-v2:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 20px rgba(0,0,0,.15);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,.15);
 }
 
+/* mascot on top */
 #solutions .solution-icon {
-  width: 56px;
+  width: 64px;
   height: auto;
-  margin-bottom: 12px;
+  margin: 0 auto 12px;
   display: block;
 }
 
+/* text */
 #solutions .card-v2 h3 {
   font-size: 18px;
   font-weight: 900;
-  margin-bottom: 8px;
   color: var(--accent);
+  margin-bottom: 8px;
+}
+#solutions .card-v2 p {
+  font-size: 15px;
+  color: #465667;
+  line-height: 1.5;
 }
 
-#solutions .card-v2 p {
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.5;
+/* Special layout for the 7th card */
+#solutions .card-v2.special {
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+#solutions .card-v2.special img {
+  width: 64px;
+  margin: 0 16px 0 0;
 }
 
 /* ---------- OFFICE (kept as-is, just theming) ---------- */
