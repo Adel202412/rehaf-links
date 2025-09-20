@@ -1,0 +1,181 @@
+/* =========================================
+   REHAF v2 Design System  (safe add-on)
+   File: src/css/v2.css
+   ========================================= */
+
+/* ---------- Tokens (Dark site + Light hero) ---------- */
+:root {
+  /* Global dark */
+  --bg: #0e1418;
+  --card: #0b1013;
+  --text: #e8fbf6;
+  --muted: #a8c0bb;
+  --line: rgba(255,255,255,0.12);
+  --accent: #00ab9a;
+  --accent-dark: #00786c;
+
+  /* Light-only (hero) */
+  --hero-bg: #f9fefe;
+  --hero-text: #0f172a;
+  --hero-muted: #475569;
+  --hero-line: #e5efee;
+}
+
+/* ---------- Global dark base (won’t touch your existing modules’ IDs) ---------- */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* generic boundaries for v2 sections */
+.section {
+  position: relative;
+  border-top: 1px solid var(--line);
+}
+.section:first-of-type { border-top: 0; }
+.section .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+.section h2 { color: var(--text); font-size: 30px; font-weight: 900; letter-spacing: .2px; }
+.section .sub { color: var(--muted); }
+
+/* Utility */
+.v2-grid { display: grid; gap: 16px; }
+.v2-grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.v2-grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.v2-grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+@media (max-width: 960px){ .v2-grid-3, .v2-grid-4 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px){ .v2-grid-2, .v2-grid-3, .v2-grid-4 { grid-template-columns: 1fr; } }
+
+/* Buttons */
+.btn-v2 {
+  display: inline-block;
+  font-weight: 900;
+  border-radius: 14px;
+  padding: 12px 18px;
+  text-decoration: none;
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease;
+}
+.btn-v2.primary {
+  color:#071316; background: var(--accent);
+  box-shadow: 0 10px 22px rgba(0,171,154,.35);
+}
+.btn-v2.primary:hover { transform: translateY(-1px); background: var(--accent-dark); }
+.btn-v2.ghost {
+  color: var(--text); background: transparent; border:1px solid var(--line);
+}
+.btn-v2.ghost:hover { background: rgba(255,255,255,.04); }
+
+/* Chips / small stats */
+.chip { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius: 999px; background: rgba(255,255,255,.06); color: var(--text); font-weight: 800; font-size: 13px; border:1px solid var(--line); }
+
+/* Cards */
+.card-v2 {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  color: var(--text);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.card-v2:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,.25); }
+
+/* Dividers */
+.divider { height:1px; background: var(--line); margin: 16px 0; }
+
+/* ---------- Header nav (minor polish, keeps your header JS) ---------- */
+.header .nav a {
+  color: #0d2b2b; font-weight: 800; text-decoration: none; padding: 8px 10px; border-radius: 10px;
+}
+.header.scrolled .nav a { color: #e9fbf7; }
+.header .nav a:hover { background: rgba(0,0,0,.06); }
+.header.scrolled .nav a:hover { background: rgba(255,255,255,.08); }
+
+/* ---------- HERO (light) ---------- */
+#hero {
+  background: var(--hero-bg);
+  color: var(--hero-text);
+  border-top: 0; /* first section after header */
+}
+#hero h1 { color: var(--accent); font-weight: 900; letter-spacing: .2px; }
+#hero .sub { color: var(--hero-muted); }
+#hero .btn-v2.ghost { border-color: #465667; color: var(--accent); background: #f3f6f6; }
+#hero .btn-v2.ghost:hover { background: #eaf1f1; }
+#hero .chip { background: #eef7f6; color: #0f172a; border-color: var(--hero-line); }
+
+/* ---------- TRUST strip (dark) ---------- */
+#trust { background: transparent; }
+#trust h2 { text-align:center; color: var(--muted); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }
+#trust .logo-row { margin-top: 18px; opacity: .85; }
+#trust .logo {
+  height: 42px; border:1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.04);
+  display:flex; align-items:center; justify-content:center; color: #cfe8e2; font-weight:800; letter-spacing:.18em; font-size: 11px;
+}
+
+/* ---------- SOLUTIONS (7 cards) ---------- */
+#solutions .cards { margin-top: 16px; }
+#solutions .card-v2 h3 { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: var(--text); }
+#solutions .card-v2 p { color: var(--muted); font-size: 14px; }
+#solutions .card-v2 a { display:inline-block; margin-top: 10px; color: var(--accent); font-weight: 800; text-decoration: none; }
+#solutions .card-v2 a:hover { text-decoration: underline; }
+
+/* ---------- OFFICE (kept as-is, just theming) ---------- */
+#office { background: transparent; }
+#office h2 { color: var(--text); }
+#office .sub { color: var(--muted); }
+
+/* ---------- EXPLAINER ---------- */
+#explainer { background: transparent; }
+#explainer .tip { margin-top:10px; color: var(--muted); }
+
+/* ---------- TESTIMONIALS ---------- */
+#testimonials .wrap { margin-top: 16px; }
+#testimonials blockquote { color: var(--text); line-height: 1.5; }
+#testimonials .who { margin-top: 8px; color: var(--muted); font-size: 13px; }
+
+/* ---------- PROCESS (5 steps) ---------- */
+#process .steps { margin-top: 16px; }
+#process .step .num { color: var(--accent); font-weight: 900; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }
+#process .step h4 { margin-top: 6px; font-weight: 900; }
+#process .step p { color: var(--muted); font-size: 14px; }
+
+/* ---------- PRICING & FAQ ---------- */
+#pricing .plans { margin-top: 16px; }
+#pricing .plan .price { font-size: 22px; font-weight: 900; margin-top: 6px; }
+#pricing .plan .desc { color: var(--muted); margin-top: 6px; }
+#pricing .faq { margin-top: 24px; }
+#pricing .faq .q { font-weight: 900; }
+#pricing .faq .a { color: var(--muted); margin-top: 6px; }
+
+/* ---------- CONTACT ---------- */
+#contact .grid { margin-top: 16px; }
+#contact form .field { display:grid; gap:6px; }
+#contact input, #contact textarea {
+  width: 100%; padding: 12px 14px; border-radius: 12px; border:1px solid var(--line);
+  background: rgba(255,255,255,.04); color: var(--text); outline: none;
+}
+#contact input:focus, #contact textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,171,154,.18); }
+#contact .note { color: var(--muted); font-size: 12px; margin-top: 8px; }
+
+/* ---------- RUNNER (kept) ---------- */
+/* Your runner section already dark; no changes needed here. */
+
+/* ---------- ARCHITECTURE (dark restyle) ---------- */
+#architecture {
+  background: linear-gradient(180deg, #0b1013 0%, #0e1418 100%);
+  border-top: 1px solid var(--line);
+}
+#architecture .box {
+  background: var(--card);
+  border:1px solid var(--line);
+  color: var(--text);
+}
+
+/* ---------- Footer (already dark) ---------- */
+#footer { border-top: 1px solid var(--line); }
+
+/* ---------- RTL helpers (basic) ---------- */
+:root[dir="rtl"] .btn-v2 { direction: rtl; }
+:root[dir="rtl"] .chip { direction: rtl; }
+
+/* Accessibility: high contrast focus for keyboard */
+:focus-visible { outline: 3px solid rgba(0,171,154,.6); outline-offset: 2px; }
