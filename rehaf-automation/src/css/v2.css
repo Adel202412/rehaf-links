@@ -566,15 +566,48 @@ body {
 }
 
 /* ---------- CONTACT ---------- */
-#contact .grid { margin-top: 16px; }
-#contact form .field { display:grid; gap:6px; }
-#contact input, #contact textarea {
-  width: 100%; padding: 12px 14px; border-radius: 12px; border:1px solid var(--line);
-  background: rgba(255,255,255,.04); color: var(--text); outline: none;
+/* ---------- FINAL CTA + CONTACT ---------- */
+#contact {
+  background: linear-gradient(135deg, #0d1217, #00332f);
+  color: #e9fbf7;
+  border-top: 1px solid var(--line);
 }
-#contact input:focus, #contact textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,171,154,.18); }
-#contact .note { color: var(--muted); font-size: 12px; margin-top: 8px; }
 
+#contact .contact-head h2 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #00ab9a;
+}
+#contact .contact-head .sub { color: #cfe8e2; }
+
+#contact .btn-row .btn-v2.ghost { background: rgba(255,255,255,.06); color:#e9fbf7; border:1px solid var(--line); }
+#contact .btn-row .btn-v2.ghost:hover { background: rgba(255,255,255,.12); }
+
+/* form layout */
+#contact .contact-form {
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+#contact .contact-meta {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+/* a11y helper */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
 /* ---------- RUNNER (kept) ---------- */
 /* Your runner section already dark; no changes needed here. */
 
