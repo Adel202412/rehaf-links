@@ -101,7 +101,40 @@ body {
 #hero .btn-v2.ghost { border-color: #465667; color: var(--accent); background: #f3f6f6; }
 #hero .btn-v2.ghost:hover { background: #eaf1f1; }
 #hero .chip { background: #eef7f6; color: #0f172a; border-color: var(--hero-line); }
-
+/* HERO (v2 text colors) */
+#hero h1 {
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  color: #0f172a; /* main ink */
+}
+#hero h1 .ai,
+#hero h1 .brand {
+  color: var(--accent); /* teal */
+}
+#hero .kicker {
+  display:inline-block;
+  font-weight:800;
+  color:#00453e; /* dark teal text */
+  background: rgba(0,171,154,.08); /* soft teal bg */
+  border: 1px solid var(--hero-line);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+#hero .sub {
+  margin-top: 12px;
+  color: #475569; /* muted gray-blue */
+  font-size: clamp(18px, 2.3vw, 22px);
+  max-width: 60ch;
+}
+#hero .chip {
+  background:#eef7f6;
+  color:#00453e;
+  border-color: #dbece9;
+  font-weight:700;
+}
 /* ---------- TRUST strip (dark) ---------- */
 #trust { background: transparent; }
 #trust h2 { text-align:center; color: var(--muted); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }
