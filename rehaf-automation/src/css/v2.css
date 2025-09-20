@@ -114,6 +114,7 @@ body {
 #hero h1 .brand {
   color: #00453e; /* deep dark teal for "Virtual Office" */
 }
+
 #hero .kicker {
   display:inline-block;
   font-weight:800;
@@ -137,6 +138,11 @@ body {
   border-color: #dbece9;
   font-weight:700;
 }
+/* 3-teal heading scheme */
+#hero h1 { color: #00786c; }              /* fallback/base */
+#hero .h-teal { color: #00ab9a; }         /* Automate Your Office = teal */
+#hero .h-dark { color: #00453e; }         /* Save Time = darker teal */
+#hero .h-mid  { color: #00786c; }         /* Scale Faster = between */
 /* ---------- TRUST strip (dark) ---------- */
 #trust { background: transparent; }
 #trust h2 { text-align:center; color: var(--muted); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }

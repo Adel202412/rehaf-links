@@ -12,8 +12,15 @@ export function initRehafHero(container) {
   container.innerHTML = `
     <div class="hero-inner" aria-labelledby="heroTitle">
       <div class="copy">
-        <div class="kicker">AI Virtual Office</div>
-        <h1 id="heroTitle">Automate Your Office. Save Time. <span class="ai">Scale Faster.</span></h1>
+        <div class="kicker">Hi, I’m REHAF — your AI assistant for running a virtual office.</div>
+        
+        <h1 id="heroTitle">
+        <span class="h-teal">Automate Your Office.</span><br>
+        <span class="h-dark">Save Time.</span><br>
+        <span class="h-mid">Scale Faster.</span>
+        </h1> 
+        <p class="sub">Hi, I’m REHAF — your AI assistant for running a virtual office.</p>
+
         <p class="sub">We design AI-powered workflows that eliminate repetitive tasks so your team can focus on growth.</p>
 
         <div class="btn-row">
