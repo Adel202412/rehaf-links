@@ -19,7 +19,6 @@ export function initRehafHero(container) {
         <span class="h-dark">Save Time.</span><br>
         <span class="h-mid">Scale Faster.</span>
         </h1> 
-        <p class="sub">Hi, I’m REHAF — your AI assistant for running a virtual office.</p>
 
         <p class="sub">We design AI-powered workflows that eliminate repetitive tasks so your team can focus on growth.</p>
 

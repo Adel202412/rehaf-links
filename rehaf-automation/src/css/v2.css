@@ -128,7 +128,7 @@ body {
 }
 #hero .sub {
   margin-top: 12px;
-  color: #00786c; /* medium teal for subtext */
+  color: #002c27; /* medium teal for subtext */
   font-size: clamp(18px, 2.3vw, 22px);
   max-width: 60ch;
 }
@@ -143,36 +143,59 @@ body {
 #hero .h-teal { color: #00ab9a; }         /* Automate Your Office = teal */
 #hero .h-dark { color: #00453e; }         /* Save Time = darker teal */
 #hero .h-mid  { color: #00786c; }         /* Scale Faster = between */
-/* ---------- TRUST strip (dark) ---------- */
-#trust { background: transparent; }
-#trust h2 { text-align:center; color: var(--muted); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }
-#trust .logo-row { margin-top: 18px; opacity: .85; }
-/* TRUST logos - visible on dark bg */
+/* ---------- TRUST strip ---------- */
+#trust {
+  background: #0d1217; /* dark bg to contrast with hero */
+  padding: 40px 20px;
+}
+
+#trust h2 {
+  text-align: center;
+  color: #e9fbf7;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+#trust .logo-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
 #trust .logo {
   height: 50px;
   min-width: 160px;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255,255,255,.2);
   border-radius: 12px;
   background: rgba(255,255,255,0.06);
-  color: #e8fbf6;
+  color: #e9fbf7;
   font-weight: 700;
-  display:flex; align-items:center; justify-content:center;
-  text-align:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 12px;
+  text-align: center;
   letter-spacing: .5px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+#trust .logo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,.35);
+}
+
+@media(max-width:600px){
+  #trust .logo { min-width: 120px; font-size: 13px; }
 }
 /* Ghost hover (match earlier tone) */
 .btn-v2.ghost:hover { background: #eaf1f1; }
 
 /* Keyboard focus (all buttons/links) */
 :focus-visible { outline: 3px solid rgba(0,171,154,.6); outline-offset: 2px; }
-
-/* Trust logo hover accent */
-#trust .logo:hover {
-  border-color: rgba(0,171,154,.45);
-  box-shadow: 0 6px 16px rgba(0,0,0,.3);
-}
 /* ---------- SOLUTIONS (7 cards) ---------- */
 #solutions .cards { margin-top: 16px; }
 #solutions .card-v2 h3 { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: var(--text); }
