@@ -101,23 +101,25 @@ body {
 #hero .btn-v2.ghost { border-color: #465667; color: var(--accent); background: #f3f6f6; }
 #hero .btn-v2.ghost:hover { background: #eaf1f1; }
 #hero .chip { background: #eef7f6; color: #0f172a; border-color: var(--hero-line); }
-/* HERO (v2 text colors) */
+/* HERO (v2 text with 3-teal scheme) */
 #hero h1 {
   font-size: clamp(36px, 6vw, 72px);
   font-weight: 900;
   line-height: 1.1;
-  color: #0f172a; /* main ink */
+  color: #00786c; /* medium-dark teal as base */
 }
-#hero h1 .ai,
+#hero h1 .ai {
+  color: #00ab9a; /* bright teal for "REHAF" */
+}
 #hero h1 .brand {
-  color: var(--accent); /* teal */
+  color: #00453e; /* deep dark teal for "Virtual Office" */
 }
 #hero .kicker {
   display:inline-block;
   font-weight:800;
   color:#00453e; /* dark teal text */
-  background: rgba(0,171,154,.08); /* soft teal bg */
-  border: 1px solid var(--hero-line);
+  background: rgba(0, 171, 154, 0.094); /* faint teal bg */
+  border: 1px solid #dbece9;
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
@@ -125,7 +127,7 @@ body {
 }
 #hero .sub {
   margin-top: 12px;
-  color: #475569; /* muted gray-blue */
+  color: #00786c; /* medium teal for subtext */
   font-size: clamp(18px, 2.3vw, 22px);
   max-width: 60ch;
 }
