@@ -52,13 +52,16 @@
   <p id="welcomeText" class="text-base md:text-lg"></p>
 </section>
 <!--Consent section-->
-
+<!-- Consent section -->
+<div id="consentText" class="text-sm md:text-base text-center opacity-90 max-w-xl"></div>
+<!--
 <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
   <ul style="list-style-type:disc; padding-left:1.2em; margin-top:0; margin-bottom:0;">
     <li>Please Choose the right Option, or your request will not proceed</li>
     <li>By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.</li>
   </ul>
 </p>
+-->
 <!-- vacancies list -->
 <section class="card rounded-2xl p-4 w-full">
   <div class="flex items-center gap-3 mb-3">
@@ -92,6 +95,10 @@
       i18n:{
         en:{
           welcome:"Welcome to REHAF. Use the buttons below to request services or apply.",
+           consent: [
+              "Please choose the right option, or your request will not proceed.",
+              "By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes."
+                ],
           vacTitle:"Vacancies open for today",
           vacEmpty:"No vacancies available at the moment.",
           links:{
@@ -104,6 +111,10 @@
         },
         ar:{
           welcome:"مرحبًا بكم في REHAF. استخدم الأزرار أدناه لطلب الخدمات أو التقديم.",
+          consent: [
+                  "يُرجى اختيار الخيار الصحيح، وإلا فلن تتم معالجة طلبك.",
+                  "بالمتابعة، فإنك توافق على أن تتم معالجة طلبك تلقائيًا وتخزينه بأمان لضمان جودة الخدمة."
+                ],
           vacTitle:"الوظائف المتاحة اليوم",
           vacEmpty:"لا توجد وظائف متاحة حالياً.",
           links:{
@@ -147,6 +158,16 @@
       document.documentElement.setAttribute('dir', state.lang==='ar'?'rtl':'ltr');
       $('#year').textContent = new Date().getFullYear();
       $('#welcomeText').textContent = t('welcome');
+   
+      /* Consent toggled section */
+        const consentHost = document.getElementById('consentText');
+        if (consentHost) {
+          const consentLines = CONFIG.i18n[state.lang].consent || [];
+          consentHost.innerHTML =
+            `<ul class="list-disc list-inside ${state.lang==='ar' ? 'pr-5' : 'pl-5'} m-0">
+              ${consentLines.map(line => `<li class="text-start">${line}</li>`).join('')}
+            </ul>`;
+        }
 
       const wrap = $('#links'); wrap.innerHTML = '';
       CONFIG.links.forEach(l=>{
