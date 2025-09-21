@@ -51,25 +51,27 @@
 <section class="card rounded-2xl p-4 text-center w-full">
   <p id="welcomeText" class="text-base md:text-lg"></p>
 </section>
-
+<!--Consent section-->
 <p class="text-sm md:text-base text-center opacity-90 max-w-xl">
-  By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.
+  <ul>Please Choose the right Option, or your request will not proceed</ul>
+<ul>By continuing, you agree that your request may be processed automatically and securely stored for service quality purposes.</ul>
 </p>
-
+<!-- vacancies list -->
+<section class="card rounded-2xl p-4 w-full">
+  <div class="flex items-center gap-3 mb-3">
+    <h2 id="vacTitle" class="text-xl font-semibold flex-1"></h2>
+    <span id="todayDate" class="text-sm opacity-80"></span>
+  </div>
+  <ul id="vacList" class="list-none max-h-48 overflow-y-auto pr-2"></ul>
+  <p id="vacEmpty" class="text-center opacity-80 mt-2"></p>
+</section>
+<!--link sections of form section-->
 <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
 
-<section class="card rounded-2xl p-4 w-full">
-  <h2 class="text-lg font-bold mb-2">
-    <span id="vacTitle"></span>: <span id="todayDate" class="ml-1 text-base opacity-90"></span>
-  </h2>
-  <ul id="vacList" class="space-y-2"></ul>
-  <p id="vacEmpty" class="text-sm opacity-90"></p>
-</section>
-
 <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
   <p>© <span id="year"></span> REHAF.</p>
-  <a id="email" href="mailto:Adel.alsoufi.90@gmail.com" class="underline underline-offset-4">Adel.alsoufi.90@gmail.com</a>
+  <a id="email" href="mailto:lilafutum@gmail.com" class="underline underline-offset-4">lilafutum@gmail.com</a>
 </div>
 
   </main>  <!-- ===== App logic ===== -->  <script>
@@ -90,8 +92,8 @@
           vacTitle:"Vacancies open for today",
           vacEmpty:"No vacancies available at the moment.",
           links:{
-            apply_job:{ label:"Apply for a Job" },
-            hire_req:{ label:"Hiring Service Request" },
+            apply_job:{ label:"Apply for a Job - seeking a job" },
+            hire_req:{ label:"For Business Owners - Hiring Service Request" },
             consult_req:{ label:"Other Service Request (Consultant Service)" },
             auto_soon:{ label:"Automation Service (Soon)" },
             setup_guide:{ label:"Company Setup Guide (Abu Dhabi)" }
