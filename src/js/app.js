@@ -726,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // If there's a file, send multipart/form-data so Make.com can catch the file
         if (fileToSend) {
           const fd = new FormData();
-          fd.append("payload", JSON.stringify(basePayload));
+          Object.entries(basePayload).forEach(([k, v]) => fd.append(k, v ?? ""));
           fd.append(fileFieldId || "file", fileToSend, fileToSend.name || "cv.pdf");
 
           const res = await fetch(WEBHOOK_URL, { method: "POST", body: fd });
