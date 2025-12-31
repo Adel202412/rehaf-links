@@ -330,7 +330,41 @@ html[dir="rtl"] body {
 }
 
 .rehaf-textarea{ resize: vertical; min-height: 110px; }
+/* ===========================
+   File input styling (CV PDF)
+   =========================== */
 
+.rehaf-input[type="file"]{
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.14);
+  background: #fff;
+  font-size: 14.5px;
+  color: #0f2d29;
+  cursor: pointer;
+}
+
+/* The actual “Choose file” button */
+.rehaf-input[type="file"]::file-selector-button{
+  margin-right: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rehaf-input[type="file"]::file-selector-button:hover{
+  filter: brightness(1.06);
+}
+
+/* RTL spacing fix */
+html[dir="rtl"] .rehaf-input[type="file"]::file-selector-button{
+  margin-right: 0;
+  margin-left: 10px;
+}
 .rehaf-input:focus, .rehaf-textarea:focus{
   border-color: rgba(0,69,62,.55);
   box-shadow: 0 0 0 4px rgba(0,69,62,.12);
