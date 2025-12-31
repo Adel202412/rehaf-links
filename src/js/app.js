@@ -54,6 +54,7 @@ const CONFIG = {
         },
         statusSending: "Sending…",
         statusFail: "Something went wrong. Please try again."
+        startHere: "Start Here"
       }
     },
     ar: {
@@ -98,7 +99,8 @@ const CONFIG = {
           request: "يرجى كتابة وصف مختصر لطلبك"
         },
         statusSending: "جارٍ الإرسال…",
-        statusFail: "حدث خطأ. يرجى المحاولة مرة أخرى."
+        statusFail: "حدث خطأ. يرجى المحاولة مرة أخرى.",
+        startHere: "ابدأ هنا"
       }
     }
   }
@@ -301,17 +303,24 @@ function render() {
         card.className = "btn rounded-2xl p-4 block transition";
 
         card.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">${l.icon || "🔗"}</div>
-            <div class="flex-1">
-              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
-              <div class="text-base opacity-90">${l.info || ""}</div>
-            </div>
-          </div>
-          <div class="mt-3 flex justify-end">
-            <button type="button" class="rehaf-btn rehaf-btn--primary rehaf-start-btn">Start Here</button>
-          </div>
-        `;
+  <div class="flex items-center gap-3">
+    <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">
+      ${l.icon || "🔗"}
+    </div>
+
+    <div class="flex-1">
+      <div class="font-semibold text-xl">${label}</div>
+      <div class="text-base opacity-90">${l.info || ""}</div>
+    </div>
+
+    <button
+      type="button"
+      class="rehaf-btn rehaf-btn--primary rehaf-start-btn whitespace-nowrap"
+    >
+      ${CONFIG.i18n[state.lang].startHere}
+    </button>
+  </div>
+`;
 
         card.querySelector(".rehaf-start-btn")?.addEventListener("click", openLeadModal);
         wrap.appendChild(card);
