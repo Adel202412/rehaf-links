@@ -717,8 +717,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Webhook placeholder — add later
     
-    const WEBHOOK_URL = "";
-
+    const WEBHOOK_URL = WEBHOOKS[service_key] || "";
+    console.log("REHAF sending to:", WEBHOOK_URL, "service_key:", service_key);
     try {
       if (status) status.textContent = dict.statusSending;
 
