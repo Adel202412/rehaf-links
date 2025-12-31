@@ -195,3 +195,213 @@ body {
   cursor: pointer;
 }
 .faq-actions button:hover { background: #f2fbf8; }
+
+/* ===== REHAF Lead Modal ===== */
+.rehaf-modal{
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 2147483646; /* below FAQ bubble which is 2147483647 */
+}
+.rehaf-modal.is-open{ display:block; }
+
+.rehaf-modal__backdrop{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(2px);
+}
+
+.rehaf-modal__panel{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  width: min(920px, calc(100vw - 24px));
+  max-height: min(84vh, 760px);
+  background:#fff;
+  border-radius: 18px;
+  overflow:hidden;
+  box-shadow: 0 18px 44px rgba(0,0,0,.28);
+  border: 1px solid rgba(0,0,0,.10);
+  display:flex;
+  flex-direction:column;
+}
+
+.rehaf-modal__header{
+  background: var(--accent);
+  color:#fff;
+  padding: 12px 12px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 10px;
+}
+
+.rehaf-modal__brand{
+  display:flex;
+  gap: 10px;
+  align-items:flex-start;
+  min-width: 0;
+}
+
+.rehaf-modal__avatar{
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  overflow:hidden;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.18);
+  flex: 0 0 auto;
+  display:grid;
+  place-items:center;
+}
+.rehaf-modal__avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.rehaf-modal__headings{ min-width:0; }
+.rehaf-modal__title{
+  font-weight: 800;
+  font-size: 15px;
+  line-height: 1.2;
+}
+.rehaf-modal__subtitle{
+  margin-top: 4px;
+  font-size: 13px;
+  opacity: .92;
+  line-height: 1.35;
+}
+
+.rehaf-modal__close{
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+.rehaf-modal__close:hover{ background: rgba(255,255,255,.12); }
+
+.rehaf-modal__body{
+  padding: 14px;
+  overflow:auto;
+  color: #0f2d29;
+}
+
+/* Form layout */
+.rehaf-form{ margin:0; }
+.rehaf-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.rehaf-field--full{ grid-column: 1 / -1; }
+
+.rehaf-label{
+  display:block;
+  font-weight: 800;
+  font-size: 13px;
+  color:#0f2d29;
+  margin-bottom: 6px;
+}
+
+.rehaf-input, .rehaf-textarea{
+  width:100%;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.14);
+  background: #fff;
+  padding: 10px 12px;
+  font-size: 15px;
+  outline: none;
+}
+.rehaf-textarea{ resize: vertical; min-height: 110px; }
+
+.rehaf-input:focus, .rehaf-textarea:focus{
+  border-color: rgba(0,69,62,.55);
+  box-shadow: 0 0 0 4px rgba(0,69,62,.12);
+}
+
+.rehaf-error{
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: rgba(160,20,20,.92);
+  min-height: 16px; /* keeps layout stable */
+}
+
+.rehaf-actions{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.rehaf-btn{
+  border-radius: 14px;
+  padding: 10px 12px;
+  font-weight: 900;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,.10);
+}
+
+.rehaf-btn--primary{
+  background: var(--accent);
+  color: #fff;
+  border-color: rgba(0,0,0,.12);
+}
+.rehaf-btn--primary:hover{ filter: brightness(1.06); }
+
+.rehaf-btn--ghost{
+  background: #fff;
+  color: #0f2d29;
+  border: 1px solid rgba(0,0,0,.14);
+}
+.rehaf-btn--ghost:hover{ background: rgba(0,0,0,.03); }
+
+.rehaf-status{
+  font-size: 13px;
+  opacity: .9;
+}
+
+/* Honeypot hidden */
+.rehaf-hp{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  opacity:0;
+}
+
+/* Success state */
+.rehaf-success{
+  padding: 10px 2px 2px;
+}
+.rehaf-success__title{
+  font-weight: 900;
+  font-size: 18px;
+  margin-bottom: 6px;
+  color:#0f2d29;
+}
+.rehaf-success__text{
+  font-size: 14px;
+  color:#355a53;
+  margin-bottom: 12px;
+}
+
+/* Mobile: bottom-sheet feel */
+@media (max-width: 720px){
+  .rehaf-modal__panel{
+    left: 50%;
+    top: auto;
+    bottom: 12px;
+    transform: translate(-50%, 0);
+    width: calc(100vw - 24px);
+    max-height: 86vh;
+  }
+  .rehaf-grid{ grid-template-columns: 1fr; }
+}

@@ -158,5 +158,86 @@
   ></div>
 </div>
 
+<!-- ===== REHAF Lead Popup (consult_req) ===== -->
+<div id="rehafLeadModal" class="rehaf-modal" aria-hidden="true">
+  <div class="rehaf-modal__backdrop" data-rehaf-close="1"></div>
+
+  <div class="rehaf-modal__panel" role="dialog" aria-modal="true" aria-label="REHAF Lead Form">
+    <div class="rehaf-modal__header">
+      <div class="rehaf-modal__brand">
+        <span class="rehaf-modal__avatar">
+          <img src="/assets/mascot.webp" alt="REHAF" />
+        </span>
+        <div class="rehaf-modal__headings">
+          <div class="rehaf-modal__title" id="rehafModalTitle">Tell us briefly how we can help you</div>
+          <div class="rehaf-modal__subtitle" id="rehafModalSubtitle">
+            This will take less than a minute. We’ll review your request and contact you personally.
+          </div>
+        </div>
+      </div>
+
+      <button id="rehafLeadClose" class="rehaf-modal__close" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <div class="rehaf-modal__body">
+      <!-- Success state (hidden by default) -->
+      <div id="rehafLeadSuccess" class="rehaf-success" hidden>
+        <div class="rehaf-success__title">Thank you.</div>
+        <div class="rehaf-success__text">We’ve received your request and will contact you shortly.</div>
+        <button id="rehafSuccessClose" class="rehaf-btn rehaf-btn--primary" type="button">Close</button>
+      </div>
+
+      <!-- Form -->
+      <form id="rehafLeadForm" class="rehaf-form" novalidate>
+        <!-- Honeypot (anti-spam): should stay empty -->
+        <input type="text" id="rehafHp" name="website" class="rehaf-hp" tabindex="-1" autocomplete="off" />
+
+        <div class="rehaf-grid">
+          <div class="rehaf-field">
+            <label class="rehaf-label" for="rehafName">Full name</label>
+            <input class="rehaf-input" id="rehafName" name="full_name" placeholder="Your name" autocomplete="name" />
+            <div class="rehaf-error" id="errName"></div>
+          </div>
+
+          <div class="rehaf-field">
+            <label class="rehaf-label" for="rehafEmail">Email address</label>
+            <input class="rehaf-input" id="rehafEmail" name="email" placeholder="name@email.com" autocomplete="email" inputmode="email" />
+            <div class="rehaf-error" id="errEmail"></div>
+          </div>
+
+          <div class="rehaf-field">
+            <label class="rehaf-label" for="rehafPhone">Phone number</label>
+            <input class="rehaf-input" id="rehafPhone" name="phone" placeholder="+971 5X XXX XXXX" autocomplete="tel" inputmode="tel" />
+            <div class="rehaf-error" id="errPhone"></div>
+          </div>
+
+          <div class="rehaf-field">
+            <label class="rehaf-label" for="rehafLocation">Location</label>
+            <input class="rehaf-input" id="rehafLocation" name="location" placeholder="City, Country (e.g. Abu Dhabi, UAE)" autocomplete="address-level2" />
+            <div class="rehaf-error" id="errLocation"></div>
+          </div>
+
+          <div class="rehaf-field rehaf-field--full">
+            <label class="rehaf-label" for="rehafRequest">Briefly describe your request</label>
+            <textarea class="rehaf-textarea" id="rehafRequest" name="request" rows="4"
+              placeholder="Tell us in a few lines what you need help with"></textarea>
+            <div class="rehaf-error" id="errRequest"></div>
+          </div>
+        </div>
+
+        <div class="rehaf-actions">
+          <button id="rehafLeadSubmit" class="rehaf-btn rehaf-btn--primary" type="submit">
+            Send request
+          </button>
+          <button class="rehaf-btn rehaf-btn--ghost" type="button" data-rehaf-close="1">
+            Cancel
+          </button>
+          <div class="rehaf-status" id="rehafStatus" aria-live="polite"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
