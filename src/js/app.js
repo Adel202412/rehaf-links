@@ -19,6 +19,7 @@ const CONFIG = {
       ],
       vacTitle: "Vacancies open for today",
       vacEmpty: "No vacancies available at the moment.",
+      startHere: "Start Here",
       links: {
         apply_job:   { label: "Apply for a Job - seeking a job" },
         hire_req:    { label: "For Business Owners - Hiring Service Request" },
@@ -54,7 +55,6 @@ const CONFIG = {
         },
         statusSending: "Sending…",
         statusFail: "Something went wrong. Please try again."
-        startHere: "Start Here"
       }
     },
     ar: {
@@ -65,6 +65,7 @@ const CONFIG = {
       ],
       vacTitle: "الوظائف المتاحة اليوم",
       vacEmpty: "لا توجد وظائف متاحة حالياً.",
+      startHere: "ابدأ من هنا",
       links: {
         apply_job:   { label: "التقدم لوظيفة" },
         hire_req:    { label: "طلب خدمة اصحاب المشاريع  التوظيف" },
@@ -99,8 +100,7 @@ const CONFIG = {
           request: "يرجى كتابة وصف مختصر لطلبك"
         },
         statusSending: "جارٍ الإرسال…",
-        statusFail: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-        startHere: "ابدأ هنا"
+        statusFail: "حدث خطأ. يرجى المحاولة مرة أخرى."
       }
     }
   }
@@ -146,11 +146,11 @@ function qs(id) { return document.getElementById(id); }
 function trim(v) { return String(v || "").trim(); }
 function setErr(id, msg) { const el = qs(id); if (el) el.textContent = msg || ""; }
 
-function getLeadDict(){
+function getLeadDict() {
   return CONFIG.i18n[state.lang].leadModal;
 }
 
-function renderLeadModalText(){
+function renderLeadModalText() {
   const dict = getLeadDict();
 
   const titleEl = qs("rehafModalTitle");
@@ -297,30 +297,27 @@ function render() {
       const label = t(`links.${l.key}.label`);
       const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang === "ar" ? "قريبًا" : "Soon"}</span>` : "";
 
-      // consult_req: card with Start Here button (no Google Forms open)
+      // consult_req: card with inline Start Here button (no Google Forms open)
       if (l.key === "consult_req") {
         const card = document.createElement("div");
         card.className = "btn rounded-2xl p-4 block transition";
 
         card.innerHTML = `
-  <div class="flex items-center gap-3">
-    <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">
-      ${l.icon || "🔗"}
-    </div>
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-xl grid place-items-center text-xl bg-white/10">
+              ${l.icon || "🔗"}
+            </div>
 
-    <div class="flex-1">
-      <div class="font-semibold text-xl">${label}</div>
-      <div class="text-base opacity-90">${l.info || ""}</div>
-    </div>
+            <div class="flex-1">
+              <div class="font-semibold text-xl">${label} ${soonBadge}</div>
+              <div class="text-base opacity-90">${l.info || ""}</div>
+            </div>
 
-    <button
-      type="button"
-      class="rehaf-btn rehaf-btn--primary rehaf-start-btn whitespace-nowrap"
-    >
-      ${CONFIG.i18n[state.lang].startHere}
-    </button>
-  </div>
-`;
+            <button type="button" class="rehaf-btn rehaf-btn--primary rehaf-start-btn whitespace-nowrap">
+              ${CONFIG.i18n[state.lang].startHere}
+            </button>
+          </div>
+        `;
 
         card.querySelector(".rehaf-start-btn")?.addEventListener("click", openLeadModal);
         wrap.appendChild(card);
