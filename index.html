@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!doctype html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -11,26 +12,21 @@
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#00453e" />
 
-  <link rel="icon" href="/assets/mascot.webp" type="image/webp" />
-  <link rel="apple-touch-icon" href="/assets/mascot.webp" />
+  <link rel="icon" href="/assets/logo.webp" type="image/webp" />
+  <link rel="apple-touch-icon" href="/assets/logo.webp" />
 
-  <!-- Fonts (same as rehaf.me) -->
+  <!-- Fonts (same family logic as rehaf.me) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Source Sans 3 (EN) -->
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- Zain (AR) -->
-  <link href="https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&family=Zain:wght@300;400;700;800&display=swap" rel="stylesheet">
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Extracted CSS -->
+  <!-- Your CSS -->
   <link rel="stylesheet" href="/src/css/main.css" />
 
-  <!-- Extracted JS -->
+  <!-- Your JS -->
   <script defer src="/src/js/app.js"></script>
   <script defer src="/src/js/faq.js"></script>
 </head>
@@ -39,11 +35,11 @@
 
 <main class="mx-auto max-w-2xl px-5 py-8 flex flex-col items-center gap-6">
 
-  <!-- Mascot -->
+  <!-- Logo / Mascot (now logo.webp) -->
   <div class="w-56 md:w-72">
     <img
-      src="/assets/mascot.webp"
-      alt="REHAF Mascot"
+      src="/assets/logo.webp"
+      alt="REHAF Logo"
       class="rounded-2xl mx-auto"
       loading="lazy"
     />
@@ -62,25 +58,18 @@
 
   <!-- Language toggle -->
   <div class="w-full flex justify-end">
-    <button
-      id="langToggle"
-      class="btn rounded-xl px-3 py-2 text-sm"
-      type="button"
-    >
+    <button id="langToggle" class="btn rounded-xl px-3 py-2 text-sm" type="button">
       EN / AR
     </button>
   </div>
 
   <!-- Welcome -->
   <section class="card rounded-2xl p-4 text-center w-full">
-    <p id="welcomeText" class="text-base md:text-xl"></p>
+    <p id="welcomeText" class="text-base md:text-lg"></p>
   </section>
 
   <!-- Consent -->
-  <div
-    id="consentText"
-    class="text-sm md:text-base text-center opacity-90 max-w-xl"
-  ></div>
+  <div id="consentText" class="text-sm md:text-base text-center opacity-90 max-w-xl"></div>
 
   <!-- Vacancies -->
   <section class="card rounded-2xl p-4 w-full">
@@ -89,31 +78,17 @@
       <span id="todayDate" class="text-sm opacity-80"></span>
     </div>
 
-    <ul
-      id="vacList"
-      class="list-none max-h-48 overflow-y-auto pr-2 mt:text-xl"
-    ></ul>
-
-    <p
-      id="vacEmpty"
-      class="text-center opacity-80 mt-2"
-    ></p>
+    <ul id="vacList" class="list-none max-h-48 overflow-y-auto pr-2"></ul>
+    <p id="vacEmpty" class="text-center opacity-80 mt-2"></p>
   </section>
 
   <!-- Links -->
-  <div
-    id="links"
-    class="mt-2 grid gap-3 w-full"
-  ></div>
+  <div id="links" class="mt-2 grid gap-3 w-full"></div>
 
   <!-- Footer -->
   <div class="mt-6 border-t border-white/30 pt-4 text-sm opacity-90 flex flex-col items-center gap-2 w-full">
     <p>© <span id="year"></span> REHAF.</p>
-    <a
-      id="email"
-      href="mailto:lilafutum@gmail.com"
-      class="underline underline-offset-4"
-    >
+    <a id="email" href="mailto:lilafutum@gmail.com" class="underline underline-offset-4">
       lilafutum@gmail.com
     </a>
   </div>
@@ -121,118 +96,21 @@
 </main>
 
 <!-- FAQ Floating Button -->
-<a
-  class="rehaf-faq-launcher"
-  id="faqBtn"
-  href="#"
-  aria-label="Open FAQ chat"
->
+<a class="rehaf-faq-launcher" id="faqBtn" href="#" aria-label="Open FAQ chat">
   <span class="rehaf-faq-avatar">
-    <img src="/assets/mascot.webp" alt="FAQ Mascot">
+    <!-- also logo.webp -->
+    <img src="/assets/logo.webp" alt="FAQ Logo">
   </span>
   <span class="rehaf-faq-label">FAQ Chat</span>
 </a>
 
 <!-- FAQ Panel -->
-<div
-  class="rehaf-faq-panel"
-  id="faqPanel"
-  role="dialog"
-  aria-modal="true"
-  aria-label="REHAF Assistant — FAQ"
->
+<div class="rehaf-faq-panel" id="faqPanel" role="dialog" aria-modal="true" aria-label="REHAF Assistant — FAQ">
   <div class="rehaf-faq-header">
     <span id="faqTitle">REHAF Assistant — FAQ</span>
-    <button
-      class="rehaf-faq-close"
-      id="faqClose"
-      type="button"
-    >
-      ✕
-    </button>
+    <button class="rehaf-faq-close" id="faqClose" type="button">✕</button>
   </div>
-
-  <div
-    class="rehaf-faq-body"
-    id="faqBody"
-  ></div>
-</div>
-
-<!-- ===== REHAF Lead Popup (consult_req) ===== -->
-<div id="rehafLeadModal" class="rehaf-modal" aria-hidden="true">
-  <div class="rehaf-modal__backdrop" data-rehaf-close="1"></div>
-
-  <div class="rehaf-modal__panel" role="dialog" aria-modal="true" aria-label="REHAF Lead Form">
-    <div class="rehaf-modal__header">
-      <div class="rehaf-modal__brand">
-        <span class="rehaf-modal__avatar">
-          <!-- CHANGED: mascot.webp -> logo.webp -->
-          <img src="/assets/logo.webp" alt="REHAF" />
-        </span>
-
-        <div class="rehaf-modal__headings">
-          <!-- These will be filled by JS based on selected language -->
-          <div class="rehaf-modal__title" id="rehafModalTitle"></div>
-          <div class="rehaf-modal__subtitle" id="rehafModalSubtitle"></div>
-        </div>
-      </div>
-
-      <button id="rehafLeadClose" class="rehaf-modal__close" type="button" aria-label="Close">✕</button>
-    </div>
-
-    <div class="rehaf-modal__body">
-      <!-- Success state (hidden by default) -->
-      <div id="rehafLeadSuccess" class="rehaf-success" hidden>
-        <div class="rehaf-success__title" id="rehafSuccessTitle"></div>
-        <div class="rehaf-success__text" id="rehafSuccessText"></div>
-        <button id="rehafSuccessClose" class="rehaf-btn rehaf-btn--primary" type="button">Close</button>
-      </div>
-
-      <!-- Form -->
-      <form id="rehafLeadForm" class="rehaf-form" novalidate>
-        <!-- Honeypot (anti-spam): should stay empty -->
-        <input type="text" id="rehafHp" name="website" class="rehaf-hp" tabindex="-1" autocomplete="off" />
-
-        <div class="rehaf-grid">
-          <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafName" id="lblName"></label>
-            <input class="rehaf-input" id="rehafName" name="full_name" autocomplete="name" />
-            <div class="rehaf-error" id="errName"></div>
-          </div>
-
-          <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafEmail" id="lblEmail"></label>
-            <input class="rehaf-input" id="rehafEmail" name="email" autocomplete="email" inputmode="email" />
-            <div class="rehaf-error" id="errEmail"></div>
-          </div>
-
-          <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafPhone" id="lblPhone"></label>
-            <input class="rehaf-input" id="rehafPhone" name="phone" autocomplete="tel" inputmode="tel" />
-            <div class="rehaf-error" id="errPhone"></div>
-          </div>
-
-          <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafLocation" id="lblLocation"></label>
-            <input class="rehaf-input" id="rehafLocation" name="location" autocomplete="address-level2" />
-            <div class="rehaf-error" id="errLocation"></div>
-          </div>
-
-          <div class="rehaf-field rehaf-field--full">
-            <label class="rehaf-label" for="rehafRequest" id="lblRequest"></label>
-            <textarea class="rehaf-textarea" id="rehafRequest" name="request" rows="4"></textarea>
-            <div class="rehaf-error" id="errRequest"></div>
-          </div>
-        </div>
-
-        <div class="rehaf-actions">
-          <button id="rehafLeadSubmit" class="rehaf-btn rehaf-btn--primary" type="submit"></button>
-          <button class="rehaf-btn rehaf-btn--ghost" type="button" data-rehaf-close="1" id="rehafCancelBtn"></button>
-          <div class="rehaf-status" id="rehafStatus" aria-live="polite"></div>
-        </div>
-      </form>
-    </div>
-  </div>
+  <div class="rehaf-faq-body" id="faqBody"></div>
 </div>
 
 </body>
