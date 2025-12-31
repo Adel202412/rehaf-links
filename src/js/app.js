@@ -250,6 +250,13 @@ const CONFIG = {
     }
   }
 };
+/* the webhook sections:*/
+const WEBHOOKS = {
+  consult_req: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com",  // paste Make webhook here later
+  hire_req: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com",     // paste Make webhook here later
+  apply_job: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com"     // later, when we add applicant popup
+};
+
 
 /* =========================================================
    Helpers
