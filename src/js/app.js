@@ -25,6 +25,35 @@ const CONFIG = {
         consult_req: { label: "Other Service Request (Consultant Service)" },
         auto_soon:   { label: "Automation Service (Soon)" },
         setup_guide: { label: "Company Setup Guide (Abu Dhabi)" }
+      },
+      leadModal: {
+        title: "Tell us briefly how we can help you",
+        subtitle: "This will take less than a minute. We’ll review your request and contact you personally.",
+        fields: {
+          name:     { label: "Full name", placeholder: "Your name" },
+          email:    { label: "Email address", placeholder: "name@email.com" },
+          phone:    { label: "Phone number", placeholder: "+971 5X XXX XXXX" },
+          location: { label: "Location", placeholder: "City, Country (e.g. Abu Dhabi, UAE)" },
+          request:  { label: "Briefly describe your request", placeholder: "Tell us in a few lines what you need help with" }
+        },
+        buttons: {
+          submit: "Send request",
+          cancel: "Cancel",
+          close:  "Close"
+        },
+        success: {
+          title: "Thank you.",
+          text: "We’ve received your request and will contact you shortly."
+        },
+        errors: {
+          name: "Please enter your name",
+          email: "Please enter a valid email address",
+          phone: "Please enter a valid phone number",
+          location: "Please tell us where you’re located",
+          request: "Please add a short description of your request"
+        },
+        statusSending: "Sending…",
+        statusFail: "Something went wrong. Please try again."
       }
     },
     ar: {
@@ -41,6 +70,35 @@ const CONFIG = {
         consult_req: { label: "طلب خدمة أخرى (استشارات)" },
         auto_soon:   { label: "خدمة الأتمتة (قريبًا)" },
         setup_guide: { label: "دليل تأسيس شركة (أبوظبي)" }
+      },
+      leadModal: {
+        title: "اخبرنا باختصار كيف يمكننا مساعدتك",
+        subtitle: "لن يستغرق هذا أكثر من دقيقة. سنراجع طلبك ونتواصل معك شخصياً.",
+        fields: {
+          name:     { label: "الاسم الكامل", placeholder: "اسمك" },
+          email:    { label: "البريد الإلكتروني", placeholder: "name@email.com" },
+          phone:    { label: "رقم الهاتف", placeholder: "+971 5X XXX XXXX" },
+          location: { label: "الموقع", placeholder: "المدينة، الدولة (مثال: أبوظبي، الإمارات)" },
+          request:  { label: "اكتب طلبك باختصار", placeholder: "اكتب لنا في سطور بسيطة ما الذي تحتاج المساعدة فيه" }
+        },
+        buttons: {
+          submit: "إرسال الطلب",
+          cancel: "إلغاء",
+          close:  "إغلاق"
+        },
+        success: {
+          title: "شكراً لك.",
+          text: "تم استلام طلبك وسنتواصل معك قريباً."
+        },
+        errors: {
+          name: "يرجى كتابة اسمك",
+          email: "يرجى إدخال بريد إلكتروني صحيح",
+          phone: "يرجى إدخال رقم هاتف صحيح",
+          location: "يرجى كتابة موقعك",
+          request: "يرجى كتابة وصف مختصر لطلبك"
+        },
+        statusSending: "جارٍ الإرسال…",
+        statusFail: "حدث خطأ. يرجى المحاولة مرة أخرى."
       }
     }
   }
@@ -80,36 +138,60 @@ function t(path) {
 }
 
 /* =========================================================
-   REHAF Lead Popup (consult_req) — fast lead capture
+   Lead Popup Helpers
    ========================================================= */
-
-const LEAD_MODAL_COPY = {
-  title: "Tell us briefly how we can help you",
-  subtitle: "This will take less than a minute. We’ll review your request and contact you personally.",
-  submit: "Send request",
-  successTitle: "Thank you.",
-  successText: "We’ve received your request and will contact you shortly."
-};
-
 function qs(id) { return document.getElementById(id); }
 function trim(v) { return String(v || "").trim(); }
 function setErr(id, msg) { const el = qs(id); if (el) el.textContent = msg || ""; }
 
+function getLeadDict(){
+  return CONFIG.i18n[state.lang].leadModal;
+}
+
+function renderLeadModalText(){
+  const dict = getLeadDict();
+
+  const titleEl = qs("rehafModalTitle");
+  const subEl = qs("rehafModalSubtitle");
+  const successTitle = qs("rehafSuccessTitle");
+  const successText = qs("rehafSuccessText");
+
+  if (titleEl) titleEl.textContent = dict.title;
+  if (subEl) subEl.textContent = dict.subtitle;
+  if (successTitle) successTitle.textContent = dict.success.title;
+  if (successText) successText.textContent = dict.success.text;
+
+  // Labels
+  const lblName = qs("lblName"); if (lblName) lblName.textContent = dict.fields.name.label;
+  const lblEmail = qs("lblEmail"); if (lblEmail) lblEmail.textContent = dict.fields.email.label;
+  const lblPhone = qs("lblPhone"); if (lblPhone) lblPhone.textContent = dict.fields.phone.label;
+  const lblLocation = qs("lblLocation"); if (lblLocation) lblLocation.textContent = dict.fields.location.label;
+  const lblRequest = qs("lblRequest"); if (lblRequest) lblRequest.textContent = dict.fields.request.label;
+
+  // Placeholders
+  const inName = qs("rehafName"); if (inName) inName.placeholder = dict.fields.name.placeholder;
+  const inEmail = qs("rehafEmail"); if (inEmail) inEmail.placeholder = dict.fields.email.placeholder;
+  const inPhone = qs("rehafPhone"); if (inPhone) inPhone.placeholder = dict.fields.phone.placeholder;
+  const inLoc = qs("rehafLocation"); if (inLoc) inLoc.placeholder = dict.fields.location.placeholder;
+  const inReq = qs("rehafRequest"); if (inReq) inReq.placeholder = dict.fields.request.placeholder;
+
+  // Buttons
+  const submitBtn = qs("rehafLeadSubmit"); if (submitBtn) submitBtn.textContent = dict.buttons.submit;
+  const cancelBtn = qs("rehafCancelBtn"); if (cancelBtn) cancelBtn.textContent = dict.buttons.cancel;
+  const successClose = qs("rehafSuccessClose"); if (successClose) successClose.textContent = dict.buttons.close;
+}
+
 function openLeadModal() {
   const modal = qs("rehafLeadModal");
   const closeBtn = qs("rehafLeadClose");
-  const titleEl = qs("rehafModalTitle");
-  const subEl = qs("rehafModalSubtitle");
-
   const form = qs("rehafLeadForm");
   const success = qs("rehafLeadSuccess");
   const status = qs("rehafStatus");
 
-  if (!modal || !form || !closeBtn || !titleEl || !subEl) return;
+  if (!modal || !form || !closeBtn) return;
 
-  // Locked copy
-  titleEl.textContent = LEAD_MODAL_COPY.title;
-  subEl.textContent = LEAD_MODAL_COPY.subtitle;
+  // ensure modal text follows selected language
+  renderLeadModalText();
 
   // Reset UI
   if (status) status.textContent = "";
@@ -165,16 +247,9 @@ function normalizeUAEPhone(input) {
 
   if (!s) return { ok: false, e164: "" };
 
-  // 00971 -> +971
   if (s.startsWith("00971")) s = "+971" + s.slice(5);
-
-  // 05xxxxxxxx (10 digits) -> +9715xxxxxxxx
   if (s.startsWith("05") && s.length === 10) s = "+971" + s.slice(1);
-
-  // 5xxxxxxxx (9 digits) -> +9715xxxxxxxx
   if (/^5\d{8}$/.test(s)) s = "+971" + s;
-
-  // 9715xxxxxxxx (12 digits) -> +9715xxxxxxxx
   if (/^9715\d{8}$/.test(s)) s = "+" + s;
 
   if (s.startsWith("+971")) {
@@ -182,7 +257,6 @@ function normalizeUAEPhone(input) {
     const ok = /^5\d{8}$/.test(rest);
     return { ok, e164: ok ? s : "" };
   }
-
   return { ok: false, e164: "" };
 }
 
@@ -191,9 +265,8 @@ function locationHrefSafe() {
 }
 
 /* =========================================================
-   Render
+   Render main page
    ========================================================= */
-
 function render() {
   document.documentElement.setAttribute("dir", state.lang === "ar" ? "rtl" : "ltr");
 
@@ -222,7 +295,7 @@ function render() {
       const label = t(`links.${l.key}.label`);
       const soonBadge = l.soon ? `<span class="badge ml-2">${state.lang === "ar" ? "قريبًا" : "Soon"}</span>` : "";
 
-      // Special: consult_req becomes a card with a Start Here button
+      // consult_req: card with Start Here button (no Google Forms open)
       if (l.key === "consult_req") {
         const card = document.createElement("div");
         card.className = "btn rounded-2xl p-4 block transition";
@@ -298,15 +371,22 @@ function render() {
   } else {
     if (empty) empty.textContent = t("vacEmpty");
   }
+
+  // If modal is open, re-render modal text too (language sync)
+  const modal = qs("rehafLeadModal");
+  if (modal && modal.classList.contains("is-open")) {
+    renderLeadModalText();
+  }
 }
 
 /* =========================================================
-   Boot + Language toggle + Lead form submit
+   Boot + toggle + submit
    ========================================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Initial render after vacancies load
   loadVacancies().then(render);
+
+  // Ensure modal text exists even if user opens immediately
+  renderLeadModalText();
 
   // Language toggle
   const toggle = $("#langToggle");
@@ -331,6 +411,8 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      const dict = getLeadDict();
+
       // Honeypot: if filled, bot
       const hp = trim(qs("rehafHp")?.value);
       if (hp) return;
@@ -348,18 +430,18 @@ document.addEventListener("DOMContentLoaded", () => {
       // Validate (soft messages)
       let ok = true;
 
-      if (full_name.length < 2) { setErr("errName", "Please enter your name"); ok = false; }
-      if (!isValidEmail(email)) { setErr("errEmail", "Please enter a valid email address"); ok = false; }
+      if (full_name.length < 2) { setErr("errName", dict.errors.name); ok = false; }
+      if (!isValidEmail(email)) { setErr("errEmail", dict.errors.email); ok = false; }
 
       const phone = normalizeUAEPhone(phone_raw);
-      if (!phone.ok) { setErr("errPhone", "Please enter a valid phone number"); ok = false; }
+      if (!phone.ok) { setErr("errPhone", dict.errors.phone); ok = false; }
 
-      if (locationText.length < 2) { setErr("errLocation", "Please tell us where you’re located"); ok = false; }
-      if (request.length < 10) { setErr("errRequest", "Please add a short description of your request"); ok = false; }
+      if (locationText.length < 2) { setErr("errLocation", dict.errors.location); ok = false; }
+      if (request.length < 10) { setErr("errRequest", dict.errors.request); ok = false; }
 
       if (!ok) return;
 
-      // Payload (for later webhook use)
+      // Payload (optional usage later)
       const payload = {
         service_key: "consult_req",
         full_name,
@@ -373,10 +455,10 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       // Optional webhook: paste later if you want
-      const WEBHOOK_URL = ""; // e.g. "https://hook.eu1.make.com/xxxxx"
+      const WEBHOOK_URL = "";
 
       try {
-        if (status) status.textContent = "Sending…";
+        if (status) status.textContent = dict.statusSending;
 
         if (WEBHOOK_URL) {
           const res = await fetch(WEBHOOK_URL, {
@@ -393,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (success) success.hidden = false;
 
       } catch {
-        if (status) status.textContent = "Something went wrong. Please try again.";
+        if (status) status.textContent = dict.statusFail;
       }
     });
   }

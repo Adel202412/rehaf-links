@@ -166,13 +166,14 @@
     <div class="rehaf-modal__header">
       <div class="rehaf-modal__brand">
         <span class="rehaf-modal__avatar">
-          <img src="/assets/mascot.webp" alt="REHAF" />
+          <!-- CHANGED: mascot.webp -> logo.webp -->
+          <img src="/assets/logo.webp" alt="REHAF" />
         </span>
+
         <div class="rehaf-modal__headings">
-          <div class="rehaf-modal__title" id="rehafModalTitle">Tell us briefly how we can help you</div>
-          <div class="rehaf-modal__subtitle" id="rehafModalSubtitle">
-            This will take less than a minute. We’ll review your request and contact you personally.
-          </div>
+          <!-- These will be filled by JS based on selected language -->
+          <div class="rehaf-modal__title" id="rehafModalTitle"></div>
+          <div class="rehaf-modal__subtitle" id="rehafModalSubtitle"></div>
         </div>
       </div>
 
@@ -182,8 +183,8 @@
     <div class="rehaf-modal__body">
       <!-- Success state (hidden by default) -->
       <div id="rehafLeadSuccess" class="rehaf-success" hidden>
-        <div class="rehaf-success__title">Thank you.</div>
-        <div class="rehaf-success__text">We’ve received your request and will contact you shortly.</div>
+        <div class="rehaf-success__title" id="rehafSuccessTitle"></div>
+        <div class="rehaf-success__text" id="rehafSuccessText"></div>
         <button id="rehafSuccessClose" class="rehaf-btn rehaf-btn--primary" type="button">Close</button>
       </div>
 
@@ -194,44 +195,39 @@
 
         <div class="rehaf-grid">
           <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafName">Full name</label>
-            <input class="rehaf-input" id="rehafName" name="full_name" placeholder="Your name" autocomplete="name" />
+            <label class="rehaf-label" for="rehafName" id="lblName"></label>
+            <input class="rehaf-input" id="rehafName" name="full_name" autocomplete="name" />
             <div class="rehaf-error" id="errName"></div>
           </div>
 
           <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafEmail">Email address</label>
-            <input class="rehaf-input" id="rehafEmail" name="email" placeholder="name@email.com" autocomplete="email" inputmode="email" />
+            <label class="rehaf-label" for="rehafEmail" id="lblEmail"></label>
+            <input class="rehaf-input" id="rehafEmail" name="email" autocomplete="email" inputmode="email" />
             <div class="rehaf-error" id="errEmail"></div>
           </div>
 
           <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafPhone">Phone number</label>
-            <input class="rehaf-input" id="rehafPhone" name="phone" placeholder="+971 5X XXX XXXX" autocomplete="tel" inputmode="tel" />
+            <label class="rehaf-label" for="rehafPhone" id="lblPhone"></label>
+            <input class="rehaf-input" id="rehafPhone" name="phone" autocomplete="tel" inputmode="tel" />
             <div class="rehaf-error" id="errPhone"></div>
           </div>
 
           <div class="rehaf-field">
-            <label class="rehaf-label" for="rehafLocation">Location</label>
-            <input class="rehaf-input" id="rehafLocation" name="location" placeholder="City, Country (e.g. Abu Dhabi, UAE)" autocomplete="address-level2" />
+            <label class="rehaf-label" for="rehafLocation" id="lblLocation"></label>
+            <input class="rehaf-input" id="rehafLocation" name="location" autocomplete="address-level2" />
             <div class="rehaf-error" id="errLocation"></div>
           </div>
 
           <div class="rehaf-field rehaf-field--full">
-            <label class="rehaf-label" for="rehafRequest">Briefly describe your request</label>
-            <textarea class="rehaf-textarea" id="rehafRequest" name="request" rows="4"
-              placeholder="Tell us in a few lines what you need help with"></textarea>
+            <label class="rehaf-label" for="rehafRequest" id="lblRequest"></label>
+            <textarea class="rehaf-textarea" id="rehafRequest" name="request" rows="4"></textarea>
             <div class="rehaf-error" id="errRequest"></div>
           </div>
         </div>
 
         <div class="rehaf-actions">
-          <button id="rehafLeadSubmit" class="rehaf-btn rehaf-btn--primary" type="submit">
-            Send request
-          </button>
-          <button class="rehaf-btn rehaf-btn--ghost" type="button" data-rehaf-close="1">
-            Cancel
-          </button>
+          <button id="rehafLeadSubmit" class="rehaf-btn rehaf-btn--primary" type="submit"></button>
+          <button class="rehaf-btn rehaf-btn--ghost" type="button" data-rehaf-close="1" id="rehafCancelBtn"></button>
           <div class="rehaf-status" id="rehafStatus" aria-live="polite"></div>
         </div>
       </form>
