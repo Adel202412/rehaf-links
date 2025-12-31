@@ -6,7 +6,17 @@
   --ink: #fff;       /* White text */
   --faq: #227976;    /* FAQ highlight color */
 }
+/*=== Fonts Setup ===*/
+/* Default font (English) */
+body {
+  font-family: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
 
+/* Arabic override */
+html[dir="rtl"] body {
+  font-family: "Zain", sans-serif;
+  line-height: 1.9;
+}
 /* === Body Setup === */
 body {
   background: linear-gradient(160deg, var(--bg1), var(--bg2));
