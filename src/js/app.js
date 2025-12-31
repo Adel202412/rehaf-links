@@ -6,7 +6,11 @@
 // - Phone normalization for UAE numbers
 // - Applicant popup includes PDF upload (CV) + full applicant details
 // - Webhook placeholder for later (supports JSON or multipart when file exists)
-
+const WEBHOOKS = {
+  consult_req: "https://hook.eu2.make.com/r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e",
+  hire_req: "",
+  apply_job: ""
+};
 const CONFIG = {
   version: "v3",
   links: [
@@ -250,12 +254,7 @@ const CONFIG = {
     }
   }
 };
-/* the webhook sections:*/
-const WEBHOOKS = {
-  consult_req: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com",  // paste Make webhook here later
-  hire_req: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com",     // paste Make webhook here later
-  apply_job: "r7rb8w7dfn7gtnubjp4e6k3d1yaz6h9e@hook.eu2.make.com"     // later, when we add applicant popup
-};
+
 
 
 /* =========================================================
@@ -717,6 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const leadForm = document.getElementById("rehafLeadForm");
 
     // Webhook placeholder — add later
+    
     const WEBHOOK_URL = "";
 
     try {
