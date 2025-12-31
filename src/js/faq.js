@@ -94,6 +94,7 @@ Start by filling the **Business Consultancy** form; we’ll contact you.`],
     const [q, a] = dict.list[idx];
 
     faqTitle.textContent = dict.title;
+
     faqBody.innerHTML = `
       <div class="answer"><strong>${q}</strong>\n\n${a}</div>
       <div class="faq-actions">

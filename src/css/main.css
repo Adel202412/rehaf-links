@@ -154,6 +154,7 @@ html[dir="rtl"] body {
   align-items: center;
   gap: 8px;
 }
+
 .q-item:hover { background: #f2fbf8; }
 
 .q-dot {
@@ -188,17 +189,20 @@ html[dir="rtl"] body {
   font-weight: 600;
   cursor: pointer;
 }
+
 .faq-actions button:hover { background: #f2fbf8; }
 
 /* =========================================================
    REHAF Lead Modal (works with app.js builder)
    ========================================================= */
+
 .rehaf-modal{
   position: fixed;
   inset: 0;
   display: none;
   z-index: 2147483646; /* below FAQ bubble */
 }
+
 .rehaf-modal.is-open{ display:block; }
 
 .rehaf-modal__backdrop{
@@ -254,6 +258,7 @@ html[dir="rtl"] body {
   display:grid;
   place-items:center;
 }
+
 .rehaf-modal__avatar img{
   width: 100%;
   height: auto;
@@ -263,10 +268,11 @@ html[dir="rtl"] body {
 .rehaf-modal__headings{ min-width:0; }
 
 .rehaf-modal__title{
-  font-weight: 700; /* requested */
+  font-weight: 700;
   font-size: 15px;
   line-height: 1.2;
 }
+
 .rehaf-modal__subtitle{
   margin-top: 4px;
   font-size: 13.5px;
@@ -284,6 +290,7 @@ html[dir="rtl"] body {
   padding: 8px 10px;
   border-radius: 12px;
 }
+
 .rehaf-modal__close:hover{ background: rgba(255,255,255,.12); }
 
 .rehaf-modal__body{
@@ -301,6 +308,7 @@ html[dir="rtl"] body {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
 .rehaf-field--full{ grid-column: 1 / -1; }
 
 .rehaf-label{
@@ -320,6 +328,7 @@ html[dir="rtl"] body {
   font-size: 16px;
   outline: none;
 }
+
 .rehaf-textarea{ resize: vertical; min-height: 110px; }
 
 .rehaf-input:focus, .rehaf-textarea:focus{
@@ -346,7 +355,7 @@ html[dir="rtl"] body {
 .rehaf-btn{
   border-radius: 14px;
   padding: 10px 12px;
-  font-weight: 700; /* requested */
+  font-weight: 700;
   cursor: pointer;
   border: 1px solid rgba(0,0,0,.10);
   font-size: 14px;
@@ -357,6 +366,7 @@ html[dir="rtl"] body {
   color: #fff;
   border-color: rgba(0,0,0,.12);
 }
+
 .rehaf-btn--primary:hover{ filter: brightness(1.06); }
 
 .rehaf-btn--ghost{
@@ -364,6 +374,7 @@ html[dir="rtl"] body {
   color: #0f2d29;
   border: 1px solid rgba(0,0,0,.14);
 }
+
 .rehaf-btn--ghost:hover{ background: rgba(0,0,0,.03); }
 
 .rehaf-status{
@@ -389,6 +400,7 @@ html[dir="rtl"] body {
   margin-bottom: 6px;
   color:#0f2d29;
 }
+
 .rehaf-success__text{
   font-size: 14.5px;
   color:#355a53;
