@@ -7,9 +7,9 @@
 // - Applicant popup includes PDF upload (CV) + full applicant details
 // - Webhook placeholder for later (supports JSON or multipart when file exists)
 const WEBHOOKS = {
-  consult_req: "https://hook.eu2.make.com/xrlmftv5etmbx8rrm2kcmxisaz67g7g1",
-  hire_req: "https://hook.eu2.make.com/xrlmftv5etmbx8rrm2kcmxisaz67g7g1",
-  apply_job: "https://hook.eu2.make.com/xrlmftv5etmbx8rrm2kcmxisaz67g7g1"
+  consult_req: "https://hook.eu2.make.com/fkrv6098ojbhkxlq6lpjl0kzy1kifacf",
+  hire_req: "https://hook.eu2.make.com/8sajxabr2pc74mke3tdmwypgsvio866t",
+  apply_job: "https://hook.eu2.make.com/a6ei3p6yycpc5zv7bleng4bhf06h8eui"
 };
 const CONFIG = {
   version: "v3",
