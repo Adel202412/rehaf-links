@@ -1,14 +1,7 @@
 {
-  "items": [
-    { "title_en": "Carpentry Helper 4 person",    "title_ar": "مساعد نجار ٤ اشخاص",                    "meta_en": "", "meta_ar": "" },
-    { "title_en": "Data Entry",          "title_ar": "مدخل بيانات",                   "meta_en": "", "meta_ar": "" },
-    { "title_en": "Software Engineer",   "title_ar": "مهندس برمجيات",                 "meta_en": "", "meta_ar": "" },
-    { "title_en": "Wood Painter",        "title_ar": "دهان خشب",                      "meta_en": "", "meta_ar": "" },
-    { "title_en": "Site Installation Foreman", "title_ar": "فورمان تركيب",            "meta_en": "", "meta_ar": "" },
-    { "title_en": "Draftsman & Designer – Woodwork and Interiors", "title_ar": "رسام ومصمم – نجارة وتشطيبات داخلية", "meta_en": "", "meta_ar": "" },
-    { "title_en": "Mexican Cuisine Taco Chef", "title_ar": "شيف مأكولات مكسيكية – تاكو", "meta_en": "", "meta_ar": "" },
-    { "title_en": "Waiter",              "title_ar": "نادل",                          "meta_en": "", "meta_ar": "" },
-    { "title_en": "Restaurant Helper",   "title_ar": "مساعد مطعم",                    "meta_en": "", "meta_ar": "" },
-    { "title_en": "Personal Waiter / Home Helper", "title_ar": "مساعد منزلي / خادم شخصي", "meta_en": "", "meta_ar": "" }
+  "items": [  
+    { "title_en": "Carpentry Helper 4 person",    "title_ar": "مساعد نجار ٤ اشخاص",  "meta_en": "", "meta_ar": "" },
+    { "title_en": "Wood Painter",                 "title_ar": "دهان خشب",          "meta_en": "", "meta_ar": "" },
+    { "title_en": "Site Installation Foreman",    "title_ar": "فورمان تركيب",         "meta_en": "", "meta_ar": ""  }
   ]
 }
